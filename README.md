@@ -1,6 +1,8 @@
 # sRNA-workflow
 Analysis workflow for smallRNA sequencing data of conifer Pinus pinaster
 
+<img src="http://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
+
 This is a collection of scripts used to process sRNA based on the Univeristy of east Anglia small RNA workbench
 
 Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, Moulton V: The UEA sRNA workbench: a suite of tools for analysing and visualizing nex generation sequencing microRNA and small RNA datasets.
