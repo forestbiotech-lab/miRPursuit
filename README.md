@@ -1,5 +1,5 @@
 # sRNA-workflow
-Analysis workflow for smallRNA sequencing data.
+Analysis workflow for plant smallRNA sequencing data.
 
 <img src="http://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
 
@@ -7,17 +7,7 @@ This pipeline was build around a core of several modules from the publicly avail
 
 The pipeline is optimized to preform batch operations on multiple libraries.
 This version is based on the output given by fasteris (tar.gz files need to have *GZT-[lib_n]*.tar.gz format or be put in this format.
-However if the .fastq files are in .gz archieves they can also be used given the pattern before the library number.
-
-
-This is a collection of scripts used to process sRNA based on the Univeristy of east Anglia small RNA workbench 
-
-Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, Moulton V: The UEA sRNA workbench: a suite of tools for analysing and visualizing nex generation sequencing microRNA and small RNA datasets.
-
-
-This version is based on the output given by fasteris (tar.gz files need to have *GZT-[lib_n]*.tar.gz format or be put in this format).
-
-<a href="https://www.fasteris.com/dna/" target="_blank">Fasteris</a>
+However if the .fastq files are in .gz archives they can also be used, given the pattern before the library number.
 
 <h3>How to start:</h3>
   <ul> Make sure you have all the software necessary (Check list) 
@@ -212,3 +202,4 @@ This script is not memory intensive no memory settings have to be set to run the
 
 References:
 <ul>Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, Moulton V: The UEA sRNA workbench: a suite of tools for analysing and visualizing nex generation sequencing microRNA and small RNA datasets.</ul>
+<a href="https://www.fasteris.com/dna/" target="_blank">Fasteris</a>
