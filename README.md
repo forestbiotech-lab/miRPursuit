@@ -1,14 +1,14 @@
 # sRNA-workflow
-Analysis workflow for smallRNA sequencing data of conifer Pinus pinaster
+Analysis workflow for smallRNA sequencing data.
 
 <img src="http://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
 
-This is a collection of scripts used to process sRNA based on the Univeristy of east Anglia small RNA workbench
+This pipeline was build around a core of several modules from the publicly available University of East Anglia small RNA workbench (UEA sRNA WB, [2]), which can be deployed to any unix server to be used via the command line interface, with unix shell scripts performing basic data input and output operations.
 
-Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, Moulton V: The UEA sRNA workbench: a suite of tools for analysing and visualizing nex generation sequencing microRNA and small RNA datasets.
-
+The pipeline is optimized to preform batch operations on multiple libraries.
 This version is based on the output given by fasteris (tar.gz files need to have *GZT-[lib_n]*.tar.gz format or be put in this format.
-<h1>Analysis workflow for smallRNA sequencing data of the conifer Pinus pinaster</h1>
+However if the .fastq files are in .gz archieves they can also be used given the pattern before the library number.
+
 
 This is a collection of scripts used to process sRNA based on the Univeristy of east Anglia small RNA workbench 
 
@@ -18,7 +18,6 @@ Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, 
 This version is based on the output given by fasteris (tar.gz files need to have *GZT-[lib_n]*.tar.gz format or be put in this format).
 
 <a href="https://www.fasteris.com/dna/" target="_blank">Fasteris</a>
-
 
 <h3>How to start:</h3>
   <ul> Make sure you have all the software necessary (Check list) 
@@ -31,7 +30,6 @@ This version is based on the output given by fasteris (tar.gz files need to have
     <ul> [Patman](https://bioinf.eva.mpg.de/patman/)</ul>
     <ul> [Tar](http://linuxcommand.org/man_pages/tar1.html) sudo apt-get install tar</ul>
     <ul> [Fastx Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) </ul>
-    <ul> [bowtie1](http://bowtie-bio.sourceforge.net/index.shtml) </ul>
   </ul>
   <ul>run sRNAworkFlow.sh</ul>
 
@@ -45,10 +43,12 @@ This version is based on the output given by fasteris (tar.gz files need to have
 <ul>workdirs.cfg- Sets variables with directories and files necessary for the project.
   <ul>workdir - path to workdir (will create one if it doesn't exist)</ul>
   <ul>genomes path to genomes</ul>
+  <ul>GENOME_MIRCAT  _The path to the genome to be used by mircat. Set to ${GENOME} if you don't need to run various parts. (My be necessary if you have short amount of ram.)"</ul>
+  <ul>FILTER_SUF _Filter-suffix to chose the predefined filter settings to be used.</ul>
   <ul>MEMORY  - Amount of memory to be used my java when using memory intensive scripts. Ex:10g, 2000m ... </ul>
   <ul>THREADS - Number of cores to be used during execution</ul>
-  <ul>Inserts_DIR Path to the inserts directory (Fasteris)</ul> 
-  <ul>mirbase path to mirbase database</ul>
+  <ul>INSERTS_DIR Path to the inserts directory (Fasteris)</ul> 
+  <ul>MIRBASE Path to mirbase database</ul>
 </ul>
   
 <ul>software_dirs.cfg - Sets the directory paths to all major programs</ul>
@@ -65,19 +65,17 @@ Some commands are being changed to config files.
 <ul>inputs:
   <ul>-f|--lib-first "First library to be processed"</ul>
   <ul>-l|--lib-last "last Library to be processed"</ul>
-  <ul>-t|--threads "Number of maximum threads the be used"</ul>
-  <ul>-s|--filter-suffix "The suffix of the filter to be used"</ul>
-  <ul>-g|--genome "The path to the indexed genome"</ul>
-  <ul>-m|--genome-mircat "The path to the genome to be used by mircat"</ul>
   <ul>-h|--help "Display help" </ul>
 </ul>
 <ul>Optional arguments:
-  <ul>-p|--step Step is an optional argument used to jump steps and start analysis from a different point.
+  <ul>-s|--step Step is an optional argument used to jump steps and start analysis from a different point.
     <ul>Step 1: Wbench Filter</ul>
     <ul>Step 2: Filter Genome & mirbase</ul>
     <ul>Step 3: Tasi</ul>
     <ul>Step 4: Mircat</ul>
     <ul>Step 5: PareSnip</ul>
+  </ul>
+  <ul>-t|--template Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir
   </ul>
 </ul>
 <ul>Outputs:
@@ -87,8 +85,27 @@ Some commands are being changed to config files.
   <ul>[workdir]/logs</ul>
   <ul>[workdir]/counts</ul>
 </ul>
+</ul>
 
 ------
+
+<ul><strong>predict_target.sh</strong>
+<br>Description: This is last step of the pipeline responsible for identifying sRNA targets in the transcriptome through degradome mediated search.
+<ul>inputs:
+  <ul>-f|--lib-first "First library to be processed"</ul>
+  <ul>-l|--lib-last "last Library to be processed"</ul>
+</ul>
+<ul>Optional arguments: (If no degradome file parameter is given the script will give a list of options based on the location of the last used degradome file
+  <ul>-d|--degradome "Degradome location"</ul>
+  <ul>-h|--help "Display help"</ul>
+</ul>
+<ul>Outputs:
+  <ul>targets</ul>
+</ul>
+</ul>
+
+------
+
 For detailed file names check the corresponding pipline. This program executes the following programs in that order.
 Stats on the number of reads are stored in the count directory.
 The count file is not really a tsv it is in fact a space seperated values. But I though i was close enough to a tsv.
@@ -102,7 +119,7 @@ files. %y%m%d:%h%m%s-type.log or *.log.ok if it ran till the end. *.
 <ul><strong>extract_fasteris_inserts.sh</strong>
 <br>Description: Given a directory with fasteris inserts (no adaptors) and an interval of libraries. The libraries are extracted, concatenated and converted to fasta.  
 Fastq quality scores are ploted
-<ul>inputs: [Inserts_dir][First_lib][Last_Lib] _.</ul>
+<ul>inputs: [First_lib][Last_Lib] </ul>
 <ul>outputs: 
   <ul>[workdir]/data/fastq</ul>
   <ul>[workdir]/data/fasta</ul>
@@ -117,6 +134,33 @@ Fastq quality scores are ploted
   <ul>fastq_xtract.sh, lib_cat, fq_to_fa.sh</ul>
 </ul>
 </ul>
+
+
+
+<ul><strong>extract_lcscience_inserts.sh _</strong>
+<br>Description: The libraries in [.fastq.gz] format are extracted and converted to fasta.  
+Fastq quality scores are ploted. The template arguments is necessary if a range of lib are given.
+The template must be a substring of the file preceading the lib number. Template + lib number should identify only one file in the inserts_dir _directory  
+<ul>Configs: config/workdir.cfg
+    <ul>INSERTS_DIR if a range of arguments is supplied </ul>
+    <ul>ADAPTOR adaptor sequence to be clipped</ul>
+    <ul>LCSCIENCE_LIB if only one lib is to be extracted this value will be used</ul>
+</ul>
+<ul>inputs: [First_lib] [Last_Lib] [TEMPLATE]</ul>
+<ul>outputs: 
+  <ul>[workdir]/data/fastq</ul>
+  <ul>[workdir]/data/fasta</ul>
+  <ul>[workdir]/data/quality</ul> 
+</ul>
+<ul>dependencies:
+  <ul>tar</ul>
+  <ul>fastq_to_fasta</ul>
+  <ul>fastx_quality_stats</ul>
+  <ul>fastq_quality_boxplot_graph.sh</ul>
+  <ul>fastq_xtract.sh, lib_cat, fq_to_fa.sh</ul>
+</ul>
+</ul>
+
 
 <ul><strong>Pipe_filter_wbench.sh</strong>
 <br>Description: Given an interval of libraries the script filters them through the workbench filter using the configs in the config file.
@@ -164,3 +208,7 @@ This script is not memory intensive no memory settings have to be set to run the
   <ul>UEA workbench</ul>
 </ul>
 </ul>
+
+
+References:
+<ul>Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, Moulton V: The UEA sRNA workbench: a suite of tools for analysing and visualizing nex generation sequencing microRNA and small RNA datasets.</ul>
