@@ -60,7 +60,7 @@ patman -D ${MIRBASE} -e 0 -P ${OUT_FILT_GENOME} -o ${PMN_FILE}
 # filter mirbase results and get unique read sequences
 awk -F '[\t(]' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print $1}' > ${PMN_FILE_TEMP}
 
-awk '{print $1}' ${PMN_FILE_TEMP} | xargs -n 1 -I pattern grep -w -m1 pattern ${PMN_FILE} | awk -F "[\t()]" '{split($1,a,"-"); match(a[2],"[0-9]+",arr); print ">all-combined-"arr[0]"-Abundance("$3")"$2}' | sort | awk -F "[-)]" '{split($3,a,"miR"); if(("c[a[1]]" -eq "0")); then; d=((c[a[1]]++));fi; if (("c[a[1]]" -gt "0")); then; d=((c[a[1]]));fi; print $1"-"$2"-miR"a[1]"_"d"_"$4")";newline;print $5;}' > ${OUT_CONS}
+awk '{print $1}' ${PMN_FILE_TEMP} | xargs -n 1 -I pattern grep -w -m1 pattern ${PMN_FILE} | awk -F "[\t()]" '{split($1,a,"-"); match(a[2],"[0-9]+",arr); print ">"$2"-all-combined-"arr[0]"-Abundance("$3")"$2}' | sort | awk -F "[-)]" '{split($3,a,"miR"); if(("c[a[1]]" -eq "0")); then; d=((c[a[1]]++));fi; if (("c[a[1]]" -gt "0")); then; d=((c[a[1]]));fi; print $1"-"$2"-miR"a[1]"_"d"_"$4")";newline;print $5;}' > ${OUT_CONS}
 
 #Get sequences that didn't align with mirBase
 grep -wvf ${PMN_FILE_TEMP} ${OUT_FILT_GENOME} > ${OUT_NONCONS}
