@@ -126,6 +126,14 @@ Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
 <ul>Dependencies: fastx_toolbench _</ul>
 </ul>
 
+<ul><strong>count_abundance.sh</strong>
+<br>Description: Produces a count matrix paths with wildcard must be given in quotes so that they are considered the same argument.
+<ul>Configure: Threads from workdir can be used to suplement uniform parallezation throughout pipeline</ul>
+<ul>input ["paths(allows wildcards, use quotes)"] [Threads (Optional)] </ul> 
+<ul>output:
+  <ul>standard output it used in threaded mode some results may apear only after program is finished running.  </ul>
+</ul>
+</ul>
 --------
 <h3>Auxiliar Scripts:</h3>
 <ul><strong>extract_x_seqs.sh</strong>
