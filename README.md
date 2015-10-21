@@ -55,7 +55,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
 
 <strong>config</strong> - Directory that has all the variables for the workflow.
 
-<ul>workdirs.cfg- Sets variables with directories and files necessary for the project.
+<ul><strong>workdirs.cfg</strong>- Sets variables with directories and files necessary for the project.
   <ul>workdir - path to workdir (will create one if it doesn't exist)</ul>
   <ul>genomes path to genomes</ul>
   <ul>GENOME_MIRCAT  _The path to the genome to be used by mircat. Set to ${GENOME} if you don't need to run various parts. (My be necessary if you have short amount of ram.)"</ul>
@@ -66,11 +66,11 @@ However if the .fastq files are in .gz archives they can also be used, given the
   <ul>MIRBASE Path to mirbase database</ul>
 </ul>
   
-<ul>software_dirs.cfg - Sets the directory paths to all major programs</ul>
+<ul><strong>software_dirs.cfg</strong> - Sets the directory paths to all major programs</ul>
 
-<ul>filter*.cfg - General parameters for wbench *</ul>
-<ul>wbench_mircat.cfg - General parameters for mircat</ul>
-<ul>wbench_tasi.cfg - General parameters for TaSi.</ul>
+<ul><strong>filter*.cfg</strong> - General parameters for wbench *</ul>
+<ul><strong>wbench_mircat.cfg</strong> - General parameters for mircat</ul>
+<ul><strong>wbench_tasi.cfg</strong> - General parameters for TaSi.</ul>
 
 <h3>Programs</h3>
 
