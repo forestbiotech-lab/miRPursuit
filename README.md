@@ -65,11 +65,13 @@ However if the .fastq files are in .gz archives they can also be used, given the
   <ul>INSERTS_DIR Path to the inserts directory (Fasteris)</ul> 
   <ul>MIRBASE Path to mirbase database</ul>
 </ul>
-  
+<br>  
 <ul><strong>software_dirs.cfg</strong> - Sets the directory paths to all major programs</ul>
-
+<br>
 <ul><strong>filter*.cfg</strong> - General parameters for wbench *</ul>
+<br>
 <ul><strong>wbench_mircat.cfg</strong> - General parameters for mircat</ul>
+<br>
 <ul><strong>wbench_tasi.cfg</strong> - General parameters for TaSi.</ul>
 
 <h3>Programs</h3>
