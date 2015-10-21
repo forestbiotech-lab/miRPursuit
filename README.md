@@ -1,6 +1,8 @@
 # sRNA-workflow
 Analysis workflow for plant smallRNA sequencing data.
 
+<ul>Copyright ITQB 2015</ul>
+
 <img src="http://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
 
 This pipeline was build around a core of several modules from the publicly available University of East Anglia small RNA workbench (UEA sRNA WB, [2]), which can be deployed to any unix server to be used via the command line interface, with unix shell scripts performing basic data input and output operations.
@@ -12,19 +14,35 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <h3>How to start:</h3>
 <ul> Make sure you have all the software necessary (Check list) 
   <ul> UEA Workbench Optimized for linux version (~3.2) </ul>
-  <ul> Srna-tools ??? toolbench?? perl version?? </ul>
+  <ul> perl version (5.8) </ul>
   <ul> Java optimized for version (~1.7) </ul>
 </ul>
 <ul> Set up the variables in the config dir.</ul>
 <ul>You should also have the following software configured in your path
-    <ul> [Patman](https://bioinf.eva.mpg.de/patman/)</ul>
+    <ul> [Patman](https://bioinf.eva.mpg.de/patman/) (Can be installed with install script)</ul>
     <ul> [Tar](http://linuxcommand.org/man_pages/tar1.html) sudo apt-get install tar</ul>
-    <ul> [Fastx Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) </ul>
+    <ul> [Fastx Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) (Can be install with install script)</ul>
 </ul>
 <ul>run sRNAworkFlow.sh</ul>
 
 
 <h3>Installation</h3>
+<h5>From git hub</h5>
+  <ul>cd /toDesiredLocation/</ul>
+  <ul>git clone git@github.com:forestbiotech-lab/sRNA-workflow.git</ul>
+  <ul>cd sRNA-workflow</ul>
+
+<h5>From tar</h5>
+  <ul>Download archeive from github</ul>
+  <ul>cd /toDesiredLocation/</ul>
+  <ul>unzip sRNA-workFlow-master.zip</ul>
+
+<h5>Common Installation</h5>
+<ul>Set software dir in config file
+  <ul>cd /pathtoSrnaWorkFLow/</ul>
+  <ul>vim config/software.cfg</ul>
+  <ul>#Fill out the software var. And the if already installed set the paths to the other programs
+</ul>
 <ul>To install the necessary dependancies you can run install.sh in the main folder
   <ul>cd /pathtoSrnaWorkFLow/</ul>
   <ul>sh install.sh</ul>
@@ -37,7 +55,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
 
 <strong>config</strong> - Directory that has all the variables for the workflow.
 
-<ul>workdirs.cfg- Sets variables with directories and files necessary for the project.
+<ul><strong>workdirs.cfg</strong>- Sets variables with directories and files necessary for the project.
   <ul>workdir - path to workdir (will create one if it doesn't exist)</ul>
   <ul>genomes path to genomes</ul>
   <ul>GENOME_MIRCAT  _The path to the genome to be used by mircat. Set to ${GENOME} if you don't need to run various parts. (My be necessary if you have short amount of ram.)"</ul>
@@ -47,12 +65,14 @@ However if the .fastq files are in .gz archives they can also be used, given the
   <ul>INSERTS_DIR Path to the inserts directory (Fasteris)</ul> 
   <ul>MIRBASE Path to mirbase database</ul>
 </ul>
-  
-<ul>software_dirs.cfg - Sets the directory paths to all major programs</ul>
-
-<ul>filter*.cfg - General parameters for wbench *</ul>
-<ul>wbench_mircat.cfg - General parameters for mircat</ul>
-<ul>wbench_tasi.cfg - General parameters for TaSi.</ul>
+<br>  
+<ul><strong>software_dirs.cfg</strong> - Sets the directory paths to all major programs</ul>
+<br>
+<ul><strong>filter*.cfg</strong> - General parameters for wbench *</ul>
+<br>
+<ul><strong>wbench_mircat.cfg</strong> - General parameters for mircat</ul>
+<br>
+<ul><strong>wbench_tasi.cfg</strong> - General parameters for TaSi.</ul>
 
 <h3>Programs</h3>
 
