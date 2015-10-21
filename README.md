@@ -10,18 +10,25 @@ This version is based on the output given by fasteris (tar.gz files need to have
 However if the .fastq files are in .gz archives they can also be used, given the pattern before the library number.
 
 <h3>How to start:</h3>
-  <ul> Make sure you have all the software necessary (Check list) 
-    <ul> UEA Workbench Optimized for linux version (~3.2) </ul>
-    <ul> Srna-tools ??? toolbench?? perl version?? </ul>
-    <ul> Java optimized for version (~1.7) </ul>
-  </ul>
-  <ul> Set up the variables in the config dir.</ul>
-  <ul>You should also have the following software configured in your path
+<ul> Make sure you have all the software necessary (Check list) 
+  <ul> UEA Workbench Optimized for linux version (~3.2) </ul>
+  <ul> Srna-tools ??? toolbench?? perl version?? </ul>
+  <ul> Java optimized for version (~1.7) </ul>
+</ul>
+<ul> Set up the variables in the config dir.</ul>
+<ul>You should also have the following software configured in your path
     <ul> [Patman](https://bioinf.eva.mpg.de/patman/)</ul>
     <ul> [Tar](http://linuxcommand.org/man_pages/tar1.html) sudo apt-get install tar</ul>
     <ul> [Fastx Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) </ul>
-  </ul>
-  <ul>run sRNAworkFlow.sh</ul>
+</ul>
+<ul>run sRNAworkFlow.sh</ul>
+
+
+<h3>Installation</h3>
+<ul>To install the necessary dependancies you can run install.sh in the main folder
+  <ul>cd /pathtoSrnaWorkFLow/</ul>
+  <ul>sh install.sh</ul>
+</ul>
 
 <h3>Analysing inserts from fasteris</h3>
   !not finished!
