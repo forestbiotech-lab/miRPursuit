@@ -104,6 +104,8 @@ Some commands are being changed to config files.
 </ul>
 </ul>
 
+<img src="https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/workflow.jpg" />
+
 ------
 
 <ul><strong>predict_target.sh</strong>
