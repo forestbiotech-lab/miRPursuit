@@ -5,11 +5,14 @@ Analysis workflow for plant smallRNA sequencing data.
 
 <img src="http://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
 
+This pipeline was build to simplify the manipulation of NGS sequenced data. Use of this pipeline provides a seemless  classification of sRNA, prediction of TaSi and sRNA targets from FASTQ files.
+
 This pipeline was build around a core of several modules from the publicly available University of East Anglia small RNA workbench (UEA sRNA WB, [2]), which can be deployed to any unix server to be used via the command line interface, with unix shell scripts performing basic data input and output operations.
 
 The pipeline is optimized to preform batch operations on multiple libraries.
 This version is based on the output given by fasteris (tar.gz files need to have *GZT-[lib_n]*.tar.gz format or be put in this format.
 However if the .fastq files are in .gz archives they can also be used, given the pattern before the library number.
+
 
 <h3>How to start:</h3>
 <ul> Make sure you have all the software necessary (Check list) 
