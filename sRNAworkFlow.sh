@@ -1,3 +1,13 @@
+#!/bin/env bash
+
+# sRNA_workFlow.sh
+# 
+#
+# Created by Bruno Costa on 25/05/2015.
+# Copyright 2015 ITQB / UNL. All rights reserved.
+# Executes the complete pipline
+# Call: sRNA_workFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
+
 #!/bin/sh
 
 # sRNA_workFlow.sh
@@ -6,8 +16,7 @@
 # Created by Bruno Costa on 25/05/2015.
 # Copyright 2015 ITQB / UNL. All rights reserved.
 # Executes the complete pipland
-# Call: sRNA_workFlow.sh [args]
-
+# Call: sRNA_workFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
 
 while [[ $# > 0 ]]
 do
@@ -26,8 +35,16 @@ case $key in
   step="$2"
   shift # past argument
   ;;
-  -t|--template)
-  TEMPLATE="$2"
+  --fastq)
+  fastq="$2"
+  shift #past argument
+  ;;
+  --fasta)
+  fasta="$2"
+  shift #past argument
+  ;;
+  --lc)
+  LC="$2"
   shift # past argument
   ;;
   -h|--help)
@@ -44,7 +61,9 @@ case $key in
       Step 3: Tasi
       Step 4: Mircat
       Step 5: PAREsnip    
-  -t|--template Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir    
+  --lc Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
+  --fasta Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
+  --fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_   
   "
   exit 0
 esac
@@ -98,12 +117,27 @@ SCRIPT_DIR=$DIR"/scripts/"
 if [[ -z "$step" ]]; then 
   step=0
 fi
-#Runs in LCScience Mode
-if [[ ! -z "$TEMPLATE" ]]; then
+
+if [[ ! -z "$LC" ]]; then
   echo "Running in LC mode."
-  ${DIR}/extract_lcscience_inserts.sh $LIB_FIRST $LIB_LAST $TEMPLATE
+  ${DIR}/extract_lcscience_inserts.sh $LIB_FIRST $LIB_LAST $LC
   step=1
 fi
+if [[ ! -z "$fastq" ]]; then
+  echo "Running in fastq mode."
+  ${DIR}/.sh $LIB_FIRST $LIB_LAST $fastq
+  step=1
+fi
+if [[ ! -z "$fasta" ]]; then
+  echo "Running in fasta mode."
+  ${DIR}/pipe_fasta.sh $LIB_FIRST $LIB_LAST $fasta
+  step=1
+fi
+
+
+
+
+
 if [[ "$step" -eq 0 ]]; then        
   #Concatenate and convert to fasta
   echo "Step 0 - Concatenating lib and converting to fasta..."
@@ -135,9 +169,12 @@ if [[ "$step" -eq 4 ]]; then
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
+  mkdir -p ${workdir}count
   #Get count matrix save to counts
   $SCRIPT_DIR/count_abundance.sh "${wokdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" $THREADS > ${workdir}count/all_seq_counts.tsv
-fi 
+
+fi
+
 
 
 ok_log=${log_file/.log/:OK.log}

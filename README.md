@@ -95,8 +95,10 @@ Some commands are being changed to config files.
     <ul>Step 4: Mircat</ul>
     <ul>Step 5: PareSnip</ul>
   </ul>
-  <ul>-t|--template Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir
+  <ul>--lc Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir
   </ul>
+  <ul>--fasta Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_</ul>
+  <ul>--fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_  </ul
 </ul>
 <ul>Outputs:
   <ul>mirbase hits</ul>
@@ -228,6 +230,14 @@ This script is not memory intensive no memory settings have to be set to run the
 <ul>Dependencies:
   <ul>Java ~1.7</ul>
   <ul>UEA workbench</ul>
+</ul>
+</ul>
+
+<ul><strong>pipe_fasta.sh</strong>
+<br>Description: Copies fasta files to workdir based on template.<br>The template provided must be any identifying array of charactersimediatly before the serialization.<br>Ex: Test-data-1.fa use --fasta data- or --fasta Test-data-
+<ul>Configuration: Set inserts_dir var in config/workidr.cfg _</ul>
+<ul>inputs: [First_lib][Last_lib][template] </ul>
+<ul>ouputs: [workdir]/data/fasta/</ul>
 </ul>
 </ul>
 
