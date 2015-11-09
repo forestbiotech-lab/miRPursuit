@@ -32,7 +32,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <h3>Installation</h3>
 <h5>From git hub</h5>
   <ul>cd /toDesiredLocation/</ul>
-  <ul>git clone git@github.com:forestbiotech-lab/sRNA-workflow.git</ul>
+  <ul>git clone https://github.com/forestbiotech-lab/sRNA-workflow.git</ul>
   <ul>cd sRNA-workflow</ul>
 
 <h5>From tar</h5>
@@ -42,9 +42,9 @@ However if the .fastq files are in .gz archives they can also be used, given the
 
 <h5>Common Installation</h5>
 <ul>Set software dir in config file
-  <ul>cd /pathtoSrnaWorkFLow/</ul>
-  <ul>vim config/software.cfg</ul>
-  <ul>#Fill out the software var. And the if already installed set the paths to the other programs
+  <ul>cd /pathtoSrnaWorkFlow/</ul>
+  <ul>vim config/software_dirs.cfg</ul>
+  <ul>Fill out the software var. And set the paths to any program listed if already installed.
 </ul>
 <ul>To install the necessary dependancies you can run install.sh in the main folder
   <ul>cd /pathtoSrnaWorkFLow/</ul>
