@@ -226,7 +226,7 @@ Memory intensive script, java has to be run with memory settings. Big genome hav
 This script is not memory intensive no memory settings have to be set to run the java file. So far now genome size restrictions have been detected. (Tested up to 18G genome)
 <ul>Configuration: Set TASI_GENOME var in config/workidr.cfg _</ul>
 <ul>inputs: [First_lib][Last_lib]</ul>
-<ul>ouputs: [workdir]/data/tasi/[see scripts/tasi.sh, outputs]
+<ul>ouputs: [workdir]/data/tasi/[see scripts/tasi.sh, outputs]</ul>
 <ul>Dependencies:
   <ul>Java ~1.7</ul>
   <ul>UEA workbench</ul>
