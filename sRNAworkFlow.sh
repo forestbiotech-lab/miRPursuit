@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/usr/bin/env bash
 
 # sRNA_workFlow.sh
 # 
@@ -8,7 +8,7 @@
 # Executes the complete pipline
 # Call: sRNA_workFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
 
-#!/bin/sh
+#!/usr/bin/env bash
 
 # sRNA_workFlow.sh
 # 

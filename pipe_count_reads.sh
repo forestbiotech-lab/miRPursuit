@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # pipe_fastq_to_fasta.sh
 # 

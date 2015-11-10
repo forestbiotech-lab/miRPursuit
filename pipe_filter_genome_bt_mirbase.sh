@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # pipe_filter_genome_bt_mirbase.sh
 # 

@@ -51,6 +51,16 @@ However if the .fastq files are in .gz archives they can also be used, given the
   <ul>sh install.sh</ul>
 </ul>
 
+<h5>Running test dataset</h5>
+<ul>A test dataset was provided to ensure the pipeline is installed successfully
+   <ul>edit config/workdirs.cfg </ul>
+   <ul>Set INSERTS_DIRS=pathToworkFlowDir/testDataset
+   <ul>Use as referenece genome a simple plant genome. (Dataset has sRNAS detected by C.Canefora)
+   <ul>bash pathToworkFlowDir/sRNAworkFlow.sh -f 1 -l 2 --fasta test_dataset- </ul>
+</ul>
+  
+
+
 <h3>Analysing inserts from fasteris</h3>
   !not finished!
   Currently only running for fasteris 

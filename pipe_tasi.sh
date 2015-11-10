@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # pipe_tasi.sh
 # 
@@ -16,7 +16,6 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #Get workpath variables
 . $DIR/config/workdirs.cfg
-
 
 #Define log file
 log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":tasi:"$1":"$2)".log"
