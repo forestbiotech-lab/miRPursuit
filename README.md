@@ -180,6 +180,8 @@ The template must be a substring of the file preceading the lib number. Template
     <ul>ADAPTOR adaptor sequence to be clipped</ul>
     <ul>LCSCIENCE_LIB if only one lib is to be extracted this value will be used</ul>
 </ul>
+</ul>
+
 <ul>inputs: [First_lib] [Last_Lib] [TEMPLATE]</ul>
 <ul>outputs: 
   <ul>[workdir]/data/fastq</ul>
@@ -245,6 +247,18 @@ This script is not memory intensive no memory settings have to be set to run the
 
 <ul><strong>pipe_fasta.sh</strong>
 <br>Description: Copies fasta files to workdir based on template.<br>The template provided must be any identifying array of charactersimediatly before the serialization.<br>Ex: Test-data-1.fa use --fasta data- or --fasta Test-data-
+<ul>Configuration: Set inserts_dir var in config/workidr.cfg _</ul>
+<ul>inputs: [First_lib][Last_lib][template] </ul>
+<ul>ouputs: [workdir]/data/fasta/</ul>
+</ul>
+</ul>
+
+<ul><strong>pipe_fastq.sh</strong>
+<br>Description: Copies fastq files to workdir based on template.<br>The template provided must be any identifying array of charactersimediatly before the serialization.<br>Ex: Test-data-1.fq use --fastq data- or --fastq Test-data-
+<br>Can run a single file if only the first argument is given
+<br>Serialization mas be zero based ex: 1 should be 01 2-->02, ...
+<br>Isn't removing adaptors currently a flag will be added later for this function.
+<br>
 <ul>Configuration: Set inserts_dir var in config/workidr.cfg _</ul>
 <ul>inputs: [First_lib][Last_lib][template] </ul>
 <ul>ouputs: [workdir]/data/fasta/</ul>
