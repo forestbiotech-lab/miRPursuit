@@ -91,15 +91,15 @@ if a file with the word part is presented as the genome file. The script will it
 <br>Description: Searches for targets of small RNAs using the degradome and transcriptome. Runs PARESNIP a UEA Workbench program.
 <ul>Configure: 
   <ul>Set TRANSCRIPTOME,DEGRADOME vars in the <workdir.cfg> config file.</ul>
-  <ul>Set PAREsnip parameters in <paresnip.cfg> 
+  <ul>Set PAREsnip parameters in <paresnip.cfg>i</ul> 
 </ul>
 <ul>input:[lib_first][lib_last][source]</ul>
 <ul>output: </ul>
 </ul>
+</ul>
 
 
-
-<ul><strong>Count_reads.sh</strong>
+<ul><strong>count_reads.sh</strong>
 <br>Description: Counts the number of reads of a concatenated fa file where the read abundance in within parenthesis "()"
 Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
 <ul>input: [First Lib][Last_Lib][Model File][Report(Out File)][Header]</ul>
@@ -120,7 +120,7 @@ Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
 <ul>input: [source] [Lib]</ul>
 <ul>output:
   <ul>[workdir]/fasta/libXX.fa</ul>
-  <ul>[workdir]/fasta/summary
+  <ul>[workdir]/fasta/summary</ul>
   <ul>[workdir]/fasta/discardedreads</ul>
 </ul>
 <ul>Dependencies: fastx_toolbench _</ul>

@@ -56,16 +56,16 @@ However if the .fastq files are in .gz archives they can also be used, given the
    <ul>edit config/workdirs.cfg </ul>
    <ul>Set INSERTS_DIRS=pathToworkFlowDir/testDataset</ul>
    <ul>Use as referenece genome a simple plant genome. (Dataset has sRNAS detected by C.Canefora)</ul>
-   <ul>bash pathToworkFlowDir/sRNAworkFlow.sh -f 1 -l 2 --fasta test_dataset- </ul>
+   <ul>bash pathToworkFlowDir/sRNAworkFlow.sh -f 1 -l 2 --fasta test_dataset- </ul>_
 </ul>
   
 
 
-<h3>Analysing inserts from fasteris</h3>
-  !not finished!
-  Currently only running for fasteris 
-  run extract_fasteris_inserts
+<h3>Analysing sRNA</h3>
 
+Still under development to automatically detect input format but is working for fastq and fasta input formats.
+<ul>Can also run data sent from FASTERIS and LCSciences(Check scripts)</ul>  
+  
 <strong>config</strong> - Directory that has all the variables for the workflow.
 
 <ul><strong>workdirs.cfg</strong>- Sets variables with directories and files necessary for the project.
@@ -105,10 +105,9 @@ Some commands are being changed to config files.
     <ul>Step 4: Mircat</ul>
     <ul>Step 5: PareSnip</ul>
   </ul>
-  <ul>--lc Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir
-  </ul>
+  <ul>--lc Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir</ul>
   <ul>--fasta Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_</ul>
-  <ul>--fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_  </ul
+  <ul>--fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib  </ul
 </ul>
 <ul>Outputs:
   <ul>mirbase hits</ul>
@@ -174,7 +173,7 @@ Fastq quality scores are ploted
 <ul><strong>extract_lcscience_inserts.sh _</strong>
 <br>Description: The libraries in [.fastq.gz] format are extracted and converted to fasta.  
 Fastq quality scores are ploted. The template arguments is necessary if a range of lib are given.
-The template must be a substring of the file preceading the lib number. Template + lib number should identify only one file in the inserts_dir _directory  
+<br>The template must be a substring of the file preceading the lib number. Template + lib number should identify only one file in the inserts_dir _directory  
 <ul>Configs: config/workdir.cfg
     <ul>INSERTS_DIR if a range of arguments is supplied </ul>
     <ul>ADAPTOR adaptor sequence to be clipped</ul>
@@ -198,18 +197,19 @@ The template must be a substring of the file preceading the lib number. Template
 </ul>
 
 
-<ul><strong>Pipe_filter_wbench.sh</strong>
+<ul><strong>pipe_filter_wbench.sh</strong>
 <br>Description: Given an interval of libraries the script filters them through the workbench filter using the configs in the config file.
 Mirbase database in config file workpath.cfg
 <ul>input: [First_lib] [Last_lib] [Filter Suffix]</ul>
 <ul>Output: Filtered fasta, filteroverview</ul>
 </ul>
 
-<ul><strong>Pipe_filter_genome_mirbase.sh</strong>
+<ul><strong>pipe_filter_genome_mirbase.sh</strong>
 <br>Description: Given an interval of libraries the script aligns them to a reference genome and keeps reads that alig with a mismatch of 0, using bowtie1.
 Align previous reads with mirbase v20 matrue.fa. Reads that align are sent to the cons file while those that don't are sent to the noncons file. This filter using the configs in the config file.
 Mirbase database in config file workpath.cfg
 <br>config/workdirs.cfg [THREAD] [GENOME] [FILTER_SUF]
+<br> missing a config file (Next update)
 <ul>input: [First_lib] [Last_lib] </ul>
 <ul>Output:
   <ul>Cons fasta</ul>
