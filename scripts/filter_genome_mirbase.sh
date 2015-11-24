@@ -49,23 +49,23 @@ MPF_FILE_TEMP=${MPF_DIR}${IN_ROOT}"_"${GENOME_BASENAME}"_mirbase.uniq"
 
 echo ${IN_ROOT}" genome filtering"
 
-#       # align bowtie2 with genome
-#       #bowtie ${GENOME} -f ${FILE} -v 0 --best --al ${OUT_FILT_GENOME} -p ${THREADS} > ${OUT_REPORT}
-#       patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
-#
-#
-#       #Patman sorting
-#       awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
-#       #awk -F '\t' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print ">"$0; newline; print $1}' > ${OUT_FILT}
-#
-#
-#       echo ${IN_ROOT}" genome filtered"
-#
-#       echo ${IN_ROOT}" mirbase filtering"
+# align bowtie2 with genome
+#bowtie ${GENOME} -f ${FILE} -v 0 --best --al ${OUT_FILT_GENOME} -p ${THREADS} > ${OUT_REPORT}
+patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
+
+
+#Patman sorting
+awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
+#awk -F '\t' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print ">"$0; newline; print $1}' > ${OUT_FILT}
+
+
+echo ${IN_ROOT}" genome filtered"
+
+echo ${IN_ROOT}" mirbase filtering"
 
 # align mirprof
 ##Don't filter genome activate below (Used for testing or others)
-cp ${FILE} ${OUT_FILT_GENOME}
+##cp ${FILE} ${OUT_FILT_GENOME}
 
 ##patman -D ${MIRBASE} -e 0 -P ${OUT_FILT_GENOME} -o ${PMN_FILE}
 ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE}
