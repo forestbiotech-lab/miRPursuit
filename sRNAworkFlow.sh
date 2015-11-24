@@ -125,7 +125,7 @@ if [[ ! -z "$LC" ]]; then
 fi
 if [[ ! -z "$fastq" ]]; then
   echo "Running in fastq mode."
-  ${DIR}/.sh $LIB_FIRST $LIB_LAST $fastq
+  ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
   step=1
 fi
 if [[ ! -z "$fasta" ]]; then
@@ -153,7 +153,7 @@ fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
   echo "Step 2 - Filtering against genome and mirbase..."
-  ${DIR}/pipe_filter_genome_bt_mirbase.sh $LIB_FIRST $LIB_LAST $THREADS $GENOME $FILTER_SUF
+  ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST $THREADS $GENOME $FILTER_SUF
   step=3
 fi
 if [[ "$step" -eq 3 ]]; then 
@@ -171,7 +171,7 @@ fi
 if [[ "$step" -eq 5 ]]; then
   mkdir -p ${workdir}count
   #Get count matrix save to counts
-  $SCRIPT_DIR/count_abundance.sh "${wokdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" $THREADS > ${workdir}count/all_seq_counts.tsv
+  $SCRIPT_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
 
 fi
 

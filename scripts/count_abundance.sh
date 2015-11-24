@@ -5,10 +5,12 @@
 # Copyright 2015 ITQB / unL. All rights reserved. #
 #                                                 #
 #  call:                                          #
-#  count_abundance.sh ["pattern"] [nproc]         #
+#  count_abundance.sh ["pattern"] [type ] [nproc] #
 ###################################################
+#Class={none,cons,tasi,novel} 
+class=$2
 
-threads=$2
+threads=$3
 if [[ -z $threads ]]; then
   threads=$(( $(nproc) - 1 ))           
 fi
@@ -23,18 +25,17 @@ seq=$(mktemp -t seq.XXXXXX)
 uniqSeq=$(mktemp -t uniqSeq.XXXXXX)
 
 #legacy code convert old cons files into compatible
-testCons=$(cat $listFiles | grep -c ">all-combined")
+testCons=$(cat $listFiles | grep -c ">all combined")
 if [[ "$testCons" > "0" ]]; then
   for i in $listFiles
   do
-    testI=$(grep -c ">all-combined" $i)
+    testI=$(grep -c ">all combined" $i)
     if [[ "$testI" > "0" ]]; then    
 
       tempCons=$(mktemp -t tempCons.XXXXXX)
-      awk -F '\n' 'BEGIN{RS=">"}{if(NR>1){match($1,"^all-combined");if(RLENGTH>0){print ">"$2 "-" $1;newline;print $2}else{print ">"$1;newline;print $2}}}' $i > $tempCons && cat $tempCons > $i && rm $tempCons
+      awk -F '\n' 'BEGIN{RS=">"}{if(NR>1){match($1,"^all combined");if(RLENGTH>0){print ">"$2 "-" $1;newline;print $2}else{print ">"$1;newline;print $2}}}' $i > $tempCons && cat $tempCons > $i && rm $tempCons
     fi
   done
-
 fi        
 ##Check if fasta is collapsed then 
 ##get counts for each
@@ -56,16 +57,27 @@ nl=$(wc -l $uniqSeq | awk '{print $1}')
 #echo $nl
 cycle=$(eval  echo {1..$nl})
 
-#lib37_43=~/sRNA37_43/data/lib15_filt-18_26_5_Ptaeda1.01-masktrim.fa_mirbase_cons.fa
-
 function seqCount {
-  #Call seqCount [libs] [line]
+  #Call seqCount [libs] [line] [class]
+  ##lib num
   libsFunc=$1
+  ##Sequence
   lineFunc=$2
-  #echo $libsFunc
-  #echo $lineFunc
-  #  echo $listFiles
-  res="${lineFunc}\t"
+  ##Class={"cons","none","tasi","novel"}
+  classFunc=$3
+ 
+  if [[ "${class}" == "cons"  ]]; then
+    #Parse files to be read by grep
+    files=$(echo $listFiles | awk 'BEGIN{RS=" "}{print $1}')
+    #Get mir name from first match in list of conserved
+    temp=$(cat $files | grep -w -m1 $lineFunc | awk -F [-_] '{print $3}' )
+    ##Construction of output line for cons sequences 
+    res="${lineFunc}\t${temp}\t"
+  else
+    ##Construction of output line for other sequences      
+    res="${lineFunc}\t"
+  fi        
+ 
   for j in $libsFunc 
   do
     #echo $j      
@@ -76,7 +88,7 @@ function seqCount {
     eval $j=$(cat $tmp | grep -B0 -w -m1 $lineFunc | awk -F "[()]" '{ if( NR==1 ){print $2}}')
     testCount=$(eval "echo \$$j")    
     if [[ -z $testCount ]]; then
-      testCount=0
+      testCount=0 
     fi
     res="${res}${testCount}\t"
   done   
@@ -102,7 +114,7 @@ do
 #  echo $i
   line=$(head -$i $uniqSeq | tail -1 )
   #echo $line
-  seqCount "$libs" "$line" &
+  seqCount "$libs" "$line" "$class"  &
   pcount=$(( $pcount + 1 ))
   
   if [[ "$pcount" == "$threads" ]]; then
@@ -112,6 +124,8 @@ do
    #mir=$(grep -w -m1 $line $seqR | awk '{ print $1 }') 
 
 done
+wait
+
 rm $uniqSeq
 
 exit 0

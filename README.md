@@ -44,7 +44,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <ul>Set software dir in config file
   <ul>cd /pathtoSrnaWorkFlow/</ul>
   <ul>vim config/software_dirs.cfg</ul>
-  <ul>Fill out the software var. And set the paths to any program listed if already installed.
+  <ul>Fill out the software var. And set the paths to any program listed if already installed.</ul>
 </ul>
 <ul>To install the necessary dependancies you can run install.sh in the main folder
   <ul>cd /pathtoSrnaWorkFLow/</ul>
@@ -54,8 +54,8 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <h5>Running test dataset</h5>
 <ul>A test dataset was provided to ensure the pipeline is installed successfully
    <ul>edit config/workdirs.cfg </ul>
-   <ul>Set INSERTS_DIRS=pathToworkFlowDir/testDataset
-   <ul>Use as referenece genome a simple plant genome. (Dataset has sRNAS detected by C.Canefora)
+   <ul>Set INSERTS_DIRS=pathToworkFlowDir/testDataset</ul>
+   <ul>Use as referenece genome a simple plant genome. (Dataset has sRNAS detected by C.Canefora)</ul>
    <ul>bash pathToworkFlowDir/sRNAworkFlow.sh -f 1 -l 2 --fasta test_dataset- </ul>
 </ul>
   
@@ -81,7 +81,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <br>  
 <ul><strong>software_dirs.cfg</strong> - Sets the directory paths to all major programs</ul>
 <br>
-<ul><strong>filter*.cfg</strong> - General parameters for wbench *</ul>
+<ul><strong>filter*.cfg</strong> - General parameters for wbench </ul>
 <br>
 <ul><strong>wbench_mircat.cfg</strong> - General parameters for mircat</ul>
 <br>
@@ -205,16 +205,21 @@ Mirbase database in config file workpath.cfg
 <ul>Output: Filtered fasta, filteroverview</ul>
 </ul>
 
-<ul><strong>Pipe_filter_genome_bt_mirbase.sh</strong>
+<ul><strong>Pipe_filter_genome_mirbase.sh</strong>
 <br>Description: Given an interval of libraries the script aligns them to a reference genome and keeps reads that alig with a mismatch of 0, using bowtie1.
 Align previous reads with mirbase v20 matrue.fa. Reads that align are sent to the cons file while those that don't are sent to the noncons file. This filter using the configs in the config file.
 Mirbase database in config file workpath.cfg
-<ul>input: [First_lib] [Last_lib] [Threads] [Genome] [Filter Suffix] </ul>
+<br>config/workdirs.cfg [THREAD] [GENOME] [FILTER_SUF]
+<ul>input: [First_lib] [Last_lib] </ul>
 <ul>Output:
   <ul>Cons fasta</ul>
   <ul>Noncons fasta</ul>
   <ul>[workdir]/count</ul>
 </ul>
+<ul>Dependencies: 
+  <ul> java >= 7</ul>
+  <ul>UEA workbench (mirprof)</ul>
+</ul>_
 </ul>
 
 <ul><strong>pipe_mircat.sh</strong>
