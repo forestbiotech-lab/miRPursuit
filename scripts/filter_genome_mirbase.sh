@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# filter_genome_bt_mirbase.sh
+# filter_genome_mirbase.sh
 # 
 #
 # Created by Bruno Costa on 25/05/2015.
 # Copyright 2015 ITQB / UNL. All rights reserved.
 
 # call:
-# filter_genome.sh [file] [source]
+# filter_genome_mirbase.sh [file] [source]
 
 # rename input
 FILE=$1
@@ -26,6 +26,7 @@ IN_FILE=$(basename ${FILE})
 IN_ROOT=${IN_FILE%.*}
 
 GENOME_BASENAME=$(basename ${GENOME})
+GENOME_ROOT=${GENOME_BASENAME%.*}
 echo "Using ${GENOME_BASENAME} as the reference genome"
 
 # create patman dir and file
@@ -34,18 +35,18 @@ mkdir -p ${FILTER_GENOME}
 
 
 # create output file
-OUT_FILT_GENOME=${FILTER_GENOME}${IN_ROOT}"_"${GENOME_BASENAME}".fa"
-OUT_CONS=${WORKDIR}data/${IN_ROOT}"_"${GENOME_BASENAME}"_mirbase_cons.fa"
-OUT_NONCONS=${WORKDIR}data/${IN_ROOT}"_"${GENOME_BASENAME}"_mirbase_noncons.fa"
-OUT_REPORT=${FILTER_GENOME}${IN_ROOT}"_BOWTIE1_${GENOME_BASENAME}_REPORT.csv"
+OUT_FILT_GENOME=${FILTER_GENOME}${IN_ROOT}"_"${GENOME_ROOT}".fa"
+OUT_CONS=${WORKDIR}data/${IN_ROOT}"_"${GENOME_ROOT}"_mirbase_cons.fa"
+OUT_NONCONS=${WORKDIR}data/${IN_ROOT}"_"${GENOME_ROOT}"_mirbase_noncons.fa"
+OUT_REPORT=${FILTER_GENOME}${IN_ROOT}"_${GENOME_ROOT}_REPORT.csv"
 
 
 
 
 MPF_DIR=${WORKDIR}"data/mirprof/"
 mkdir -p ${MPF_DIR}
-MPF_FILE=${MPF_DIR}${IN_ROOT}"_"${GENOME_BASENAME}"_mirbase"
-MPF_FILE_TEMP=${MPF_DIR}${IN_ROOT}"_"${GENOME_BASENAME}"_mirbase.uniq"
+MPF_FILE=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase"
+MPF_FILE_TEMP=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase.uniq"
 
 echo ${IN_ROOT}" genome filtering"
 

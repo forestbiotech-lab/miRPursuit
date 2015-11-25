@@ -46,7 +46,8 @@ REPORT_OUTPUT="${COUNT_DIR}/"$(date +"%y%m%d:%H%M%S")"-cGenome-lib"${LIB_FIRST}"
 COUNTER=${SCRIPT_DIR}"count_reads.sh"
 #genome
 GENOME_BASENAME=$(basename ${GENOME})
-CF_CNAME=${DATA_DIR}"FILTER-Genome/lib00_filt-"${FILTER_SUF}"_"${GENOME_BASENAME}
+GENOME_ROOT=${GENOME_BASENAME%.*}
+CF_CNAME=${DATA_DIR}"FILTER-Genome/lib00_filt-"${FILTER_SUF}"_"${GENOME_ROOT}
 cFaGenome=${CF_CNAME}".fa"
 ${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaGenome} ${REPORT_OUTPUT} ${HEADER} 
 echo "CounterGenome:"${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaGenome} ${REPORT_OUTPUT} ${HEADER} 

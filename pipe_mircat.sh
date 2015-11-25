@@ -24,8 +24,8 @@ log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":mircat:"$
 exec 2>&1 > ${log_file}
 
 #Set directories
-SCRIPT_DIR=${DIR}"/scripts/"
-FASTA_DIR=${workdir}"data/"
+SCRIPTS_DIR=${DIR}"/scripts"
+DATA_DIR=${workdir}"data"
 
 #Count exec time
 START_TIME=$(date +%s.%N)
@@ -34,8 +34,8 @@ for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
 	
-  echo "Ran this command: "${SCRIPT_DIR}"mircat.sh" ${FASTA_DIR}"lib"${LIB}"_filt"*"_noncons.fa" ${DIR}
-  ${SCRIPT_DIR}mircat.sh ${FASTA_DIR}"lib"${LIB}"_filt"*"_noncons.fa" ${DIR}
+  echo "Ran this command: "${SCRIPTS_DIR}"/mircat.sh" ${DATA_DIR}"/lib"${LIB}"_filt"*"_noncons.fa" ${DIR}
+  ${SCRIPTS_DIR}"/mircat.sh" ${DATA_DIR}"/lib"${LIB}"_filt"*"_noncons.fa" ${DIR}
   echo "Finished runing LIB${LIB}"
 done
 

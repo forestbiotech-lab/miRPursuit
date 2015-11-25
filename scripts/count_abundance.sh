@@ -24,7 +24,7 @@ seR=$(mktemp -t seqR.XXXXXX)
 seq=$(mktemp -t seq.XXXXXX)
 uniqSeq=$(mktemp -t uniqSeq.XXXXXX)
 
-#legacy code convert old cons files into compatible
+#legacy code convert old cons files into compatible(This know aplies)
 testCons=$(cat $listFiles | grep -c ">all combined")
 if [[ "$testCons" > "0" ]]; then
   for i in $listFiles
@@ -37,13 +37,13 @@ if [[ "$testCons" > "0" ]]; then
     fi
   done
 fi        
-##Check if fasta is collapsed then 
+##Check if fasta is collapsed then
+
+
 ##get counts for each
-## Since the files used are from the sRNA workflow ( ) is the major trend manby don't worry with fastx colapsiing
+## Since the files used are from the sRNA workflow ( ) is the major trend. Maybe don't worry with fastx colapsiing
 for i in $listFiles
 do 
-  ##Used to get conserved names not for typical case        
-  # awk -F "[-_\n]" 'BEGIN{RS=">"}{print $3" "$6}' $i >> $seqR
   awk -F "\n" 'BEGIN{RS=">"}{if(NR>1){print $2}}' $i >> $seq
 done
 
@@ -66,6 +66,8 @@ function seqCount {
   ##Class={"cons","none","tasi","novel"}
   classFunc=$3
  
+
+
   if [[ "${class}" == "cons"  ]]; then
     #Parse files to be read by grep
     files=$(echo $listFiles | awk 'BEGIN{RS=" "}{print $1}')
@@ -73,9 +75,17 @@ function seqCount {
     temp=$(cat $files | grep -w -m1 $lineFunc | awk -F [-_] '{print $3}' )
     ##Construction of output line for cons sequences 
     res="${lineFunc}\t${temp}\t"
-  else
+  elif [[ "${class}" == "novel"  ]]; then
+    #Change path where expression is to retreived
+    #This is done because mircat sometimes detectes precursores in some libraries but not in others.
+    #remove _miRNA_filtered & remove /mircat/
+    ${lineFunc}=$(echo ${lineFunc} |sed -r "s:(/mircat/):/:g" | sed -r "s:_miRNA_filtered::g")
+  elif [[ "${class}" == "none"  ]]; then
     ##Construction of output line for other sequences      
     res="${lineFunc}\t"
+  else
+    echo "Terminated prematurly due to lack of argument class"      
+    exit 1
   fi        
  
   for j in $libsFunc 
@@ -121,7 +131,7 @@ do
     wait
   fi        
      
-   #mir=$(grep -w -m1 $line $seqR | awk '{ print $1 }') 
+  #mir=$(grep -w -m1 $line $seqR | awk '{ print $1 }') 
 
 done
 wait

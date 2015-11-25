@@ -1,22 +1,14 @@
 #!/usr/bin/env bash
 
-# sRNA_workFlow.sh
+# sRNAworkFlow.sh
 # 
 #
 # Created by Bruno Costa on 25/05/2015.
 # Copyright 2015 ITQB / UNL. All rights reserved.
 # Executes the complete pipline
-# Call: sRNA_workFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
+# Call: sRNAworkFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
 
-#!/usr/bin/env bash
 
-# sRNA_workFlow.sh
-# 
-#
-# Created by Bruno Costa on 25/05/2015.
-# Copyright 2015 ITQB / UNL. All rights reserved.
-# Executes the complete pipland
-# Call: sRNA_workFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
 
 while [[ $# > 0 ]]
 do
@@ -111,7 +103,7 @@ log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":run_full_pi
 echo ${log_file}
 exec 2>&1 > ${log_file}
 
-SCRIPT_DIR=$DIR"/scripts/"
+SCRIPTS_DIR=$DIR"/scripts"
 
 #Test if the var step exists
 if [[ -z "$step" ]]; then 
@@ -153,7 +145,7 @@ fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
   echo "Step 2 - Filtering against genome and mirbase..."
-  ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST $THREADS $GENOME $FILTER_SUF
+  ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
 fi
 if [[ "$step" -eq 3 ]]; then 
@@ -171,8 +163,10 @@ fi
 if [[ "$step" -eq 5 ]]; then
   mkdir -p ${workdir}count
   #Get count matrix save to counts
-  $SCRIPT_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
-
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > ${workdir}count/all_seq_counts_cons.tsv
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > ${workdir}count/all_seq_counts_novel.tsv
+  #integrate
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
 fi
 
 

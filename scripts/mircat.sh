@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # mircat.sh
 # 
@@ -67,7 +67,9 @@ OUT_STRUCTURES=${OUT_DIR}${IN_ROOT}"_structures.pdf"
 if [ "$parts" == "1" ]; then
 
   # run mircat on filtered file
-  ${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -verbose -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}
+  runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -verbose -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
+  echo "Running mircat with this command: " $runMircat
+  $runMircat
 
   # move produced resulting files into place
   mv ${RESULTS_DIR}miRNA.fa ${OUT_DIR}${IN_ROOT}_miRNA.fa
@@ -96,7 +98,7 @@ fi
 OUTPUT_TB=${OUT_DIR}${IN_ROOT}_output.csv
 OUTPUT_TBG=${OUT_DIR}${IN_ROOT}_output_grouped.csv
 #Rearrange table |Change parts subtracting 1 so its nicer looking
-awk 'BEGIN{RS="Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*";FS="\n";print"Part,Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*"}{for(i=2; i<NF; i++ ){if( NR>1 ){print NR","$i;}} }' ${OUTPUT_TB} > ${OUTPUT_TBG}
+awk 'BEGIN{RS="Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*";FS="\n";print"Part,Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*"}{for(i=2; i<NF; i++ ){if( NR>1 ){print NR-1","$i;}} }' ${OUTPUT_TB} > ${OUTPUT_TBG}
 echo "Ran to point 1"
 
 #read mircat config file adding it vars

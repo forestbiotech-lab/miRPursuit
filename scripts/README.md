@@ -46,11 +46,12 @@ The file lib#_ln#.fq is concatenated to lib#.fq The original files are saved to 
 <ul>Dependencies: Java, UEA Workbench (Filter)</ul>
 </ul>
 
-<ul><strong>filter_genome_bt_mirbase.sh</strong>
+<ul><strong>filter_genome_mirbase.sh</strong>
 <br>Description: Uses bowtie to align reads with genome in order to filter reads.
 Filters reads with patman through mirbase mature database
 Requires indexed genomes to be added.
-<ul> Inputs: [file] [Genome] [Threads] [workdir] [Mirbase]</ul>
+<br>config/workdir vars used: [GENOME] [THREADS] [workdir] [MIRBASE]
+<ul> Inputs: [file] [SOURCE] </ul>
 <ul>Ouputs:
   <ul>/FILTER-Genome/Lib#_filt_x_BOWTIE1_[Genome]_REPORT.csv</ul>
   <ul>/patman_mb/lib#_filt_x_[Genome]_mirbase.csv #Alignment results mirbase</ul>
@@ -91,12 +92,12 @@ if a file with the word part is presented as the genome file. The script will it
 <br>Description: Searches for targets of small RNAs using the degradome and transcriptome. Runs PARESNIP a UEA Workbench program.
 <ul>Configure: 
   <ul>Set TRANSCRIPTOME,DEGRADOME vars in the <workdir.cfg> config file.</ul>
-  <ul>Set PAREsnip parameters in <paresnip.cfg>i</ul> 
+  <ul>Set PAREsnip parameters in <paresnip.cfg> </ul>
 </ul>
 <ul>input:[lib_first][lib_last][source]</ul>
 <ul>output: </ul>
 </ul>
-</ul>
+
 
 
 <ul><strong>count_reads.sh</strong>
@@ -127,9 +128,11 @@ Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
 </ul>
 
 <ul><strong>count_abundance.sh</strong>
-<br>Description: Produces a count matrix paths with wildcard must be given in quotes so that they are considered the same argument.
+<br>Description: Produces a count matrix, paths with wildcard must be given in quotes so that they are considered the same argument.
+ <br>Should run as none in class if inespecific
+ <br>Classes are: none,cons,novel,tasi
 <ul>Configure: Threads from workdir can be used to suplement uniform parallezation throughout pipeline</ul>
-<ul>input ["paths(allows wildcards, use quotes)"] [Threads (Optional)] </ul> 
+<ul>input ["paths(allows wildcards, use quotes)"] [Class] [Threads (Optional)] </ul> 
 <ul>output:
   <ul>standard output it used in threaded mode some results may apear only after program is finished running.  </ul>
 </ul>

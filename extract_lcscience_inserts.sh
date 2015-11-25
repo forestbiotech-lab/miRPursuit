@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # extract_lcscience_inserts.sh
 # 
@@ -14,7 +14,7 @@ LIB_FIRST=$1
 LIB_LAST=$2
 TEMPLATE=$3
 
-#Gets the scipt directory
+#Gets the script directory
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #Get config settings

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # tasi.sh
 # 
@@ -28,21 +28,9 @@ IN_DIR=$(dirname $FILE)
 IN_ROOT=${IN_FILE%.*}
 
 #Check if there is more than one part
-GENOME_BASENAME=$(basename $TASI_GENOME)
-GENOME_DIR=$(dirname $TASI_GENOME)
+GENOME_BASENAME=$(basename $GENOME)
+GENOME_DIR=$(dirname $GENOME)
 echo "The genome used was "${GENOME_BASENAME}
-
-## remove conserved sequences from input file
-#CONS=${IN_DIR}"/"${IN_ROOT}"_cons.fa"
-#grep -v ">" ${CONS} > ${CONS}"_seqs"
-#grep -Fwvf ${CONS}"_seqs" $1 > $1"_no_cons"
-#rm ${CONS}"_seqs"
-
-## remove putative novel sequences from input file
-#PNOV=${IN_DIR}"/"${IN_ROOT}"_putnov.fa"
-#grep -v ">" ${PNOV} > ${PNOV}"_seqs"
-#grep -Fwvf ${PNOV}"_seqs" $1"_no_cons" > $1"_no_hits"
-#rm ${PNOV}"_seqs"
 
 # create output file
 OUT_DIR=${workdir}"data/tasi"
@@ -51,15 +39,8 @@ OUT_FILE=${OUT_DIR}"/"${IN_ROOT}_tasi
 
 # run filter
 RUN_TASI="${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool tasi -f -srna_file ${FILE} -genome ${GENOME} -out_file ${OUT_FILE} -params ${CFG}"
-$RUN_TASI
 echo "Ran tasi with the following command:"
 echo " "${RUN_TASI}
+$RUN_TASI
 
-#Not sure what to do next | which information is needed.
-# create fasta with detected sequences
-#grep "(" ${OUT_FILE}"_srnas.txt" | awk -F " " '{print $1}' | sort | uniq | awk -F"(" '{print ">"$0; newline; print $1}' > ${IN_DIR}"/"${IN_ROOT}"_tasi.fa"
-
-## clean up
-#rm $1"_no_hits"
-#rm $1"_no_cons"
-
+exit 0
