@@ -59,7 +59,7 @@ if [[ "$patman" == "TRUE" ]]; then
 fi
 
 #Java installation
-if [[ -z "$java" ]]; then
+if [[ -z "$JAVA_DIR" ]]; then
   echo $java
   cd $SOFTWARE
   echo "JAVA installation"
