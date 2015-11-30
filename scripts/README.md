@@ -137,6 +137,27 @@ Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
   <ul>standard output it used in threaded mode some results may apear only after program is finished running.  </ul>
 </ul>
 </ul>
+
+<ul><strong>report.sh</strong>
+<br>Description: Produces tsv file for each step with sequence counts (Total and distinct) as well as Totals
+<br>Particulariy relvant the fact that it calculates total distinct for the set given.
+<br>Can run in two mode. Interval and array
+ <br>Array mode allows for lib to be hand picks, while interval requires the limits.
+ <br>In array mode values must be space and within quotes. Ex. "1 2 3 7 8 9"
+<ul>Configure: workdir</ul>
+<ul>input [Lib First] [Lib Last] [source] </ul>
+<ul>input [array] ["array"] [source]
+<ul>output:
+  <ul>Fastq-Lib(...).tsv  </ul>
+  <ul>Fasta-Lib(...).tsv  </ul>
+  <ul>Filter-Lib(...).tsv </ul>
+  <ul>Genome-Lib(...).tsv </ul>
+  <ul>Cons-Lib(...).tsv </ul>
+  <ul>Novel-Lib(...).tsv </ul>
+  <ul>Tasi-Lib(...).tsv </ul>
+  <ul>Summary-counts-Lib(...).tsv (Not implemented yet)</ul>
+</ul>
+</ul>
 --------
 <h3>Auxiliar Scripts:</h3>
 <ul><strong>extract_x_seqs.sh</strong>

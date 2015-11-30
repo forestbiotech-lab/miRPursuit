@@ -36,6 +36,7 @@ do
   echo "Ran this command: "
   echo " "$RUN_TASI
   $RUN_TASI
+  awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print ">"$1"("$2")";newline;print $1}}' ${DATA_DIR}"/tasi/lib${LIB_NOW}"*"_noncons_tasi_srnas.txt" > "${DATA_DIR}/tasi/lib${LIB_NOW}-tasi.fa"
 done
 
 END_TIME=$(date +%s.%N)

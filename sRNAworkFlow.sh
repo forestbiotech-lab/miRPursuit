@@ -165,11 +165,13 @@ if [[ "$step" -eq 5 ]]; then
   #Get count matrix save to counts
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > ${workdir}count/all_seq_counts_cons.tsv
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > ${workdir}count/all_seq_counts_novel.tsv
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/lib*-tasi.fa" "tasi" $THREADS > ${workdir}count/all_seq_counts_tasi.tsv
   #integrate
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
+  $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
 fi
 
-
+  
 
 ok_log=${log_file/.log/:OK.log}
 
