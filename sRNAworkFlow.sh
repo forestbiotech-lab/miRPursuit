@@ -162,13 +162,34 @@ if [[ "$step" -eq 4 ]]; then
 fi  
 if [[ "$step" -eq 5 ]]; then
   mkdir -p ${workdir}count
+  novel=${workdir}count/all_seq_counts_novel.tsv
+  tasi=${workdir}count/all_seq_counts_tasi.tsv
+  cons=${workdir}count/all_seq_counts_cons.tsv
+  tasiSep=`mktemp /tmp/tasiSeq.XXXXXX`
+  tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
   #Get count matrix save to counts
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > ${workdir}count/all_seq_counts_cons.tsv
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > ${workdir}count/all_seq_counts_novel.tsv
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/lib*-tasi.fa" "tasi" $THREADS > ${workdir}count/all_seq_counts_tasi.tsv
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons 
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel 
+  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/lib*-tasi.fa" "tasi" $THREADS > $tasi
   #integrate
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
+
+  #$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
+
+  awk '{if(NR>1){print $1}}' $tasi > $tasiSeq
+  grep -wf $tasiSeq $novel | awk '{print $1}' | xargs -n 1 -I pattern sed -ir "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novel
+  grep "tasi" $novel | awk '{print $1}' > $tasiNovel
+  grep -v "lib" $tasi | grep -wvf $tasiNovel >> $novel
+  grep -v "lib" $cons >> $novel
+
+
+  #reports
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
+
+  #clean up
+  rm $tasiNovel $tasiSeq
+
+
+
 fi
 
   

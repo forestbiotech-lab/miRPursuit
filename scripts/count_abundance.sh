@@ -25,15 +25,15 @@ seq=$(mktemp -t seq.XXXXXX)
 uniqSeq=$(mktemp -t uniqSeq.XXXXXX)
 
 #legacy code convert old cons files into compatible(This know aplies)
-testCons=$(cat $listFiles | grep -c ">all-combined")
+testCons=$(cat $listFiles | grep -c ">all combined")
 if [[ "$testCons" > "0" ]]; then
   for i in $listFiles
   do
-    testI=$(grep -c ">all-combined" $i)
+    testI=$(grep -c ">all combined" $i)
     if [[ "$testI" > "0" ]]; then    
 
       tempCons=$(mktemp -t tempCons.XXXXXX)
-      awk -F '\n' 'BEGIN{RS=">"}{if(NR>1){match($1,"^all-combined");if(RLENGTH>0){print ">"$2 "-" $1;newline;print $2}else{print ">"$1;newline;print $2}}}' $i > $tempCons && cat $tempCons > $i && rm $tempCons
+      awk -F '\n' 'BEGIN{RS=">"}{if(NR>1){match($1,"^all combined");if(RLENGTH>0){print ">"$2 "-" $1;newline;print $2}else{print ">"$1;newline;print $2}}}' $i > $tempCons && cat $tempCons > $i && rm $tempCons
     fi
   done
 fi        
