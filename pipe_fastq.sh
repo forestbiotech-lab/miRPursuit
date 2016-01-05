@@ -78,21 +78,21 @@ else
   done
   wait
   NPROC=0
-
-#  for i in $cycle
-#  do 
-#    #Paralell threading trim-lcschience.sh
-#    NPROC=$(($NPROC+1))
-#    LIB_NOW=$i
-#    ${SCRIPT_DIR}trim-lcscience.sh ${DIR} ${LIB_NOW} & 
-#    if [ "$NPROC" -ge "$THREADS" ]; then 
-#      wait
-#      NPROC=0
-#    fi
+####################################################### Extract
+# for i in $cycle
+# do 
+#   #Paralell threading trim-lcschience.sh
+#   NPROC=$(($NPROC+1))
+#   LIB_NOW=$i
+#   ${SCRIPT_DIR}trim-lcscience.sh ${DIR} ${LIB_NOW} & 
+#   if [ "$NPROC" -ge "$THREADS" ]; then 
+#     wait
+#     NPROC=0
+#   fi
 #
-#  done
-#  wait
-
+# done
+# wait
+#######################################################
 fi
 
 END_TIME=$(date +%s.%N) 

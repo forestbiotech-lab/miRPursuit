@@ -165,7 +165,7 @@ if [[ "$step" -eq 5 ]]; then
   novel=${workdir}count/all_seq_counts_novel.tsv
   tasi=${workdir}count/all_seq_counts_tasi.tsv
   cons=${workdir}count/all_seq_counts_cons.tsv
-  tasiSep=`mktemp /tmp/tasiSeq.XXXXXX`
+  tasiSeq=`mktemp /tmp/tasiSeq.XXXXXX`
   tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
   #Get count matrix save to counts
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons 
@@ -174,7 +174,8 @@ if [[ "$step" -eq 5 ]]; then
   #integrate
 
   #$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
-
+  
+  #This has a script why the snippet instead directly here?
   awk '{if(NR>1){print $1}}' $tasi > $tasiSeq
   grep -wf $tasiSeq $novel | awk '{print $1}' | xargs -n 1 -I pattern sed -ir "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novel
   grep "tasi" $novel | awk '{print $1}' > $tasiNovel

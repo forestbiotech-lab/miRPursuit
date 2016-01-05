@@ -67,7 +67,7 @@ OUT_STRUCTURES=${OUT_DIR}${IN_ROOT}"_structures.pdf"
 if [ "$parts" == "1" ]; then
 
   # run mircat on filtered file
-  runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -verbose -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
+  runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
   echo "Running mircat with this command: " $runMircat
   $runMircat
 
@@ -85,7 +85,7 @@ else
   for i in ${GENOMES}
   do        
     # run mircat on filtered file
-    runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -verbose -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome $i -params ${CFG}" 
+    runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome $i -params ${CFG}" 
     echo "Running part: "$i
     echo "Running mircat with this command: " $runMircat
     $runMircat
@@ -108,20 +108,20 @@ echo "max genome hits=${max_genome_hits}"
 #csv comes sorted by part (col1) so I sort if by seq (col7) to parse it through this algorithum
 #get all unique seq and see which have a combined total of more than (16) genomic hits  
 tail -${lines} ${OUTPUT_TBG} | awk -F "," '{print $7}' | sort | uniq | xargs -n 1 -I pattern grep pattern ${OUTPUT_TBG} | awk -F "," -v max=${max_genome_hits} 'BEGIN{sum=0;seq="";part=""} { if($7==seq){
-   if($1!=part){
-    #print "Debug "seq" sum:"sum" $9:"$9" part:"part" $1:"$1
-    sum+=$9
-    part=$1
-    #print "Debug "seq" "sum
-    if(sum>max){
-      print seq" "sum                                                           
-    }
+  if($1!=part){
+   #print "Debug "seq" sum:"sum" $9:"$9" part:"part" $1:"$1
+   sum+=$9
+   part=$1
+   #print "Debug "seq" "sum
+   if(sum>max){
+     print seq" "sum                                                           
    }
- }else{
-  seq=$7 
-  sum=$9
-  part=$1   
- }
+  }
+}else{
+ seq=$7 
+ sum=$9
+ part=$1   
+}
 }' | awk '{print $1}' | uniq > ${OUT_DIR}uniq_res.txt
 echo "Ran to point 2"
 #!Not finished!Now remove all line containing this these seqs from files. 

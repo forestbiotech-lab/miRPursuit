@@ -160,14 +160,14 @@ for lib in $CYCLE
   lib_now=$(printf "%02d\n" $lib)
   file=${workdir}"data/tasi/lib"${lib_now}*"_noncons_tasi_srnas.txt"
   distinct=$(awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' $file | sort | uniq | wc -l)
-  total=$(awk -F "[()]" '{match($0,"([0-9].[0-9])");if(RLENGTH>0){print $1" "$2}}' $file | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+  total=$(awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' $file | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file
   sumTotal=$(( $total + $sumTotal )) 
   echo "Lib${lib_now} $total  $distinct" >> $output
 done
-total_d=$(cat $files | awk -F "[()]" '{match($0,"([0-9].[0-9])");if(RLENGTH>0){print $1}}' | sort | uniq | wc -l)
+total_d=$(cat $files | awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' | sort | uniq | wc -l)
 #Not calculating
-total=$(cat $files | awk -F "[()]" '{match($0,"([0-9].[0-9])");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+total=$(cat $files | awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
 echo "Total $sumTotal $total_d" >> $output
 
 #Lib    Total Distinct    
