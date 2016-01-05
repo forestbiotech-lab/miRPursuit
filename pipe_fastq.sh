@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#/usr/bin/env bash
 
 # pipe_fastq.sh
 # 
@@ -53,12 +53,29 @@ else
     LIB_NOW=$i
     LIB=$(printf "%02d\n"  $LIB_NOW)
     CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.fq)
-    NPROC=$(($NPROC+1))
-    cp $CONVERT_LIB ${workdir}data/fastq/lib${LIB}.fq &
+
+    #Test if "fq exists"
+    if [[ -z "$CONVERT_LIB" ]]; then
+          
+      #Test if .fastq.gz exists      
+      CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.fastq.gz)
+      if [[ -e "$CONVERT_LIB" ]]; then
+        NPROC=$(( $NPROC + 1 ))
+        gunzip -c $CONVERT_LIB > ${workdir}data/fastq/lib${LIB}.fq &       
+      else
+        exit 1
+      fi
+    else      
+      NPROC=$(( $NPROC+1 ))
+      cp $CONVERT_LIB ${workdir}data/fastq/lib${LIB}.fq &
+    fi
+
     if [ "$NPROC" -ge "$THREADS" ]; then 
       wait
       NPROC=0
     fi
+   
+
 
   done
   wait
@@ -67,7 +84,7 @@ else
   for i in $cycle
   do 
     #Running multiple threads of fq_to_fa_exe.sh
-    NPROC=$(($NPROC+1))
+    NPROC=$(( $NPROC + 1 ))
     LIB_NOW=$i
     ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB_NOW} &
     if [ "$NPROC" -ge "$THREADS" ]; then 

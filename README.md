@@ -107,7 +107,7 @@ Some commands are being changed to config files.
   </ul>
   <ul>--lc Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir</ul>
   <ul>--fasta Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_</ul>
-  <ul>--fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib  </ul
+  <ul>--fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib, will also extract the file if extension is fastq.gz </ul
 </ul>
 <ul>Outputs:
   <ul>mirbase hits</ul>
@@ -261,6 +261,7 @@ This script is not memory intensive no memory settings have to be set to run the
 <ul><strong>pipe_fastq.sh</strong>
 <br>Description: Copies fastq files to workdir based on template.<br>The template provided must be any identifying array of charactersimediatly before the serialization.<br>Ex: Test-data-1.fq use --fastq data- or --fastq Test-data-
 <br>Can run a single file if only the first argument is given
+<br>If no .fq file is present in the directory (var inserts in config file) will check for fastq.gz files with the given template and extract them.
 <br>Serialization mas be zero based ex: 1 should be 01 2-->02, ...
 <br>Isn't removing adaptors currently a flag will be added later for this function.
 <br>
