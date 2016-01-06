@@ -96,8 +96,9 @@ if [[ -z "$WBENCH_DIR" ]]; then
   workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version3Alpha/srna-workbenchV3.01_ALPHA.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fthe-uea-small-rna-workbench-version-3-01-alpha%2F&ts=1452081706&use_mirror=heanet"
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
-  wget -c $workbench_url -O srna-workbenchV3.01_ALPHA.zip
-  unzip "srna-workbenchV4.0Alpha.zip"
+  wbench_filename=srna-workbenchV3.01_ALPHA.zip
+  wget -c $workbench_url -O $wbench_filename 
+  unzip $wbench_filename
   sed -r "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/srna-workbenchV4.0Alpha:" ${CFG} > temp_12345678987654321
   mv temp_12345678987654321 ${CFG}
   cd -
