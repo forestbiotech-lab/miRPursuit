@@ -69,7 +69,7 @@ echo ${IN_ROOT}" mirbase filtering"
 ##cp ${FILE} ${OUT_FILT_GENOME}
 
 ##patman -D ${MIRBASE} -e 0 -P ${OUT_FILT_GENOME} -o ${PMN_FILE}
-${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE}
+${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -genome ${GENOME}  -mirbase_db ${MIRBASE} -out_file ${MPF_FILE}
 # filter mirbase results and get unique read sequences
 ##awk -F '[\t(]' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print $1}' > ${PMN_FILE_TEMP}
 

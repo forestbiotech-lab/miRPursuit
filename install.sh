@@ -8,11 +8,21 @@
 # 
 # Call: install.sh
 
+
+# OUTPUT-COLORING
+red='\e[0;31m'
+green='\e[0;32m'
+NC='\e[0m' # No Color
+
+
+
 echo "Checking avalible software"
 
 ##Gets the scipt directory
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 CFG=${DIR}/config/software_dirs.cfg
+CFG_WD=${DIR}/config/workdirs.cfg
+CFG_mircat=${DIR}/conig/wbench_mircat.cfg
 
 
 ##get software dirs
@@ -24,8 +34,12 @@ if [[ -z "$SOFTWARE" ]]; then
   mv temp_12345678987654321 ${CFG}
 fi
 
+##Source_data directory
+SOURCE_DATA=${HOME}/source_data
+
 #Create if necessary software dir
 mkdir -p $SOFTWARE
+mkdir -p $SOURCE_DATA
 
 echo $SOFTWARE
 echo "Software"
@@ -99,7 +113,7 @@ if [[ -z "$WBENCH_DIR" ]]; then
   wbench_filename=srna-workbenchV3.01_ALPHA.zip
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
-  sed -r "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/srna-workbenchV4.0Alpha:" ${CFG} > temp_12345678987654321
+  sed -r "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_filename}:" ${CFG} > temp_12345678987654321
   mv temp_12345678987654321 ${CFG}
   cd -
 fi
@@ -109,7 +123,93 @@ fi
 ##activate new .profile
 source ~/.profile
 
-echo "Installation completed please check patman is in your path if not please restart your terminal"
+echo -e "${green}Installation completed...${NC} However please check patman is in your path if not please restart your terminal"
+
+echo "Configuring the workdir parameters."
+
+
+read -n1 -p "Create source data folder (Where genomes and other stuff will be) in: ${SOURCE_DATA} ? (Y/N)" booleanYorN
+case $boolreanYorN in
+  y|Y) echo "Creating folder";mkdir -p ${SOUCE_DATA};;
+  n|N) echo "";;
+  *) echo "Prompt ignored, creating folder";;
+esac
+
+if [[ $booleanYorN == "[n|N]"  ]]; then
+read "Please enter the full path where source_data should be created" $SOUCE_DATA
+ mkdir -p $SOUCE_DATA  
+fi
+unset booleanYorN 
+
+
+while [[ "$booleanYorN" != "[yYnN]" ]]
+do        
+  read -n1 -p  "Do you wish to downlaod the latest version of mirbase? (Y/N)" booleanYorN
+  case $booleanYorN in 
+    y|Y) echo "Downloading mirbase";;
+    n|N) echo "Skipped mirbase installtion please set up this value in config file";;
+    *)  echo "Invalid Input ";;
+  esac  
+done
+if [[ "$booleanYorN" -eq "[yY]"  ]]; then 
+  mirbase=${SOUCE_DATA}/mirbase      
+  mkdir -p $mirbase
+  cd $mirbase
+  mirbase_mature="ftp://mirbase.org/pub/mirbase/CURRENT/mature.fa.gz"
+  mirbase_readme="ftp://mirbase.org/pub/mirbase/CURRENT/README"
+  mirbase_filename=$(basename $mirbase_mature)
+  wget -c $mirbase_mature -O $mirbase_filename
+  wget -c $mirbase_readme -O README
+  if [[ -e $mirbase_filename ]]; then 
+    echo -e "${red}Warning - Failed to download mirbase but script will continue.${NC}"
+  else
+    gunzip $mirbase_filename
+    sed -ri "s:(MIRBASE=)(.*):\1${SOURCE_DATA}/mirbase:" ${CFG_WD} 
+  fi
+
+fi
+unset booleanYorN
+
+read "Please insert the full path to the genome file (To maintain stuff organized we suggest: <<souce_data-dir>>/genome/<<genome_name>>.fa)" $GENOME
+sed -ri "s:(GENOME=)(.*):\1${GENOME}:" ${CFG_WD}
+
+
+SET_PROC=$(( $(nproc) - 1 ))
+read -n1 -p "Setting number of threads to ${SET_PROC} (Y/N)" booleanYorN
+case $booleanYorN in
+  y|Y)echo "Processor number set to ${SET_PROC}";;
+  n|N)echo "";;
+  *)echo "Invalid input";;
+esac
+if [[ "$booleanYorN"  == "[yY]" ]]; then 
+  sed -ri "s:(THREADS=)(.*):${SET_PROC}:" ${CFG_WD} 
+  sed -ri "s:(Thread_Count=)(.*):${SET_PROC}:" ${CFG_mircat}
+fi
+if [[ "$booleanYorN" == "[nN]" ]]; then
+  read -p "Please specify the maximum amount of core to be used " N_COREs
+  sed -ri "s:(THREADS=)(.*):${N_COREs}:" ${CFG_WD}
+  sed -ri "s:(Thread_Count=)(.*):${N_COREs}:" ${CFG_mircat}
+
+fi 
+
+TOTAL_MEM=$(free -g | grep Mem: | awk '{print $2}')
+SET_MEM=$(( $TOTAL_MEM - 2 ))
+read -n1 -p "You have ${TOTAL_MEM}Gb of ram maximum ram will be set to ${SET_MEM}Gb. (Y/N)" booleanYorN
+
+case $booleanYorN in
+  y|Y) echo "Setting to ${SET_MEM}";;
+  n|N) echo "Not set";;
+  *) echo "Invalid input";;
+esac
+if [[ "$booleanYorN"  == "[nN]" ]]; then
+  read -p "Please specify the amount of maximum RAM to be used by pipeline in Gigabytes" memory
+  sed -ri "s:(MEMORY=)(.*):${memory}:" ${CFG_WD}
+fi
+if [[ "$boolean" == "[yY]" ]]; then
+  sed -ri "s:(MEMORY=)(.*):${SET_MEM}:" ${CFG_WD}
+fi
+        
+
 
 
 exit 0
