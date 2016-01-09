@@ -12,6 +12,8 @@ Simply type in your chosen directory::
     git clone https://github.com/forestbiotech-lab/sRNA-workflow
     cd
 
+Guid
+^^^^
 
 .. toctree::
    :maxdepth: 2
