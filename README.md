@@ -1,6 +1,8 @@
 # sRNA-workflow
-Analysis workflow for plant smallRNA sequencing data.
 
+**Check out our read the docs page for a more structed overview of this project:**
+<ul>http://srna-workflow.rtfd.org/</ul>
+  
 **sRNAworkflow: a pipeline for analysis of large-scale plant small RNA datasets**
 
 Costa B.V.<sup>1</sup>, Rodrigues A<sup>1,2</sup>, Chaves I<sup>1</sup>, Bohn A<sup>2</sup>, Miguel C<sup>1,2</sup>
