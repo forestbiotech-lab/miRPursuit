@@ -6,9 +6,9 @@
 # Created by Bruno Costa on 25/05/2015.
 # Copyright 2015 ITQB / UNL. All rights reserved.
 # Executes the complete pipline
-# Call: sRNAworkFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [THREADS] [FILTER SUFFIX] [Genome]
+# Call: sRNAworkFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [STEP]
 
-
+set -e
 
 while [[ $# > 0 ]]
 do
@@ -67,6 +67,8 @@ if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
   echo "use -h|--help for list of commands"
   exit 0
 fi
+##Should check if libraries exit
+
 
 if [[ ! -z "$step" ]]; then
   if [[ "$step" -gt 5 ]]; then
@@ -84,11 +86,24 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 echo "Running pipeline with the following arguments:"
 echo "FIRST Library     = ${LIB_FIRST}"
-echo "Last Library    = ${LIB_LAST}"
+echo "Last Library      = ${LIB_LAST}"
 echo "Number of threads = ${THREADS}"
-echo "Filter suffix = ${FILTER_SUF}"
-echo "Genome = "${GENOME}
-echo "Genome mircat = "${GENOME_MIRCAT}
+#Test numer of cores is equal or lower the avalible
+
+#Test Filter exists
+echo "Filter suffix     = ${FILTER_SUF}"
+if [[ -e "${GENOME}" ]]; then        
+  echo "Genome          = "${GENOME}
+else
+  echo "Error - The given genome file doesn't exist please check the file exists. Correct the config file"
+  exit 127
+fi
+
+if [[ -e "${GENOME_MIRCAT}" ]]; then        
+  echo "Genome mircat = "${GENOME_MIRCAT}
+else
+  echo "Error - The given genome file for mircat doesn't exit please check the file exists. Correct the config file."
+fi
 #nonempty string bigger than 0 (Can't remember purpose of this!)
 if [[ -n $1 ]]; then 
   echo "Last line of file specified as non-opt/last argument:"
@@ -163,25 +178,48 @@ fi
 if [[ "$step" -eq 5 ]]; then
   mkdir -p ${workdir}count
   novel=${workdir}count/all_seq_counts_novel.tsv
+  novelNonCons=${workdir}count/all_seq_counts_nonCons.tsv
   tasi=${workdir}count/all_seq_counts_tasi.tsv
+  novelTasi=${workdir}count/all_seq_counts_novelTasi.tsv
   cons=${workdir}count/all_seq_counts_cons.tsv
+  consSeq=${workdir}count/all_seq_cons.seq
+  star=${workdir}count/all_seq_star.seq
+  reunion=${workdir}count/all_seq.tsv
   tasiSeq=`mktemp /tmp/tasiSeq.XXXXXX`
   tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
   #Get count matrix save to counts
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons 
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel 
   $SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/lib*-tasi.fa" "tasi" $THREADS > $tasi
-  #integrate
+
 
   #$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
   
   #This has a script why the snippet instead directly here?
-  awk '{if(NR>1){print $1}}' $tasi > $tasiSeq
-  grep -wf $tasiSeq $novel | awk '{print $1}' | xargs -n 1 -I pattern sed -ir "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novel
-  grep "tasi" $novel | awk '{print $1}' > $tasiNovel
-  grep -v "lib" $tasi | grep -wvf $tasiNovel >> $novel
-  grep -v "lib" $cons >> $novel
 
+  ##Get the list of seqs with star 
+  cat ${workdir}data/mircat/*output_filtered.csv | awk -F ',' '{if($14!="NO"){if($7!="Sequence"){print $7}}}' | sort | uniq > $star
+
+  ###Merging classifications
+  awk '{if(NR>1){print $1}}' $tasi > $tasiSeq
+  #Merge tasi with novel
+  grep -wf $tasiSeq $novel | awk '{print $1}' | xargs -n 1 -I pattern sed -ir "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novel
+  ##!!!!Losing tasi if cons
+  awk '{if(NR>1){print $1}}' $cons > $consSeq
+  grep -wvf $consSeq $novel > $novelNonCons
+  grep "tasi" $novelNonCons | awk '{print $1}' > $tasiNovel
+  #Create new file for all conserved
+  cp $cons $novelTasi
+  #Add tasi that aren't novel
+  grep -v 'lib' $tasi | grep -wvf $tasiNovel >> $novelTasi
+  #Add novel and novel tasi
+  grep -v "lib" $novelNonCons >> $novelTasi
+  #Add header to new file with all classifications
+  head -1 $novelTasi > $reunion
+  #Find seq that have star and add to new file
+  grep -wf $star $novelTasi | awk '{printf $1"\t"$2" star";for(i=3;i<=NF;i++){printf "\t"$i};printf "\n"}' >> $reunion
+  #Add the sequences that aren't star
+  grep -v "lib" $novelTasi | grep -vwf $star >> $reunion
 
   #reports
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}

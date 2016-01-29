@@ -35,23 +35,36 @@ fi
 
 
 #FASTQ
-files=""
-output="${workdir}count/Fastq-$label.tsv"
-echo $output
-echo "Lib Total Distinct" > $output
-for lib in $CYCLE
-  do
-  lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/fastq/lib${lib_now}.fq
-  distinct=$(grep "^[ATCG]*$" $file | sort | uniq | wc -l)
-  total=$(( $(wc -l $file | awk '{print $1}') / 4 ))
-  files=$files" "$file 
-  echo "Lib${lib_now} $total  $distinct" >> $output
-done
-total_d=$(cat $files | grep "^[ATGC]*$" | sort | uniq | wc -l)
-total=$(( $(cat $files | wc -l ) / 4 ))
-echo "Total $total $total_d" >> $output
+#TODO
+#if [[exits fastq files..... ]]; then
+if [[ -d "${workdir}data/fastq" ]]; then
 
+  files=""
+  output="${workdir}count/Fastq-$label.tsv"
+  echo $output
+  echo "Lib Total Distinct" > $output
+  for lib in $CYCLE
+    do
+    lib_now=$(printf "%02d\n" $lib)
+    file=${workdir}data/fastq/lib${lib_now}.fq
+    if [[ -e "$file" ]]; then  
+      distinct=$(grep "^[ATCG]*$" $file | sort | uniq | wc -l)
+      total=$(( $(wc -l $file | awk '{print $1}') / 4 ))
+      files=$files" "$file 
+      echo "Lib${lib_now} $total  $distinct" >> $output
+    else
+      echo "Lib${lib_now} NA  NA" >> $output
+    fi
+  done
+  total_d=$(cat $files | grep "^[ATGC]*$" | sort | uniq | wc -l)
+
+  filesLines=$(cat $files | wc -l ) 
+  if [[ "$filesLines" -gt 3 ]];then
+    total=$(( $fileLines / 4 ))
+  fi
+  echo "Total $total $total_d" >> $output
+
+fi
 
 #TODO Check if adaptor reports exist.
 

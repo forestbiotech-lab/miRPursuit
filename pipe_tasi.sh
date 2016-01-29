@@ -37,7 +37,7 @@ do
   echo " "$RUN_TASI
   $RUN_TASI
 
-  #This produces a fasta file that may have repeated sequences only use for counting (Sorting is done I think the problem is solved already)
+  #This produces a fasta file that may have repeated sequences only use for counting
   awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1"("$2")"}}' ${DATA_DIR}"/tasi/lib${LIB_NOW}"*"_noncons_tasi_srnas.txt" | sort | uniq | awk -F "[()]" '{print ">"$1"("$2")";newline;print $1}' > "${DATA_DIR}/tasi/lib${LIB_NOW}-tasi.fa"
 
   #awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print ">"$1"("$2")";newline;print $1}}' ${DATA_DIR}"/tasi/lib${LIB_NOW}"*"_noncons_tasi_srnas.txt" > "${DATA_DIR}/tasi/lib${LIB_NOW}-tasi.fa"
