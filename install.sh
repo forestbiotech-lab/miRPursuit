@@ -110,10 +110,10 @@ if [[ -z "$WBENCH_DIR" ]]; then
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
   wbench_filename=srna-workbenchV3.01_ALPHA.zip
+  wbench_basename=$(basename $wbench_filename)
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
-  sed -r "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_filename}:" ${CFG} > temp_12345678987654321
-  mv temp_12345678987654321 ${CFG}
+  sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_basename}:" ${CFG}
   cd -
 fi
 
