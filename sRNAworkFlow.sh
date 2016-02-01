@@ -98,7 +98,12 @@ else
   echo "Error - The given genome file doesn't exist please check the file exists. Correct the config file"
   exit 127
 fi
-
+if [[ -z "${workdir}" ]]; then
+  echo "Non set: No workdir has been set please don't put a trailing /, see config workdirs.cfg"
+  exit 127
+else
+  echo "Working directory (workdir) =  ${workdir}"      
+fi        
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
   echo "Genome mircat = "${GENOME_MIRCAT}
 else
