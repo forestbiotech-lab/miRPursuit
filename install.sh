@@ -29,7 +29,7 @@ CFG_mircat=${DIR}/config/wbench_mircat.cfg
 . $CFG
 
 if [[ -z "$SOFTWARE" ]]; then
-  SOFTWARE="${HOME}/.software"
+  SOFTWARE="${HOME}/.Software"
   sed -r "s:(SOFTWARE=)(.*):\1${HOME}/.software:" ${CFG}  > temp_12345678987654321
   mv temp_12345678987654321 ${CFG}
 fi
