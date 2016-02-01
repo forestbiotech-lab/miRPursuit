@@ -116,7 +116,7 @@ fi
 mkdir -p $workdir"log/"
 log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":run_full_pipline:"$2":"$3)".log"
 echo ${log_file}
-exec 2>&1 > ${log_file}
+exec 2>&1 | tee ${log_file}
 
 SCRIPTS_DIR=$DIR"/scripts"
 
@@ -171,64 +171,15 @@ if [[ "$step" -eq 3 ]]; then
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
-  echo " Step 4 - Running mircat..."
+  echo -ne " Step 4 - Running mircat..."
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
-  mkdir -p ${workdir}count
-  novel=${workdir}count/all_seq_counts_novel.tsv
-  novelNonCons=${workdir}count/all_seq_counts_nonCons.tsv
-  tasi=${workdir}count/all_seq_counts_tasi.tsv
-  novelTasi=${workdir}count/all_seq_counts_novelTasi.tsv
-  cons=${workdir}count/all_seq_counts_cons.tsv
-  consSeq=${workdir}count/all_seq_cons.seq
-  star=${workdir}count/all_seq_star.seq
-  reunion=${workdir}count/all_seq.tsv
-  tasiSeq=`mktemp /tmp/tasiSeq.XXXXXX`
-  tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
-  #Get count matrix save to counts
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons 
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel 
-  $SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/lib*-tasi.fa" "tasi" $THREADS > $tasi
-
-
-  #$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
-  
-  #This has a script why the snippet instead directly here?
-
-  ##Get the list of seqs with star 
-  cat ${workdir}data/mircat/*output_filtered.csv | awk -F ',' '{if($14!="NO"){if($7!="Sequence"){print $7}}}' | sort | uniq > $star
-
-  ###Merging classifications
-  awk '{if(NR>1){print $1}}' $tasi > $tasiSeq
-  #Merge tasi with novel
-  grep -wf $tasiSeq $novel | awk '{print $1}' | xargs -n 1 -I pattern sed -ir "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novel
-  ##!!!!Losing tasi if cons
-  awk '{if(NR>1){print $1}}' $cons > $consSeq
-  grep -wvf $consSeq $novel > $novelNonCons
-  grep "tasi" $novelNonCons | awk '{print $1}' > $tasiNovel
-  #Create new file for all conserved
-  cp $cons $novelTasi
-  #Add tasi that aren't novel
-  grep -v 'lib' $tasi | grep -wvf $tasiNovel >> $novelTasi
-  #Add novel and novel tasi
-  grep -v "lib" $novelNonCons >> $novelTasi
-  #Add header to new file with all classifications
-  head -1 $novelTasi > $reunion
-  #Find seq that have star and add to new file
-  grep -wf $star $novelTasi | awk '{printf $1"\t"$2" star";for(i=3;i<=NF;i++){printf "\t"$i};printf "\n"}' >> $reunion
-  #Add the sequences that aren't star
-  grep -v "lib" $novelTasi | grep -vwf $star >> $reunion
-
-  #reports
+  echo -ne " Step 5 - Running counts \[##################     \]  %\033[OK\r"
+  ${DIR}/counts_merge.sh 
+  echo -ne " Step 5 - Running report \[#####################  \]  %\033[OK\r"
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
-
-  #clean up
-  rm $tasiNovel $tasiSeq
-
-
-
 fi
 
   
@@ -237,6 +188,7 @@ ok_log=${log_file/.log/:OK.log}
 
 echo $ok_log
 mv $log_file $ok_log
-echo "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in s\n" > $ok_log
+printf "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in ${SECONDS}s\n" > $ok_log
+echo " Finished - sRNA-workflow finished sucessefully."
 
 exit 0

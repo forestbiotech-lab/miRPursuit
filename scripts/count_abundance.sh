@@ -87,7 +87,7 @@ function seqCount {
     ##Construction of output line for other sequences      
     res="${lineFunc}\t"
   else
-    echo "Terminated prematurly due to lack of argument class"      
+    echo "Error - Terminated prematurly due to lack of argument class. $0:::Line:$LINENO  "      
     exit 1
   fi        
  

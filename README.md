@@ -280,7 +280,6 @@ This script is not memory intensive no memory settings have to be set to run the
 <ul>inputs: [First_lib][Last_lib][template] </ul>
 <ul>ouputs: [workdir]/data/fasta/</ul>
 </ul>
-</ul>
 
 <ul><strong>pipe_fastq.sh</strong>
 <br>Description: Copies fastq files to workdir based on template.<br>The template provided must be any identifying array of charactersimediatly before the serialization.<br>Ex: Test-data-1.fq use --fastq data- or --fastq Test-data-
@@ -293,6 +292,13 @@ This script is not memory intensive no memory settings have to be set to run the
 <ul>inputs: [First_lib][Last_lib][template] </ul>
 <ul>ouputs: [workdir]/data/fasta/</ul>
 </ul>
+
+<ul><strong>counts_merge.sh</strong>
+<br>Description: Produces and merges together the count tables for the project
+<br>
+<ul>Configuration: Set THREADS,workdir in config/workdir.cfg</ul>
+<ul>inputs: Config file only no arguments necessary</ul>
+<ul>ouputs: [workdir]/counts/</ul>
 </ul>
 
 
