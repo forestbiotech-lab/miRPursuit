@@ -66,31 +66,30 @@ However if the .fastq files are in .gz archives they can also be used, given the
     cd /toDesiredLocation/
     unzip sRNA-workFlow-master.zip
 
-<h5>Common Installation</h5>
-<ul>Set software dir in config file</ul>
-
-    cd /pathtoSrnaWorkFlow/
-    vim config/software_dirs.cfg
-
-<ul>
-  <ul>Fill out the software var. And set the paths to any program listed if already installed.</ul>
-</ul>
+<h5>Dependancies</h5> 
 <ul>To install the necessary dependancies you can run install.sh in the main folder</ul>
 
     cd /pathtoSrnaWorkFLow/
     sh install.sh
+
+<h5>Custom Installation</h5>
+<ul>Set software dir in config file</ul>
+<ul>Fill out the software variables in the software.cfg file. <br>Set the paths to any program listed if already installed.</ul>
+
+    cd /pathtoSrnaWorkFlow/
+    vim config/software_dirs.cfg
 
 
 <h5>Running test dataset</h5>
 <ul>A test dataset was provided to ensure the pipeline is installed successfully
    <ul>edit config/workdirs.cfg </ul>
    <ul>Set INSERTS_DIRS=pathToworkFlowDir/testDataset</ul>
-   <ul>Use as referenece genome a simple plant genome. (Dataset has sRNAS detected by C.Canefora)</ul>
+   <ul>Use as referenece genome a simple plant genome. (Dataset has sRNAS detected by C.canephora genome)</ul>
 </ul>   
 
-    bash pathToworkFlowDir/sRNAworkFlow.sh -f 1 -l 2 --fasta test_dataset-
+<ul>Example code to analyse test_dataset (Make sure all var above mentions are already set):</ul>
 
-  
+    bash pathToworkFlowDir/sRNAworkFlow.sh -f 1 -l 2 --fasta test_dataset-
 
 
 <h3>Analysing sRNA</h3>
