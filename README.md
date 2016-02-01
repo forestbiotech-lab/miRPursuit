@@ -70,7 +70,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <ul>To install the necessary dependancies you can run install.sh in the main folder</ul>
 
     cd /pathtoSrnaWorkFLow/
-    sh install.sh
+    ./install.sh
 
 <h5>Custom Installation</h5>
 <ul>Set software dir in config file</ul>

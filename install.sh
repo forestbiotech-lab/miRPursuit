@@ -15,7 +15,7 @@ green='\e[0;32m'
 NC='\e[0m' # No Color
 
 
-
+echo "Run as ./install.sh or it will produce errors"
 echo "Checking avalible software"
 
 ##Gets the scipt directory
