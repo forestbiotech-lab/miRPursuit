@@ -54,15 +54,15 @@ However if the .fastq files are in .gz archives they can also be used, given the
 
 
 <h3>Installation</h3>
-<h5>From git hub</h5>
-  <ul>cd /toDesiredLocation/</ul>
-  <ul>git clone https://github.com/forestbiotech-lab/sRNA-workflow.git</ul>
-  <ul>cd sRNA-workflow</ul>
+<h5>From git hub</h5>::
+    cd /toDesiredLocation/
+    git clone https://github.com/forestbiotech-lab/sRNA-workflow.git
+    cd sRNA-workflow
 
-<h5>From tar</h5>
-  <ul>Download archeive from github</ul>
-  <ul>cd /toDesiredLocation/</ul>
-  <ul>unzip sRNA-workFlow-master.zip</ul>
+<h5>From tar</h5>::
+    Download archeive from github
+    cd /toDesiredLocation/
+    unzip sRNA-workFlow-master.zip
 
 <h5>Common Installation</h5>
 <ul>Set software dir in config file

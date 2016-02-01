@@ -66,7 +66,7 @@ if [[ "$patman" == "TRUE" ]]; then
   echo "patman has been add to you path in ~/.profile if necessary add it to a more convinent location or change binaries to a directory in your path"
   echo "##Added patman to path" >> ${HOME}/.profile
   echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/" >> ${HOME}/.profile
-  export "PATH=${PATH}:${SOFTWARE}/patman-1.2.2/"
+  export PATH=${PATH}:${SOFTWARE}"/patman-1.2.2/"
   patman -V	
   cd -
 fi
@@ -100,7 +100,7 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   echo "Fastx_toolkit has been add to you path in ~/.profile if necessary add it to a more convinent location or change binaries to a directory in your path"
   echo "##Added Fastx_toolkit binaries to path" >> ${HOME}/.profile
   echo "PATH=\$PATH:${SOFTWARE}/bin/" >> ${HOME}/.profile
-  export "PATH=${PATH}:${SOFTWARE}/bin/"
+  export PATH=${PATH}:${SOFTWARE}"/bin/"
   cd -
 fi
 #UEA sRNA workbench  || Get creative....
