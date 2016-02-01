@@ -133,13 +133,14 @@ do
 	case $boolreanYorN in
 	  y|Y) echo "Creating folder";mkdir -p ${SOURCE_DATA};;
 	  n|N) echo "";;
-	  *) echo "Prompt ignored, creating folder";;
+    *) echo "Invalid input please type either (Y/N)";;
 	esac
 done
 
 if [[ $booleanYorN == [nN]  ]]; then
 read -p "Please enter the full path where source_data should be created " SOURCE_DATA
- mkdir -p $SOURCE_DATA  
+ mkdir -p $SOURCE_DATA"/source_data"
+ echo "Directory source_data was created in: $SOURCE_DATA" 
 fi
 unset booleanYorN 
 
@@ -150,7 +151,7 @@ do
   case $booleanYorN in 
     y|Y) echo -e "\nDownloading mirbase";;
     n|N) echo "Skipped mirbase installtion please set up this value in config file";;
-    *)  echo "Invalid Input ";;
+    *)  echo "Invalid Input please type either (Y/N) ";;
   esac  
 done
 if [[ "$booleanYorN" == [yY] ]]; then 
