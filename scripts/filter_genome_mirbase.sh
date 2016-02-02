@@ -52,8 +52,15 @@ echo ${IN_ROOT}" genome filtering"
 
 # align bowtie2 with genome
 #bowtie ${GENOME} -f ${FILE} -v 0 --best --al ${OUT_FILT_GENOME} -p ${THREADS} > ${OUT_REPORT}
-patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
 
+#Testing if file exists and script has permissions to run it.
+testPatman=$(which patman)
+if [[ -e $testPatman && -x $testPatman ]]; then
+ patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
+else
+ echo "Error - Patman is no proparly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
+ exit 127
+fi
 
 #Patman sorting
 awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
