@@ -11,7 +11,10 @@
 
 # OUTPUT-COLORING
 red='\e[0;31m'
+blue='\e[0;34m'
 green='\e[0;32m'
+blink='\e[5m'
+invert='\e[7m'
 NC='\e[0m' # No Color
 
 
@@ -85,6 +88,8 @@ if [[ -z "$JAVA_DIR" ]]; then
   mv temp_12345678987654321 ${CFG}
   #preform test to ensure installed sucessfully
   echo "Java installed - Java added to software_dirs.cfg"
+  sleep 1
+  echo ""
 fi
 
 #Fastx_toolkit installation
@@ -110,10 +115,10 @@ if [[ -z "$WBENCH_DIR" ]]; then
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
   wbench_filename=srna-workbenchV3.01_ALPHA.zip
-  wbench_basename=$(basename $wbench_filename)
+  wbench_folder=$(unzip -l ~/.software/srna-workbenchV3.01_ALPHA.zip | grep "Workbench.jar" | awk '{print $4}'| awk -F "/" '{print $1}')
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
-  sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_basename}:" ${CFG}
+  sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_folder}:" ${CFG}
   cd -
 fi
 
@@ -123,7 +128,7 @@ fi
 source ~/.profile
 
 echo -e "${green}Installation completed...${NC} However please check patman is in your path if not please restart your terminal"
-
+sleep 1
 echo "Configuring the workdir parameters."
 
 
@@ -132,7 +137,7 @@ do
 	read -n1 -p "Create source data folder (Where genomes and other stuff will be) in: ${SOURCE_DATA} ? (Y/N)" booleanYorN
 	case $boolreanYorN in
 	  y|Y) echo "Creating folder";mkdir -p ${SOURCE_DATA};;
-	  n|N) echo "";;
+	  n|N) echo "Alternative path";;
     *) echo "Invalid input please type either (Y/N)";;
 	esac
 done
@@ -151,7 +156,7 @@ do
   case $booleanYorN in 
     y|Y) echo -e "\nDownloading mirbase";;
     n|N) echo "Skipped mirbase installtion please set up this value in config file";;
-    *)  echo "Invalid Input please type either (Y/N) ";;
+    *)  echo -e"\nInvalid Input please type either (Y/N) ";;
   esac  
 done
 if [[ "$booleanYorN" == [yY] ]]; then 
@@ -228,6 +233,7 @@ read -p "	(Please work with backuped files) " inserts_dir
 
 echo -e "\nYour current settings are:"
 echo $(cat ${CFG_WD})
+echo -e "${blue}Don't forget to ${blink}restart ${NC}${blue}terminal or ${NC}source~/.profile"
 echo -e "${green}Installation finished${NC}"
 
 exit 0
