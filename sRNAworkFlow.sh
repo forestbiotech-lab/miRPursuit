@@ -107,6 +107,11 @@ else
   >&2 echo -e "${red}Error${NC} - The given genome file doesn't exist please check the file exists. Correct the config file"
   exit 127
 fi
+if [[ -e "${GENOME_MIRCAT}" ]]; then        
+  echo "Genome mircat               = "${GENOME_MIRCAT}
+else
+  echo -e "${red}Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the config file."
+fi
 if [[ -e "${MIRBASE}" ]]; then        
   echo "miRBase                     = "${MIRBASE}
 else
@@ -120,16 +125,11 @@ else
   echo "Working directory (workdir) =  ${workdir}"      
 fi        
 if [[ -d "${INSERTS_DIR}" ]]; then
-  echo "sRNA directory (INSERTS_DIR)=  ${INSERTS}"      
+  echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"      
 else        
   echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config workdirs.cfg"
   exit 127
 fi        
-if [[ -e "${GENOME_MIRCAT}" ]]; then        
-  echo "Genome mircat = "${GENOME_MIRCAT}
-else
-  echo -e "${red}Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the config file."
-fi
 #nonempty string bigger than 0 (Can't remember purpose of this!)
 if [[ -n $1 ]]; then 
   echo "Last line of file specified as non-opt/last argument:"
@@ -220,5 +220,8 @@ echo $ok_log
 mv $log_file $ok_log
 printf "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in ${SECONDS}s\n" > $ok_log
 >&2 echo -e "${green}Finished${NC} - sRNA-workflow finished successfully."
-
+SOFT_CFG=${DIR}"/config/software_dirs.cfg
+. $SOFT_CFG
+RUN=$(( $RUN + 1 ))
+sed -ri "s:(RUN=)(.*):\1${RUN}:" ${SOFT_CFG}
 exit 0

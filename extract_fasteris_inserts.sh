@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # extract_fasteris_inserts.sh
 # 
@@ -8,6 +8,8 @@
 # Copyright 2015 ITQB / UNL. All rights reserved.
 
 # Call: extract_fasteris_inserts.sh [LIB_FIRST] [LIB_LAST]
+set -e
+
 
 #Name inputs
 LIB_FIRST=$1

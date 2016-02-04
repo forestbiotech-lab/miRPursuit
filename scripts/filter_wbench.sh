@@ -35,7 +35,12 @@ OUT_FILE=${CSV_DIR}${IN_ROOT}"_filt-"$2".fa"
 echo $1" wbench filtering"
 
 # run sRNA_Workbench filter
-${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file $1 -out_file $OUT_FILE -params $CFG
+if [[ $RUN == 0 ]]; then
+ >&2 echo "                                                                                                      "
+ >&2 ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file $1 -out_file $OUT_FILE -params $CFG
+else
+  ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file $1 -out_file $OUT_FILE -params $CFG
+fi
 
 # move and rename overview produced by wb_filter
 mv ${OUT_FILE}_overview.csv ${OUT_CSV}
