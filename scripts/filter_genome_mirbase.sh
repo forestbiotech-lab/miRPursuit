@@ -16,7 +16,7 @@ SOURCE=$2
 # Loading cfg vars
 . ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
-
+. ${SOURCE}"/config/term-colors.cfg"
 #Rename workdir var beacause of reconfig
 WORKDIR=$workdir
 
@@ -59,7 +59,7 @@ if [[ -e $testPatman && -x $testPatman ]]; then
  patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
 else
  ##This is not printing out to user?? Fix this       
- >&2 echo "Error - Patman is no proparly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
+ >&2 echo -e "${red}Error${NC} - Patman is no proparly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
  exit 127
 fi
 

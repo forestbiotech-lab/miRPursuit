@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # filter_wbench.sh
 # 
@@ -35,7 +35,7 @@ OUT_FILE=${CSV_DIR}${IN_ROOT}"_filt-"$2".fa"
 echo $1" wbench filtering"
 
 # run sRNA_Workbench filter
-if [[ $RUN == 0 ]]; then
+if [[ "$RUN" == 0 ]]; then
  >&2 echo "                                                                                                      "
  >&2 ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file $1 -out_file $OUT_FILE -params $CFG
 else
