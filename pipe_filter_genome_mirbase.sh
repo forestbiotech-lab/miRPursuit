@@ -8,6 +8,7 @@
 # Copyright 2015 ITQB / UNL. All rights reserved.
 
 # Call: pipe_filter_genome_mirbase.sh  [LIB_FIRST] [LIB_LAST]
+set -e
 
 LIB_FIRST=$1
 LIB_LAST=$2
@@ -24,7 +25,7 @@ echo "Runnning with ${MAXPROC} threads"
 # define log file
 log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":filter_genome_&_mirbase:"$1":"$2)".log"
 echo ${log_file}
-exec 2>&1 > ${log_file}
+exec >&1 > ${log_file}
 SCRIPT_DIR=${DIR}"/scripts/"
 DATA_DIR=${workdir}"data/"
 
@@ -63,3 +64,4 @@ ok_log=${log_file/.log/:OK.log}
 echo $(basename $ok_log)
 mv $log_file $ok_log
 
+exit 0

@@ -10,6 +10,15 @@
 
 set -e
 
+# OUTPUT-COLORING
+red='\e[0;31m'
+blue='\e[0;34m'
+green='\e[0;32m'
+blink='\e[5m'
+unblink='\e[25m'
+invert='\e[7m'
+NC='\e[0m' # No Color
+
 while [[ $# > 0 ]]
 do
   key="$1"
@@ -40,22 +49,22 @@ case $key in
   shift # past argument
   ;;
   -h|--help)
-  echo " 
-  -f|--lib-first
+  echo -e " 
+  ${blue}-f|--lib-first
   -l|--lib-last
-  -h|--help
+  -h|--help${NC}
   ---------------------
   Optional args
   ---------------------
-  -s|--step Step is an optional argument used to jump steps to start the analysis from a different point  
-      Step 1: Wbench Filter
-      Step 2: Filter Genome & mirbase
-      Step 3: Tasi
-      Step 4: Mircat
-      Step 5: PAREsnip    
-  --lc Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
-  --fasta Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
-  --fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.  
+  ${blue}-s|--step${NC} Step is an optional argument used to jump steps to start the analysis from a different point  
+      ${green}Step 1${NC}: Wbench Filter
+      ${green}Step 2${NC}: Filter Genome & mirbase
+      ${green}Step 3${NC}: Tasi
+      ${green}Step 4${NC}: Mircat
+      ${green}Step 5${NC}: PAREsnip    
+ ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
+ ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
+ ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.  
   "
   exit 0
 esac
@@ -63,17 +72,17 @@ shift # past argument or value
 done
 
 if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
-  echo "Missing mandatory parameters"
-  echo "use -h|--help for list of commands"
-  exit 0
+  echo -e"${red}Invalid input${NC} - Missing mandatory parameters"
+  echo -e "use ${blue}-h|--help${NC} for list of commands"
+  exit 127
 fi
 ##Should check if libraries exit
 
 
 if [[ ! -z "$step" ]]; then
-  if [[ "$step" -gt 5 ]]; then
-     echo "Terminating - That step doen't exist please specify a lower step"         
-     exit 0
+  if [[ "$step" -gt 5 || "$step" -lt 1 ]]; then
+     >&2 echo -e "${red}Terminating${NC} - That step doen't exist please specify a lower step"         
+     exit 127
   fi
 fi
 
@@ -85,9 +94,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 echo "Running pipeline with the following arguments:"
-echo "FIRST Library                 = ${LIB_FIRST}"
-echo "Last Library                  = ${LIB_LAST}"
-echo "Number of threads             = ${THREADS}"
+printf "FIRST Library\t\t\t= ${LIB_FIRST}\n"
+printf "Last Library\t\t\t= ${LIB_LAST}\n"
+printf "Number of threads\t\t\t= ${THREADS}\n"
 #Test numer of cores is equal or lower the avalible
 
 #Test Filter exists
@@ -95,17 +104,17 @@ echo "Filter suffix                 = ${FILTER_SUF}"
 if [[ -e "${GENOME}" ]]; then        
   echo "Genome                      = "${GENOME}
 else
-  echo "Error - The given genome file doesn't exist please check the file exists. Correct the config file"
+  >&2 echo -e "${red}Error${NC} - The given genome file doesn't exist please check the file exists. Correct the config file"
   exit 127
 fi
 if [[ -e "${MIRBASE}" ]]; then        
   echo "miRBase                     = "${MIRBASE}
 else
-  echo "Error - The given mirbase file doesn't exist please check the file exists. Correct the config file"
+  echo -e "${red}Error${NC} - The given mirbase file doesn't exist please check the file exists. Correct the config file"
   exit 127
 fi
 if [[ -z "${workdir}" ]]; then
-  echo "Not set: No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg"
+  echo -e "${red}Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg"
   exit 127
 else
   echo "Working directory (workdir) =  ${workdir}"      
@@ -113,13 +122,13 @@ fi
 if [[ -d "${INSERTS_DIR}" ]]; then
   echo "sRNA directory (INSERTS_DIR)=  ${INSERTS}"      
 else        
-  echo "Invalid dir: The inserts directory hasn't been configured properally, see config workdirs.cfg"
+  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config workdirs.cfg"
   exit 127
 fi        
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
   echo "Genome mircat = "${GENOME_MIRCAT}
 else
-  echo "Error - The given genome file for mircat doesn't exit please check the file exists. Correct the config file."
+  echo -e "${red}Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the config file."
 fi
 #nonempty string bigger than 0 (Can't remember purpose of this!)
 if [[ -n $1 ]]; then 
@@ -131,9 +140,9 @@ fi
 
 
 mkdir -p $workdir"log/"
-log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":run_full_pipline:"$2":"$3)".log"
+log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":run_full_pipline:"${LIB_FIRST}":"${LIB_LAST})".log"
+exec >&1 > ${log_file}
 echo ${log_file}
-exec 2>&1 | tee ${log_file}
 
 SCRIPTS_DIR=$DIR"/scripts"
 
@@ -143,69 +152,73 @@ if [[ -z "$step" ]]; then
 fi
 
 if [[ ! -z "$LC" ]]; then
-  echo "Running in LC mode."
+  >&2 echo -e "${blue}Running in LC mode.${NC}"
   ${DIR}/extract_lcscience_inserts.sh $LIB_FIRST $LIB_LAST $LC
   step=1
 fi
 if [[ ! -z "$fastq" ]]; then
-  echo "Running in fastq mode."
+  >&2 echo -e "${blue}Running in fastq mode.${NC}"
   ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
   step=1
 fi
 if [[ ! -z "$fasta" ]]; then
-  echo "Running in fasta mode."
+  >&2 echo -e "${blue}Running in fasta mode.${NC}"
   ${DIR}/pipe_fasta.sh $LIB_FIRST $LIB_LAST $fasta
   step=1
 fi
 
-
-
-
-
 if [[ "$step" -eq 0 ]]; then        
   #Concatenate and convert to fasta
-  echo "Step 0 - Concatenating lib and converting to fasta..."
+  >&2 echo -ne "${blue} Step 0${NC} - Concatenating libs and converting to fasta\t[                         ]  0%\r"
   ${DIR}/extract_fasteris_inserts.sh $LIB_FIRST $LIB_LAST
   step=1
 fi 
 if [[ "$step" -eq 1 ]]; then
   #Filter size, t/rRNA, abundance.
-  echo "Step 1 - Filtering lib workbench Filter..."
+  >&2 echo -ne "${blue} Step 1${NC} - Filtering lib workbench Filter            \t[#####                    ] 20%\r"
   ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST $FILTER_SUF
   step=2
 fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
-  echo "Step 2 - Filtering against genome and mirbase..."
+  >&2 echo -ne "${blue}Step 2${NC} - Filtering against genome and mirbase       \t[##########               ] 40%\r"
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
 fi
 if [[ "$step" -eq 3 ]]; then 
   #tasi
-  echo "Step 3 - Running tasi, searching for tasi reads..."
+  >&2 echo -ne "${blue} Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
   ${DIR}/pipe_tasi.sh $LIB_FIRST $LIB_LAST 
   step=4
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
-  echo -ne " Step 4 - Running mircat..."
+  >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient slow step)     \t[####################     ] 80%\r"
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
-  echo -ne " Step 5 - Running counts \[##################     \]  %\033[OK\r"
+  >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix     \t[######################   ] 90%\r"
   ${DIR}/counts_merge.sh 
-  echo -ne " Step 5 - Running report \[#####################  \]  %\033[OK\r"
+  >&2 echo -ne "${blue} Step 5${NC} - Running report                            \t[######################## ] 95%\r"
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
 fi
 
-  
-
+  >&2 echo -ne "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%\r"
+  sleep 4
+  >&2 echo "This workflow was created by Forest Biotech Lab - iBET, Portugal"
+  sleep 2
+  >&2 echo "Build around the UEA srna-workbench. http://srna-workbench.cmp.uea.ac.uk/the-uea-small-rna-workbench-version-3-2/" 
+  sleep 2
+  >&2 echo "Feedback: brunocosta@itqb.unl.pt"
+  sleep 2
+  >&2 echo ""
+               
 ok_log=${log_file/.log/:OK.log}
 
 echo $ok_log
 mv $log_file $ok_log
 printf "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in ${SECONDS}s\n" > $ok_log
-echo " Finished - sRNA-workflow finished sucessefully."
+>&2 echo -e "${green}Finished${NC} - sRNA-workflow finished successfully."
 
 exit 0

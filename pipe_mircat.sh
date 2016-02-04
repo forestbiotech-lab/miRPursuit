@@ -7,6 +7,7 @@
 # Copyright 2015 ITQB / UNL. All rights reserved.
 #
 # Call: pipe_filter_wbench.sh [LIB_FIRST] [LIB_LAST]
+set -e
 
 LIB_FIRST=$1
 LIB_LAST=$2
@@ -21,7 +22,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # define log file
 log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":mircat:"$1":"$2)".log"
 #echo ${log_file}
-exec 2>&1 > ${log_file}
+exec >&1 > ${log_file}
 
 #Set directories
 SCRIPTS_DIR=${DIR}"/scripts"
