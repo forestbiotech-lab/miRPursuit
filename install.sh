@@ -98,7 +98,6 @@ fi
 
 #Fastx_toolkit installation
 if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
-  echo $fastq_to_fasta
   echo "Fastx_toolkit installation"
   fastx_toolkit_url="http://hannonlab.cshl.edu/fastx_toolkit/fastx_toolkit_0.0.13_binaries_Linux_2.6_amd64.tar.bz2"
   cd ${SOFTWARE}
@@ -113,6 +112,7 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   cd -
   echo -e "$green Fastx_toolkit installation finished $NC"
   sleep 1
+  echo ""
 fi
 #UEA sRNA workbench  || Get creative....
 
@@ -120,7 +120,6 @@ if [[ -z "$WBENCH_DIR" ]]; then
   workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version3Alpha/srna-workbenchV3.01_ALPHA.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fthe-uea-small-rna-workbench-version-3-01-alpha%2F&ts=1452081706&use_mirror=heanet"
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
-  echo -e "$red $wbench_folder $NC"
   wbench_filename=srna-workbenchV3.01_ALPHA.zip
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
@@ -194,7 +193,7 @@ if [[ "$booleanYorN" == [yY] ]]; then
   fi
   else
     read -n1 -p "The current mirbase dir in config is $MIRBASE do you want to change it? (Y/N)" mirYorN
-    case $mitYorN in
+    case $mirYorN in
       y|Y) echo -e "\n Please set if up";;
       n|N) echo "Value inaltered";;
       *)  echo -e"\nInvalid Input please type either (Y/N) Sorry skipped change value in config ";;

@@ -101,7 +101,7 @@ fi
 if [[ -e "${MIRBASE}" ]]; then        
   echo "miRBase                     = "${MIRBASE}
 else
-  echo "Error - The given genome file doesn't exist please check the file exists. Correct the config file"
+  echo "Error - The given mirbase file doesn't exist please check the file exists. Correct the config file"
   exit 127
 fi
 if [[ -z "${workdir}" ]]; then
@@ -111,10 +111,10 @@ else
   echo "Working directory (workdir) =  ${workdir}"      
 fi        
 if [[ -d "${INSERTS_DIR}" ]]; then
+  echo "sRNA directory (INSERTS_DIR)=  ${INSERTS}"      
+else        
   echo "Invalid dir: The inserts directory hasn't been configured properally, see config workdirs.cfg"
   exit 127
-else
-  echo "sRNA directory (INSERTS_DIR)=  ${workdir}"      
 fi        
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
   echo "Genome mircat = "${GENOME_MIRCAT}
