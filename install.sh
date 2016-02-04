@@ -14,6 +14,7 @@ red='\e[0;31m'
 blue='\e[0;34m'
 green='\e[0;32m'
 blink='\e[5m'
+unblink='\e[25m'
 invert='\e[7m'
 NC='\e[0m' # No Color
 
@@ -33,7 +34,7 @@ CFG_mircat=${DIR}/config/wbench_mircat.cfg
 
 if [[ -z "$SOFTWARE" ]]; then
   SOFTWARE="${HOME}/.Software"
-  sed -r "s:(SOFTWARE=)(.*):\1${HOME}/.software:" ${CFG}  > temp_12345678987654321
+  sed -r "s:(SOFTWARE=)(.*):\1${SOFTWARE}:" ${CFG}  > temp_12345678987654321
   mv temp_12345678987654321 ${CFG}
 fi
 
@@ -115,7 +116,8 @@ if [[ -z "$WBENCH_DIR" ]]; then
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
   wbench_filename=srna-workbenchV3.01_ALPHA.zip
-  wbench_folder=$(unzip -l ~/.software/srna-workbenchV3.01_ALPHA.zip | grep "Workbench.jar" | awk '{print $4}'| awk -F "/" '{print $1}')
+  wbench_folder=$(unzip -l ${SOFTWARE}/${wbench_filename} | grep "Workbench.jar" | awk '{print $4}'| awk -F "/" '{print $1}')
+  echo -e "$red $wbench_folder $NC"
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
   sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_folder}:" ${CFG}
@@ -233,7 +235,7 @@ read -p "	(Please work with backuped files) " inserts_dir
 
 echo -e "\nYour current settings are:"
 echo $(cat ${CFG_WD})
-echo -e "${blue}Don't forget to ${blink}restart ${NC}${blue}terminal or ${NC}source~/.profile"
+echo -e "${blue}Don't forget to ${blink}restart${unblink} terminal or ${NC}source~/.profile"
 echo -e "${green}Installation finished${NC}"
 
 exit 0

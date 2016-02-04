@@ -99,7 +99,13 @@ else
   exit 127
 fi
 if [[ -z "${workdir}" ]]; then
-  echo "Non set: No workdir has been set please don't put a trailing /, see config workdirs.cfg"
+  echo "Not set: No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg"
+  exit 127
+else
+  echo "Working directory (workdir) =  ${workdir}"      
+fi        
+if [[ -d "${INSERTS_DIR}" ]]; then
+  echo "Invalid dir: The inserts directory hasn't been configured properally, see config workdirs.cfg"
   exit 127
 else
   echo "Working directory (workdir) =  ${workdir}"      
