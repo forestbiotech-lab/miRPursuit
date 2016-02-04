@@ -39,25 +39,26 @@ do
 done
 wait
 
+##Deprecated code? Redundant code report calculates this.
 #Count reads
-COUNT_DIR=${workdir}count
-mkdir -p ${COUNT_DIR}
-HEADER="lib\stotal\sdistinct"
-REPORT_OUTPUT="${COUNT_DIR}/"$(date +"%y%m%d:%H%M%S")"-cGenome-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"
-COUNTER=${SCRIPT_DIR}"count_reads.sh"
-#genome
-GENOME_BASENAME=$(basename ${GENOME})
-GENOME_ROOT=${GENOME_BASENAME%.*}
-CF_CNAME=${DATA_DIR}"FILTER-Genome/lib00_filt-"${FILTER_SUF}"_"${GENOME_ROOT}
-cFaGenome=${CF_CNAME}".fa"
-${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaGenome} ${REPORT_OUTPUT} ${HEADER} 
-echo "CounterGenome:"${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaGenome} ${REPORT_OUTPUT} ${HEADER} 
-#mirbase
-cFaMirCONS=${CF_CNAME/FILTER-Genome\//}"_mirbase_cons.fa"
-${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaMirCONS} ${REPORT_OUTPUT/-cGenome-/MirCons} ${HEADER} 
-
-cFaMirNONCONS=${CF_CNAME/FILTER-Genome\//}"_mirbase_noncons.fa"
-${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaMirNONCONS} ${REPORT_OUTPUT/-cGenome-/MirNoncons} ${HEADER} 
+#       COUNT_DIR=${workdir}count
+#       mkdir -p ${COUNT_DIR}
+#       HEADER="lib\stotal\sdistinct"
+#       REPORT_OUTPUT="${COUNT_DIR}/"$(date +"%y%m%d:%H%M%S")"-cGenome-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"
+#       COUNTER=${SCRIPT_DIR}"count_reads.sh"
+#       #genome
+#       GENOME_BASENAME=$(basename ${GENOME})
+#       GENOME_ROOT=${GENOME_BASENAME%.*}
+#       CF_CNAME=${DATA_DIR}"FILTER-Genome/lib00_filt-"${FILTER_SUF}"_"${GENOME_ROOT}
+#       cFaGenome=${CF_CNAME}".fa"
+#       ${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaGenome} ${REPORT_OUTPUT} ${HEADER} 
+#       echo "CounterGenome:"${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaGenome} ${REPORT_OUTPUT} ${HEADER} 
+#       #mirbase
+#       cFaMirCONS=${CF_CNAME/FILTER-Genome\//}"_mirbase_cons.fa"
+#       ${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaMirCONS} ${REPORT_OUTPUT/-cGenome-/MirCons} ${HEADER} 
+#
+#       cFaMirNONCONS=${CF_CNAME/FILTER-Genome\//}"_mirbase_noncons.fa"
+#       ${COUNTER} ${LIB_FIRST} ${LIB_LAST} ${cFaMirNONCONS} ${REPORT_OUTPUT/-cGenome-/MirNoncons} ${HEADER} 
 
 
 ok_log=${log_file/.log/:OK.log}

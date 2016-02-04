@@ -40,8 +40,6 @@ fi
 
 
 #FASTQ
-#TODO
-#if [[exits fastq files..... ]]; then
 if [[ -d "${workdir}data/fastq" ]]; then
 
   files=""
@@ -75,6 +73,7 @@ fi
 
 
 #FASTA
+#Check if file has already been collapsed
 files=""
 output="${workdir}count/Fasta-$label.tsv"
 echo $output
@@ -156,16 +155,22 @@ for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
   file=${workdir}data/mircat/lib${lib_now}*_noncons_miRNA_filtered.fa
-  distinct=$(grep -v ">" $file | sort | uniq | wc -l)
-  total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-  files=$files" "$file 
-  echo $files
+  testNOVEL=$( wc -l ${file} | awk '{print $1}' )
+  total=0
+  distinct=0
+  if [[ "$testNOVEL" -gt 1 ]]; then
+    distinct=$(grep -v ">" $file | sort | uniq | wc -l)
+    total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+    files=$files" "$file 
+    echo $files
+  fi  
   echo "Lib${lib_now} $total  $distinct" >> $output
 done
-total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
-total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-echo "Total $total $total_d" >> $output
-
+if [[ ! -z "$files" ]]; then
+  total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
+  total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+  echo "Total $total $total_d" >> $output
+fi
 
 #TASI
 output="${workdir}/count/TASI-$label.tsv"
@@ -176,18 +181,24 @@ for lib in $CYCLE
   do
   #reset var  
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}"data/tasi/lib"${lib_now}*"_noncons_tasi_srnas.txt"
-  distinct=$(awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' $file | sort | uniq | wc -l)
-  total=$(awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' $file | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-  files=$files" "$file
-  sumTotal=$(( $total + $sumTotal )) 
+  testTASI=$( wc -l ${workdir}"data/tasi/lib${lib_now}-tasi.fa" | awk '{print $1}' )
+  total=0
+  distinct=0
+  if [[ "$testTASI" -gt 1 ]]; then
+    file=${workdir}"data/tasi/lib"${lib_now}*"_noncons_tasi_srnas.txt"
+    distinct=$(awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' $file | sort | uniq | wc -l)
+    total=$(awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' $file | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+    files=$files" "$file
+    sumTotal=$(( $total + $sumTotal )) 
+  fi  
   echo "Lib${lib_now} $total  $distinct" >> $output
 done
-total_d=$(cat $files | awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' | sort | uniq | wc -l)
-#Not calculating
-total=$(cat $files | awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-echo "Total $sumTotal $total_d" >> $output
-
+if [[ ! -z "$file" ]]; then
+  total_d=$(cat $files | awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' | sort | uniq | wc -l)
+  #Not calculating
+  total=$(cat $files | awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+  echo "Total $sumTotal $total_d" >> $output
+fi
 #Lib    Total Distinct    
 #Lib1   xxxx  d(xxx)    
 #Lib2   yyyy  d(yyy)    
