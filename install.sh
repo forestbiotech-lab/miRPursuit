@@ -117,10 +117,10 @@ fi
 #UEA sRNA workbench  || Get creative....
 
 if [[ -z "$WBENCH_DIR" ]]; then
-  workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version3Alpha/srna-workbenchV3.01_ALPHA.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fthe-uea-small-rna-workbench-version-3-01-alpha%2F&ts=1452081706&use_mirror=heanet"
+  workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version4/srna-workbenchV4.0Alpha.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fdownloadspage%2F&ts=1454556621&use_mirror=netcologne"
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
-  wbench_filename=srna-workbenchV3.01_ALPHA.zip
+  wbench_filename=srna-workbenchV4.0_ALPHA.zip
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
   wbench_folder=$(unzip -l ${SOFTWARE}/${wbench_filename} | grep "Workbench.jar" | awk '{print $4}'| awk -F "/" '{print $1}')
