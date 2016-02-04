@@ -73,6 +73,9 @@ if [[ "$patman" == "TRUE" ]]; then
   export PATH=${PATH}:${SOFTWARE}"/patman-1.2.2/"
   patman -V	
   cd -
+  echo -e "${green}Patman instalation finished$NC - patman added to PATH"
+  sleep 1
+  echo ""
 fi
 
 #Java installation
@@ -88,7 +91,7 @@ if [[ -z "$JAVA_DIR" ]]; then
   sed -r "s:(JAVA_DIR=)(.*):\1${SOFTWARE}/jre1.8.0_60/bin:" ${CFG}  > temp_12345678987654321
   mv temp_12345678987654321 ${CFG}
   #preform test to ensure installed sucessfully
-  echo "Java installed - Java added to software_dirs.cfg"
+  echo -e "${green}Java installed$NC - Java added to software_dirs.cfg"
   sleep 1
   echo ""
 fi
@@ -108,6 +111,8 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   echo "PATH=\$PATH:${SOFTWARE}/bin/" >> ${HOME}/.profile
   export PATH=${PATH}:${SOFTWARE}"/bin/"
   cd -
+  echo -e "$green Fastx_toolkit installation finished $NC"
+  sleep 1
 fi
 #UEA sRNA workbench  || Get creative....
 
@@ -116,11 +121,13 @@ if [[ -z "$WBENCH_DIR" ]]; then
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
   echo -e "$red $wbench_folder $NC"
+  wbench_filename=srna-workbenchV3.01_ALPHA.zip
   wget -c $workbench_url -O $wbench_filename 
   unzip $wbench_filename
-  wbench_filename=srna-workbenchV3.01_ALPHA.zip
   wbench_folder=$(unzip -l ${SOFTWARE}/${wbench_filename} | grep "Workbench.jar" | awk '{print $4}'| awk -F "/" '{print $1}')
   sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_folder}:" ${CFG}
+  echo -e "$green Wbench instalation finished $NC"
+  sleep 1
   cd -
 fi
 
@@ -130,9 +137,18 @@ fi
 source ~/.profile
 
 echo -e "${green}Installation completed...${NC} However please check patman is in your path if not please restart your terminal"
+sleep 2
+echo ""
+echo -e "${blue}Configuring the workdir parameters.${NC}\r"
+#Just to make it more visually apealing let's set the illution that something is happening here
 sleep 1
-echo "Configuring the workdir parameters."
-
+echo -e "${blue}Configuring the workdir parameters. .${NC}\r"
+sleep 1
+echo -e "${blue}Configuring the workdir parameters. . .${NC}\r"
+sleep 1
+echo -e "${blue}Configuring the workdir parameters. . . .${NC}"
+sleep 1
+echo ""
 
 while [[ "$booleanYorN" != [yYnN] ]]
 do        
