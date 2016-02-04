@@ -127,6 +127,7 @@ if [[ -z "$WBENCH_DIR" ]]; then
   sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_folder}:" ${CFG}
   echo -e "$green Wbench instalation finished $NC"
   sleep 1
+  echo ""
   cd -
 fi
 

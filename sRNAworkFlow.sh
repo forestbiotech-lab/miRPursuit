@@ -72,17 +72,17 @@ shift # past argument or value
 done
 
 if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
-  echo -e"${red}Invalid input${NC} - Missing mandatory parameters"
+  echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
   echo -e "use ${blue}-h|--help${NC} for list of commands"
   exit 127
 else
-  if [[ $LIB_FIRST != '^[0-9]+$' ]]; then
-    echo -e"${red}Invalid input${NC} - Missing mandatory parameters for -f|--first"
+  if [[ ! $LIB_FIRST =~ ^[0-9]+$ ]]; then
+    echo -e "${red}Invalid input${NC} - Missing mandatory parameters for -f|--first"
     echo -e "use ${blue}-h|--help${NC} for list of commands"
     exit 127
   fi
-  if [[ $LIB_LAST != '^[0-9]+$' ]]; then  
-    echo -e"${red}Invalid input${NC} - Missing mandatory parameters for -l|--last"
+  if [[ ! $LIB_LAST =~ ^[0-9]+$ ]]; then  
+    echo -e "${red}Invalid input${NC} - Missing mandatory parameters for -l|--last"
     echo -e "use ${blue}-h|--help${NC} for list of commands"
     exit 127
   fi  
