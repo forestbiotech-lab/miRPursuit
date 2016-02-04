@@ -176,7 +176,17 @@ if [[ "$booleanYorN" == [yY] ]]; then
   else
     echo -e "${red}Warning - Failed to download mirbase but script will continue.${NC}"
   fi
-
+  else
+    read -n1 -p "The current mirbase dir in config is $MIRBASE do you want to change it? (Y/N)" mirYorN
+    case $mitYorN in
+      y|Y) echo -e "\n Please set if up";;
+      n|N) echo "Value inaltered";;
+      *)  echo -e"\nInvalid Input please type either (Y/N) Sorry skipped change value in config ";;
+    esac
+    if [[ "$mirYorN" == [yY] ]]; then
+      read -p "Type new path for mirbase: " MIRBASE
+      sed -ri "s:(MIRBASE=)(.*):\1${MIRBASE}:" ${CFG_WD} 
+    fi
 fi
 unset booleanYorN
 

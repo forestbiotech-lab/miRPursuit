@@ -85,15 +85,21 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 echo "Running pipeline with the following arguments:"
-echo "FIRST Library     = ${LIB_FIRST}"
-echo "Last Library      = ${LIB_LAST}"
-echo "Number of threads = ${THREADS}"
+echo "FIRST Library                 = ${LIB_FIRST}"
+echo "Last Library                  = ${LIB_LAST}"
+echo "Number of threads             = ${THREADS}"
 #Test numer of cores is equal or lower the avalible
 
 #Test Filter exists
-echo "Filter suffix     = ${FILTER_SUF}"
+echo "Filter suffix                 = ${FILTER_SUF}"
 if [[ -e "${GENOME}" ]]; then        
-  echo "Genome          = "${GENOME}
+  echo "Genome                      = "${GENOME}
+else
+  echo "Error - The given genome file doesn't exist please check the file exists. Correct the config file"
+  exit 127
+fi
+if [[ -e "${MIRBASE}" ]]; then        
+  echo "miRBase                     = "${MIRBASE}
 else
   echo "Error - The given genome file doesn't exist please check the file exists. Correct the config file"
   exit 127
@@ -108,7 +114,7 @@ if [[ -d "${INSERTS_DIR}" ]]; then
   echo "Invalid dir: The inserts directory hasn't been configured properally, see config workdirs.cfg"
   exit 127
 else
-  echo "Working directory (workdir) =  ${workdir}"      
+  echo "sRNA directory (INSERTS_DIR)=  ${workdir}"      
 fi        
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
   echo "Genome mircat = "${GENOME_MIRCAT}
