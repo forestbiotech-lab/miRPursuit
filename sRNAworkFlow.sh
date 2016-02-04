@@ -75,6 +75,17 @@ if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
   echo -e"${red}Invalid input${NC} - Missing mandatory parameters"
   echo -e "use ${blue}-h|--help${NC} for list of commands"
   exit 127
+else
+  if [[ $LIB_FIRST != '^[0-9]+$' ]]; then
+    echo -e"${red}Invalid input${NC} - Missing mandatory parameters for -f|--first"
+    echo -e "use ${blue}-h|--help${NC} for list of commands"
+    exit 127
+  fi
+  if [[ $LIB_LAST != '^[0-9]+$' ]]; then  
+    echo -e"${red}Invalid input${NC} - Missing mandatory parameters for -l|--last"
+    echo -e "use ${blue}-h|--help${NC} for list of commands"
+    exit 127
+  fi  
 fi
 ##Should check if libraries exit
 
@@ -91,7 +102,32 @@ fi
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #Get config settings
 . $DIR/"config/workdirs.cfg"
+SOFT_CFG=${DIR}"/config/software_dirs.cfg"
+. $SOFT_CFG
 
+#Check programs are set up and can run (Java and Wbench).
+if [[ -z "$JAVA_DIR"  ]]; then
+  echo -e "${red}Not set${NC}: Please set java var in config file or run install script"
+  exit 127
+else
+  if [[ -x "$JAVA_DIR" && -e "${JAVA_DIR}" ]]; then
+    echo -e "Java set up: ${green}OK${NC}"
+  else
+    echo -e "${red}Failed${NC}: Java can't be run or invalid path"
+    exit 127
+  fi        
+fi
+if [[ -z "$WBENCH_DIR" ]]; then
+  echo -e "${red}Not set${NC}: Please set workbench var in config file or run install script"
+  exit 127        
+else        
+  if [[ -x "$WBENCH_DIR" && -e "$WBENCH_DIR" ]]; then
+    echo "Workbench set up ${green}OK${NC}"   
+  else
+    echo -e "${red}Failed${NC}: Workbench can't be run or invalid path"
+    exit 127
+  fi
+fi
 
 echo "Running pipeline with the following arguments:"
 printf "FIRST Library\t\t\t= ${LIB_FIRST}\n"
@@ -220,8 +256,7 @@ echo $ok_log
 mv $log_file $ok_log
 printf "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in ${SECONDS}s\n" > $ok_log
 >&2 echo -e "${green}Finished${NC} - sRNA-workflow finished successfully."
-SOFT_CFG=${DIR}"/config/software_dirs.cfg
-. $SOFT_CFG
+
 RUN=$(( $RUN + 1 ))
 sed -ri "s:(RUN=)(.*):\1${RUN}:" ${SOFT_CFG}
 exit 0
