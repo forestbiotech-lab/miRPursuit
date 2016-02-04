@@ -22,7 +22,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # define log file
 log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":filters:"$1":"$2)".log"
 #echo ${log_file}
-exec 2>&1 > ${log_file}
+#exec 2>&1 > ${log_file}
 
 SCRIPT_DIR=${DIR}"/scripts/"
 FASTA_DIR=${workdir}"data/fasta/"

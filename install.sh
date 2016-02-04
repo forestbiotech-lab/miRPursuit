@@ -135,17 +135,17 @@ fi
 ##activate new .profile
 source ~/.profile
 
-echo -e "${green}Installation completed...${NC} However please check patman is in your path if not please restart your terminal"
+echo -ne "${green}Installation completed...${NC} However please check patman is in your path if not please restart your terminal"
 sleep 2
 echo ""
-echo -e "${blue}Configuring the workdir parameters.${NC}\r"
+echo -ne "${blue}Configuring the workdir parameters.${NC}\r"
 #Just to make it more visually apealing let's set the illution that something is happening here
 sleep 1
-echo -e "${blue}Configuring the workdir parameters. .${NC}\r"
+echo -ne "${blue}Configuring the workdir parameters. .${NC}\r"
 sleep 1
-echo -e "${blue}Configuring the workdir parameters. . .${NC}\r"
+echo -ne "${blue}Configuring the workdir parameters. . .${NC}\r"
 sleep 1
-echo -e "${blue}Configuring the workdir parameters. . . .${NC}"
+echo -ne "${blue}Configuring the workdir parameters. . . .${NC}"
 sleep 1
 echo ""
 
