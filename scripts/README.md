@@ -24,12 +24,6 @@ The file lib#_ln#.fq is concatenated to lib#.fq The original files are saved to 
 </ul>
 </ul>
 
-<ul><strong>filter_wbench.sh</strong>
-<br>Description: Filters the library through the workbench filter removing low abundance reads, t/rRNA, low complexity reads, etc. Based on the parameter set in the config file.
-<ul>Inputs: [lib_no] [.ext] [workdir] [source]</ul>
-<ul>Outputs: [workdir]/data/fasta</ul>
-</ul>
-
 <ul><strong>fq_to_fa_exe.sh</strong>
 <br>Description: Converts fastq to fasta. Plots quality scores
 <ul>input: Fastq files lib#.fq</ul>
@@ -37,7 +31,8 @@ The file lib#_ln#.fq is concatenated to lib#.fq The original files are saved to 
 </ul>
 
 <ul><strong>filter_wbench.sh</strong>
-<br>Description: Filters the fasta file based on the configuration file.
+<br>Description: Filters the fasta file based on the configuration file.<br>Removes low abundance reads, t/rRNA, low complexity reads, etc.
+ 
 <ul>input: [File] [filter_suffix] [workdir] [source]</ul>
 <ul>output: 
   <ul>/data/filter_overview/Lib#_filt-[filter_suffix].fa</ul>

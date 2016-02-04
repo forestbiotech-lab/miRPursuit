@@ -58,8 +58,9 @@ testPatman=$(which patman)
 if [[ -e $testPatman && -x $testPatman ]]; then
  patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
 else
+ ##This is not printing out to user?? Fix this       
  echo "Error - Patman is no proparly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
- exit 127
+ exit 1
 fi
 
 #Patman sorting
