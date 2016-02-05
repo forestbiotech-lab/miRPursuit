@@ -97,8 +97,11 @@ function seqCount {
     tmp=$(echo $listFiles | awk 'BEGIN{RS=" "}{print $1}' | grep $j | awk '{printf $1" "}END{printf "\n"}' )     
     #echo $tmp
           
-         
-    eval $j=$(cat $tmp | grep -B0 -w -m1 $lineFunc | awk -F "[()]" '{ if( NR==1 ){print $2}}')
+    if [[ -z $lineFunc ]]; then     
+      eval $j="-"
+    else
+      eval $j=$(cat $tmp | grep -B0 -w -m1 $lineFunc | awk -F "[()]" '{ if( NR==1 ){print $2}}')
+    fi
     testCount=$(eval "echo \$$j")    
     if [[ -z $testCount ]]; then
       testCount=0 
