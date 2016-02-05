@@ -171,7 +171,6 @@ if [[ ! -z "$files" ]]; then
   total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   echo "Total $total $total_d" >> $output
 fi
-
 #TASI
 output="${workdir}/count/TASI-$label.tsv"
 echo "Lib Total Distinct" > $output
@@ -193,7 +192,7 @@ for lib in $CYCLE
   fi  
   echo "Lib${lib_now} $total  $distinct" >> $output
 done
-if [[ ! -z "$file" ]]; then
+if [[ ! -z "$files" ]]; then
   total_d=$(cat $files | awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' | sort | uniq | wc -l)
   #Not calculating
   total=$(cat $files | awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
@@ -207,6 +206,6 @@ fi
 
 #TODO Join separate files
 
-
+>&2 echo "tasi"
 exit 0
 
