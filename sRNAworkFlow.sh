@@ -240,9 +240,10 @@ if [[ "$step" -eq 5 ]]; then
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
 fi
 
-  >&2 echo -ne "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%\r"
+  >&2 echo -e "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
   sleep 4
-  >&2 echo "This workflow was created by Forest Biotech Lab - iBET, Portugal"
+  >&2 echo "  "
+  >&2 echo "This workflow was created by Forest Biotech Lab - iBET, Portugal                                         "
   sleep 2
   >&2 echo "Build around the UEA srna-workbench. http://srna-workbench.cmp.uea.ac.uk/the-uea-small-rna-workbench-version-3-2/" 
   sleep 2

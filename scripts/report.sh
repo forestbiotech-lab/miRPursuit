@@ -207,6 +207,5 @@ fi
 
 #TODO Join separate files
 
->&2 echo "tasi"
 exit 0
 
