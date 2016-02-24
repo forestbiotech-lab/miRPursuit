@@ -7,6 +7,7 @@
 # Copyright 2015 ITQB / UNL. All rights reserved.
 # Modified by Bruno Costa on 22/05/2015
 # Call: pipe_filter_wbench.sh [LIB_FIRST] [LIB_LAST] [FILTER_WB_SUFFIX]
+set -e
 
 LIB_FIRST=$1
 LIB_LAST=$2
