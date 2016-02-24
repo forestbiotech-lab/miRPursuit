@@ -39,7 +39,8 @@ IN_ROOT=${IN_FILE%.*}
 #fastx_uncollapser -i $tmpfile -o $tmpfileUn
 #rm $tmpfile
 
-
+#Automatically ajust number of cores to those specified in the wordirs.cfg
+sed -ri "s:(Thread_Count=)(.*):\1${THREADS}:" ${CFG}
 
 #Check if that is more than one part.
 GENOME_BASENAME=$(basename $GENOME_MIRCAT)
