@@ -171,6 +171,7 @@ if [[ ! -z "$files" ]]; then
   total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   echo "Total $total $total_d" >> $output
 fi
+
 #TASI
 output="${workdir}/count/TASI-$label.tsv"
 echo "Lib Total Distinct" > $output
