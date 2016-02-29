@@ -2,5 +2,5 @@ Install
 ====
 
 
-Nothing to state
+Run the install.sh file 
 
