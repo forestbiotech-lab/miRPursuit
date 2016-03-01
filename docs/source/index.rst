@@ -3,7 +3,7 @@ Welcome to sRNA-workflow's documentation!
 
 This is still under construction.
 
-But will be breifly filled out.
+But will be briefly filled out.
 
 Installation:
 =============

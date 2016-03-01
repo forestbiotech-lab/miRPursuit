@@ -14,6 +14,8 @@ There are three types of config files, General use, Module specific and System p
 
 General use
 ^^^^^^^^^^^
+These two config files should be properly configured, to ensure the program runs. The install script will fill out all variables. 
+
   * software_dirs.cfg::
 
       #Path were install script will install software
@@ -24,6 +26,10 @@ General use
       JAVA_DIR=
       #Number of times program has been run
       RUN=0
+
+    The **SOFTWARE** variable is the path to the directory were the install script will install all necessary dependancies.
+    **WBENCH_DIR**   
+
 
   * workdirs.cfg::
 
