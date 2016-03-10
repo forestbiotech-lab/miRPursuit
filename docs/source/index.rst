@@ -19,6 +19,7 @@ Guide
    :maxdepth: 3
 
    install
+   methods
    config
    help 
 
