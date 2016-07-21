@@ -1,9 +1,10 @@
-# sRNA-workflow
+# miRPursuit
 
 **Check out our read the docs page for a more structed overview of this project:**
 <ul>http://srna-workflow.rtfd.org/</ul>
+Soon will be changed to miRPursuit
   
-**sRNAworkflow: a pipeline for analysis of large-scale plant small RNA datasets**
+**miRPursuit: a pipeline for analysis of large-scale plant small RNA datasets**
 
 Costa B.V.<sup>1</sup>, Rodrigues A<sup>1,2</sup>, Chaves I<sup>1</sup>, Bohn A<sup>2</sup>, Miguel C<sup>1,2</sup>
 
@@ -291,7 +292,7 @@ This script is not memory intensive no memory settings have to be set to run the
 <ul><strong>pipe_fastq.sh</strong>
 <br>Description: Copies fastq files to workdir based on template.<br>The template provided must be any identifying array of charactersimediatly before the serialization.<br>Ex: Test-data-1.fq use --fastq data- or --fastq Test-data-
 <br>Can run a single file if only the first argument is given
-<br>If no .fq file is present in the directory (var inserts in config file) will check for fastq.gz files with the given template and extract them.
+<br>If no .fastq or .fq file is present in the directory (var inserts in config file) will check for fastq.gz .fq.gz files with the given template and extract them.
 <br>Serialization mas be zero based ex: 1 should be 01 2-->02, ...
 <br>Isn't removing adaptors currently a flag will be added later for this function.
 <br>

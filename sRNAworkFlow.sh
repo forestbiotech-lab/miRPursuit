@@ -122,7 +122,7 @@ if [[ -z "$WBENCH_DIR" ]]; then
   exit 127        
 else        
   if [[ -x "$WBENCH_DIR" && -e "$WBENCH_DIR" ]]; then
-    echo "Workbench set up ${green}OK${NC}"   
+    echo -e "Workbench set up ${green}OK${NC}"   
   else
     echo -e "${red}Failed${NC}: Workbench can't be run or invalid path"
     exit 127
@@ -132,7 +132,7 @@ fi
 echo "Running pipeline with the following arguments:"
 printf "FIRST Library\t\t\t= ${LIB_FIRST}\n"
 printf "Last Library\t\t\t= ${LIB_LAST}\n"
-printf "Number of threads\t\t\t= ${THREADS}\n"
+printf "Number of threads\t\t= ${THREADS}\n"
 #Test numer of cores is equal or lower the avalible
 
 #Test Filter exists
