@@ -102,6 +102,15 @@ Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
 <ul>Output: [workdir]/count/[Report]</ul>
 </ul>
 
+<ul><strong>size_profile.sh</strong>
+<br>Description: Counts the length in bp of each read in the given fasta from 0 to 50 by default
+<ul>input: [Fasta file] [From (Optional)] [To (Optional)]</ul>
+<ul>input: Standard Input (Pipeing)</ul>
+<ul>output:
+  <ul>Standard output</ul>
+</ul>
+</ul>
+
 <ul><strong>extract_lcscience.sh</strong>
 <br>Description: Extracts lib |Attention this doesn't concatenate split libs|
 <ul>Configure: LCSIENCE_LIB (This it the path to the gunzip file)_ in config/workdirs.cfg</ul>
