@@ -54,7 +54,8 @@ do
   # to use genome #
   #################              
 
-
+  ##
+  cat ${workdir}count/all_seq.fa  > $tmpfile
 
   # run target #add -verbose for verbose mode.....
   runPAREsnip="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool paresnip -f -srna_file ${tmpfile} -deg_file ${DEGRADOME} -tran_file ${TRANSCRIPTOME} -out_file ${OUT_FILE} -params ${CONFIG}"

@@ -14,6 +14,7 @@ FILE=$1
 SOURCE=$2
 
 # Loading cfg vars
+CFG=${SOURCE}"/config/wbench_mirprof.cfg"
 . ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
 . ${SOURCE}"/config/term-colors.cfg"
@@ -56,10 +57,10 @@ echo ${IN_ROOT}" genome filtering"
 #Testing if file exists and script has permissions to run it.
 testPatman=$(which patman)
 if [[ -e $testPatman && -x $testPatman ]]; then
- patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT} 
+ patman -D ${GENOME} -e 0 -P ${FILE} -o ${OUT_REPORT}
 else
  ##This is not printing out to user?? Fix this       
- >&2 echo -e "${red}Error${NC} - Patman is no proparly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
+ >&2 echo -e "${red}Error${NC} - Patman is no properly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
  exit 127
 fi
 
@@ -77,7 +78,8 @@ echo ${IN_ROOT}" mirbase filtering"
 ##cp ${FILE} ${OUT_FILT_GENOME}
 
 ##patman -D ${MIRBASE} -e 0 -P ${OUT_FILT_GENOME} -o ${PMN_FILE}
-${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -genome ${GENOME}  -mirbase_db ${MIRBASE} -out_file ${MPF_FILE}
+${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE} -params ${CFG}
+
 # filter mirbase results and get unique read sequences
 ##awk -F '[\t(]' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print $1}' > ${PMN_FILE_TEMP}
 

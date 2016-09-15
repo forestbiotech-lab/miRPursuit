@@ -19,9 +19,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 #Define log file
-log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":tasi:"$1":"$2)".log"
-#echo ${log_file}
-exec 2>&1 > ${log_file}
+log_file=${workdir}"log/"$(echo $(date +"%y|%m|%d-%H:%M:%S")":"$(echo $$)":tasi:"$1":"$2)".log"
+echo ${log_file}
+exec >&1 > ${log_file}
 
 SCRIPTS_DIR=${DIR}"/scripts"
 DATA_DIR=${workdir}"data"

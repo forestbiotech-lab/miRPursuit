@@ -25,7 +25,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 mkdir -p $workdir"log/"
 mkdir -p $workdir"data/fasta"
 log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":pipe_fasta:"$2":"$3)".log"
-echo ${log_file}
+echo ${log_file}" "$(date +"%y|%m|%d-%H:%M:%S")
 exec 2>&1 > ${log_file}
 
 SCRIPT_DIR=$DIR"/scripts/"

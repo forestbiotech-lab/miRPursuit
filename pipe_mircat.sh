@@ -20,8 +20,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 # define log file
-log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":mircat:"$1":"$2)".log"
-#echo ${log_file}
+log_file=${workdir}"log/"$(echo $(date +"%y|%m|%d-%H:%M:%S")":"$(echo $$)":mircat:"$1":"$2)".log"
+echo ${log_file}
 exec >&1 > ${log_file}
 
 #Set directories

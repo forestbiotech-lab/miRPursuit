@@ -23,7 +23,7 @@ MAXPROC=$THREADS
 echo "Runnning with ${MAXPROC} threads"
 
 # define log file
-log_file=${workdir}"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":filter_genome_&_mirbase:"$1":"$2)".log"
+log_file=${workdir}"log/"$(echo $(date +"%y|%m|%d-%H:%M:%S")":"$(echo $$)":filter_genome_&_mirbase:"$1":"$2)".log"
 echo ${log_file}
 exec >&1 > ${log_file}
 SCRIPT_DIR=${DIR}"/scripts/"

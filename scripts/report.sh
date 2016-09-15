@@ -45,7 +45,7 @@ if [[ -d "${workdir}data/fastq" ]]; then
   files=""
   output="${workdir}count/Fastq-$label.tsv"
   echo $output
-  echo "Lib Total Distinct" > $output
+  printf "Lib\tTotal\tDistinct\n" > $output
   for lib in $CYCLE
     do
     lib_now=$(printf "%02d\n" $lib)
@@ -54,9 +54,9 @@ if [[ -d "${workdir}data/fastq" ]]; then
       distinct=$(grep "^[ATCG]*$" $file | sort | uniq | wc -l)
       total=$(( $(wc -l $file | awk '{print $1}') / 4 ))
       files=$files" "$file 
-      echo "Lib${lib_now} $total  $distinct" >> $output
+      printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
     else
-      echo "Lib${lib_now} NA  NA" >> $output
+      printf "Lib${lib_now}\tNA\tNA\n" >> $output
     fi
   done
   total_d=$(cat $files | grep "^[ATGC]*$" | sort | uniq | wc -l)
@@ -65,7 +65,7 @@ if [[ -d "${workdir}data/fastq" ]]; then
   if [[ "$filesLines" -gt 3 ]];then
     total=$(( $fileLines / 4 ))
   fi
-  echo "Total $total $total_d" >> $output
+  printf "Total\t$total\t$total_d\n" >> $output
 
 fi
 
@@ -77,7 +77,7 @@ fi
 files=""
 output="${workdir}count/Fasta-$label.tsv"
 echo $output
-echo "Lib Total Distinct" > $output
+printf "Lib\tTotal\tDistinct\n" > $output
 for lib in $CYCLE
   do
   lib_now=$(printf "%02d\n" $lib)
@@ -85,15 +85,15 @@ for lib in $CYCLE
   distinct=$(grep -v ">" $file | sort | uniq | wc -l)
   total=$(grep -c ">" $file)
   files=$files" "$file 
-  echo "Lib${lib_now} $total  $distinct" >> $output
+  printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
 total=$(cat $files | grep -c ">")
-echo "Total $total $total_d" >> $output
+printf "Total\t$total\t$total_d\n" >> $output
 
 #Filter WB
 output="${workdir}/count/Filter-$label.tsv"
-echo "Lib Total Distinct" > $output
+printf "Lib\tTotal\tDistinct\n" > $output
 files=""
 for lib in $CYCLE
   do       
@@ -103,16 +103,16 @@ for lib in $CYCLE
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 
   echo $files
-  echo "Lib${lib_now} $total  $distinct" >> $output
+  printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
 total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-echo "Total $total $total_d" >> $output
+printf "Total\t$total\t$total_d\n" >> $output
 
 
 #Genome
 output="${workdir}/count/Genome-$label.tsv"
-echo "Lib Total Distinct" > $output
+printf "Lib\tTotal\tDistinct\n" > $output
 files=""
 for lib in $CYCLE
   do       
@@ -122,16 +122,16 @@ for lib in $CYCLE
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 
   echo $files
-  echo "Lib${lib_now} $total  $distinct" >> $output
+  printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
 total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-echo "Total $total $total_d" >> $output
+printf "Total\t$total\t$total_d\n" >> $output
 
 
 #Cons
 output="${workdir}/count/Cons-$label.tsv"
-echo "Lib Total Distinct" > $output
+printf "Lib\tTotal\tDistinct\n" > $output
 files=""
 for lib in $CYCLE
   do       
@@ -141,15 +141,15 @@ for lib in $CYCLE
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 
   echo $files
-  echo "Lib${lib_now} $total  $distinct" >> $output
+  printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
 total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-echo "Total $total $total_d" >> $output
+printf "Total\t$total\t$total_d\n" >> $output
 
 #Novel
 output="${workdir}/count/Novel-$label.tsv"
-echo "Lib Total Distinct" > $output
+printf "Lib\tTotal\tDistinct\n" > $output
 files=""
 for lib in $CYCLE
   do       
@@ -164,17 +164,17 @@ for lib in $CYCLE
     files=$files" "$file 
     echo $files
   fi  
-  echo "Lib${lib_now} $total  $distinct" >> $output
+  printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 if [[ ! -z "$files" ]]; then
   total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
   total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-  echo "Total $total $total_d" >> $output
+  printf "Total\t$total\t$total_d\n" >> $output
 fi
 
 #TASI
 output="${workdir}/count/TASI-$label.tsv"
-echo "Lib Total Distinct" > $output
+printf "Lib\tTotal\tDistinct\n" > $output
 files=""
 sumTotal=0
 for lib in $CYCLE
@@ -191,13 +191,13 @@ for lib in $CYCLE
     files=$files" "$file
     sumTotal=$(( $total + $sumTotal )) 
   fi  
-  echo "Lib${lib_now} $total  $distinct" >> $output
+  printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 if [[ ! -z "$files" ]]; then
   total_d=$(cat $files | awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' | sort | uniq | wc -l)
   #Not calculating
   total=$(cat $files | awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
-  echo "Total $sumTotal $total_d" >> $output
+  printf "Total\t$sumTotal\t$total_d\n" >> $output
 fi
 #Lib    Total Distinct    
 #Lib1   xxxx  d(xxx)    

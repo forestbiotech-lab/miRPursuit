@@ -52,13 +52,13 @@ else
   do 
     LIB_NOW=$i
     LIB=$(printf "%02d\n"  $LIB_NOW)
-    CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.fq)
+    CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.{fq,fastq})
 
     #Test if "fq exists"
     if [[ -z "$CONVERT_LIB" ]]; then
           
       #Test if .fastq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.fastq.gz)
+      CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.{fastq,fq}.gz)
       if [[ -e "$CONVERT_LIB" ]]; then
         NPROC=$(( $NPROC + 1 ))
         gunzip -c $CONVERT_LIB > ${workdir}data/fastq/lib${LIB}.fq &       
