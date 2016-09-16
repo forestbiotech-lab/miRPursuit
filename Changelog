@@ -1,0 +1,77 @@
+CHANGELOG
+
+[Check before start] (TODO)
+-mirbase file
+Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
+-project dir empty
+Check if project dir is empty if not prompt if u want to continue
+
+[email notification] (TODO)
+When run is finished send email to responsible person.
+
+[Screen printing] (TODO)
+-ensure minimum printing to screen
+mircat is printing stuff to screen in server but now here why?
+
+[Where to save] (TODO)
+Project dir
+Instead of changing manually the workdir. Add it as a optional arg at start.
+Flag the workdir with color
+
+[Install] (Done on 16/09/2016)
++Changed path adding.
+Now the install script check which shell is being used and added to the proper startup file.
++Add mirbase file
+Was only adding the directory to config file.
+
+
+-Allow use of vars in prompt (Check if possible and inform in text)
+
+[Logging] (TODO)
++This is terrible so many log files.
+Changing to master log file and folder with each subroutine (They are only copied to folder if run terminates with success)
+
+-/-Added the run parameters used in the begining of the file. [TODO for the rest of the logs]
+
+[Config] (TODO)
+-Improve config files folder: Must come with defaults in folder
+
+-Improve the guide explaining that this is not intended for single files but can be used that way. (Well)
+
+
+[Filter] (TODO)
+-(If filtering leaves you without no sRNA should no continue for this library)
+
+[Genome] (TODO)
+-Set up in a way that check weather there are any results from genome search
+
+[Send bug]
+if bug send logs
+prompt and send if program doesn't finish properly
+
+[README]
+-Add readme to log folder explaining structure
+
+[miRProf] (Done on 16/09/2016)
++Create empty file
+If there aren't any files create an empty cons file.
+[Problem for no results found with mirProf (Some species still don't have any)]
+Solved these errors:
+	grep: .../sRNA/data/mirprof/lib01_filt-18_26_5_[gneome]_mirbase_srnas.fa: No such file or directory
+
+	cp: impossível analisar '.../data/mirprof/lib01_filt-18_26_5_[genome]_mirbase_srnas.fa': No such file or directory
+
+
+......
+
+[Origin? - Solved with empty files (Test this)] 
+ls: impossível aceder a '.../data/*_cons.fa': No such file or directory
+[Problem trying to get all cons sequences]
+[Solution upstream - Create empty file. If no results found]
+
+
+
+
+
+
+

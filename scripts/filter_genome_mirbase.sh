@@ -21,6 +21,9 @@ CFG=${SOURCE}"/config/wbench_mirprof.cfg"
 #Rename workdir var beacause of reconfig
 WORKDIR=$workdir
 
+printf "\nRan with these vars:\n####################\n#wbench_mirprof.cfg#\n####################\n"
+cat $CFG
+printf "\n\n"
 
 # define input directory and get input filename(s)
 IN_FILE=$(basename ${FILE})
@@ -86,8 +89,17 @@ ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool mirprof -srna_file_l
 ##awk '{print $1}' ${PMN_FILE_TEMP} | xargs -n 1 -I pattern grep -w -m1 pattern ${PMN_FILE} | awk -F "[\t()]" '{split($1,a,"-"); match(a[2],"[0-9]+",arr); print "all-combined-"arr[0]"-Abundance("$3")"$2}' | sort | awk -F "[-)]" '{split($3,a,"miR"); if(("c[a[1]]" -eq "0")); then; d=((c[a[1]]++));fi; if (("c[a[1]]" -gt "0")); then; d=((c[a[1]]));fi; print ">"$5"-"$1"-"$2"-miR"a[1]"_"d"_"$4")";newline;print $5;}' > ${OUT_CONS}
 
 #Get sequences that didn't align with mirBase
-grep -v ">" ${MPF_FILE/_mirbase/_mirbase_srnas.fa} > ${MPF_FILE_TEMP}
-cp ${MPF_FILE/_mirbase/_mirbase_srnas.fa} ${OUT_CONS}
+if [[ -e ${MPF_FILE/_mirbase/_mirbase_srnas.fa} ]]; then
+	grep -v ">" ${MPF_FILE/_mirbase/_mirbase_srnas.fa} > ${MPF_FILE_TEMP}
+	cp ${MPF_FILE/_mirbase/_mirbase_srnas.fa} ${OUT_CONS}
+else
+	#if there are no results create an empty file to avoid errors. The program can still continue
+	#Can still be interessing (Should it warn that no cons sRNAs where found?)
+	#For example in fugae there are still few or none sRNA documented.
+	touch ${MPF_FILE_TEMP}
+	touch ${OUT_CONS}
+fi
+ 
 grep -wvf ${MPF_FILE_TEMP} ${OUT_FILT_GENOME} > ${OUT_NONCONS}
 
 echo ${IN_ROOT}" mirbase filtered"

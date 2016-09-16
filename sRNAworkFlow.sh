@@ -98,7 +98,7 @@ if [[ ! -z "$step" ]]; then
 fi
 
 
-#Gets the scipt directory
+#Gets the script directory
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #Get config settings
 . $DIR/"config/workdirs.cfg"
@@ -176,9 +176,16 @@ fi
 
 
 mkdir -p $workdir"log/"
-log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":run_full_pipline:"${LIB_FIRST}":"${LIB_LAST})".log"
+runDate=$(date +"%y|%m|%d-%H:%M:%S")
+log_file=$workdir"log/"$(echo "$runDate:"$(echo $$)":overall:"${LIB_FIRST}":"${LIB_LAST})".log"
+mkdir -p $workdir"log/$runDate"
 exec >&1 > ${log_file}
-echo ${log_file}
+echo $(basename ${log_file})
+printf "\nRan with these vars:\n###################\n#software_dirs.cfg#\n###################\n"
+cat $SOFT_CFG
+printf "\nRan with these vars:\n##############\n#workdirs.cfg#\n##############\n"
+cat $DIR/"config/workdirs.cfg"
+printf "\n\n"
 
 SCRIPTS_DIR=$DIR"/scripts"
 
@@ -253,7 +260,10 @@ fi
                
 ok_log=${log_file/.log/:OK.log}
 
-echo $ok_log
+#Copy all ok log into folder of this run (Cleaning up the log folder)
+mv ${workdir}log/*OK.log ${workdir}log/$runDate
+
+echo $(basename $ok_log)
 mv $log_file $ok_log
 printf "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in ${SECONDS}s\n" > $ok_log
 >&2 echo -e "${green}Finished${NC} - sRNA-workflow finished successfully."

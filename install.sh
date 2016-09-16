@@ -29,6 +29,33 @@ CFG_WD=${DIR}/config/workdirs.cfg
 CFG_mircat=${DIR}/config/wbench_mircat.cfg
 
 
+
+##Snippet for getting current shell startup file
+##Working for bash an zsh, not tested for the others
+shell=$(basename $SHELL)
+
+case $shell in
+  bash)
+    profile=$HOME/.bashrc
+  shift
+  ;;
+  zsh)
+    profile=$HOME/.zshrc
+  shift
+  ;;
+  fish)
+    profile=$HOME/.config/fish/config.fish
+  shift
+  ;;
+  ksh)
+      profile=$HOME/.profile
+    shift
+  ;;
+  tcsh)
+    profile=$HOME/.login  
+esac
+shift
+
 ##get software dirs
 . $CFG
 
@@ -67,15 +94,26 @@ if [[ "$patman" == "TRUE" ]]; then
   PATMAN_ROOT=${patman_url%.tar.gz}
   tar -xzvf $PATMAN_BASENAME
   cd "patman-1.2.2"
-  echo "patman has been add to you path in ~/.profile if necessary add it to a more convinent location or change binaries to a directory in your path"
-  echo "##Added patman to path" >> ${HOME}/.profile
-  echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/" >> ${HOME}/.profile
+  #Check if file exists to append to it
+  if [[ -e $profile ]]; then
+    echo "appended to ${profile}"
+    echo "patman has been add to you path in $profile if necessary add it to a more convinent location or change binaries to a directory in your path"
+    echo "##Added patman to path" >> $profile
+    echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/" >> $profile
+    echo -e "${green}Patman installation finished${NC} - patman added to PATH"
+    sleep 1
+    echo ""
+  else
+    echo -e "${red}Warning!${NC} - Could not add patman to path."
+    echo "File doesn't exist - $profile.  "
+    sleep 1
+    echo "Add the following line to your startup shell file ex:bashrc,bash_profile, etc."
+    echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/"  
+    echo ""
+  fi
   export PATH=${PATH}:${SOFTWARE}"/patman-1.2.2/"
   patman -V	
   cd -
-  echo -e "${green}Patman instalation finished$NC - patman added to PATH"
-  sleep 1
-  echo ""
 fi
 
 #Java installation
@@ -105,14 +143,25 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   wget -c $fastx_toolkit_url
   echo "Extracting data..."
   tar -jxvf "fastx_toolkit_0.0.13_binaries_Linux_2.6_amd64.tar.bz2"
-  echo "Fastx_toolkit has been add to you path in ~/.profile if necessary add it to a more convinent location or change binaries to a directory in your path"
-  echo "##Added Fastx_toolkit binaries to path" >> ${HOME}/.profile
-  echo "PATH=\$PATH:${SOFTWARE}/bin/" >> ${HOME}/.profile
+  #Check if file exists to append to it
+  if [[ -e $profile ]]; then
+    echo "appended to ${profile}"
+    echo "Fastx_toolkit has been add to you path in ~/.profile if necessary add it to a more convinent location or change binaries to a directory in your path"
+    echo "##Added Fastx_toolkit binaries to path" >> $profile
+    echo "PATH=\$PATH:${SOFTWARE}/bin/" >> $profile
+    echo -e "${green} Fastx_toolkit installation finished $NC"
+    echo ""
+    sleep 1
+  else
+    echo -e "${red}Warning!${NC} - Could not add patman to path."
+    echo "File doesn't exist - $profile.  "
+    echo "Add the following line to your startup shell file ex:bashrc,bash_profile, etc."
+    echo "PATH=\$PATH:${SOFTWARE}/bin/"
+    echo ""
+    sleep 1
+  fi
   export PATH=${PATH}:${SOFTWARE}"/bin/"
   cd -
-  echo -e "$green Fastx_toolkit installation finished $NC"
-  sleep 1
-  echo ""
 fi
 #UEA sRNA workbench  || Get creative....
 
@@ -188,7 +237,7 @@ if [[ "$booleanYorN" == [yY] ]]; then
   wget -c $mirbase_readme -O README
   if [[ -e $mirbase_filename ]]; then 
     gunzip $mirbase_filename
-    sed -ri "s:(MIRBASE=)(.*):\1${SOURCE_DATA}/mirbase:" ${CFG_WD} 
+    sed -ri "s:(MIRBASE=)(.*):\1${SOURCE_DATA}/mirbase/${mirbase_filename/.gz/}:" ${CFG_WD} 
   else
     echo -e "${red}Warning - Failed to download mirbase but script will continue.${NC}"
   fi
