@@ -21,6 +21,9 @@ SOURCE=$2
 # configuration file paths
 CFG="${SOURCE}/config/wbench_tasi.cfg"
 
+printf "\nRan with these vars:\n#################\n#wbench_tasi.cfg#\n#################\n"
+cat $CFG
+printf "\n\n"
 
 # define input directory and get input filename(s)
 IN_FILE=$(basename $FILE)

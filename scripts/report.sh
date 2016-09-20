@@ -9,11 +9,13 @@
 #call report.sh [lib first] [lib last] [source]
 #call report.sh ["array"] [libs] [source]
 
+printf $(date +"%y/%m/%d-%H:%M:%S")" Starting report\n"
+
 if [[ "$1" == "array" ]]; then
   ARRAY=TRUE
   CYCLE=$2 
 elif [[ -z "$3" ]]; then
-  echo "Error: Missing arguments, cowardly refused to continue. $0:::Line:$LINENO"
+  >&2echo "Error: Missing arguments, cowardly refused to continue. $0:::Line:$LINENO"
   exit 1        
 else        
   LIB_FIRST=$1
@@ -117,7 +119,7 @@ files=""
 for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/FILTER-Genome/lib${lib_now}*.fa
+  file=${workdir}data/filter_genome/lib${lib_now}*.fa
   distinct=$(grep -v ">" $file | sort | uniq | wc -l)
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 

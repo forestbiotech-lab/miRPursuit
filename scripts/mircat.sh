@@ -24,6 +24,11 @@ echo   ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
 
+
+printf "\nRan with these vars:\n###################\n#wbench_mircat.cfg#\n###################\n"
+cat $CFG
+printf "\n\n"
+
 #rename workdir
 WORKDIR=$workdir
 
@@ -46,10 +51,7 @@ sed -ri "s:(Thread_Count=)(.*):\1${THREADS}:" ${CFG}
 GENOME_BASENAME=$(basename $GENOME_MIRCAT)
 GENOME_DIR=$(dirname $GENOME_MIRCAT)
 
-
 parts=$( echo "$GENOME_BASENAME" | awk -F "part" '{print NF}' )
-
-
 
 echo ${IN_ROOT}
 # create output file
@@ -69,7 +71,7 @@ if [ "$parts" == "1" ]; then
 
   # run mircat on filtered file
   runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
-  echo "Running mircat with this command: " $runMircat
+  printf "Running mircat with this command: \n\t $runMircat"
   $runMircat
 
   # move produced resulting files into place
@@ -88,7 +90,7 @@ else
     # run mircat on filtered file
     runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome $i -params ${CFG}" 
     echo "Running part: "$i
-    echo "Running mircat with this command: " $runMircat
+    echo "Running mircat with this command:  \n${runMircat}\n\n"
     $runMircat
     # move produced resulting files into place
     cat ${RESULTS_DIR}miRNA.fa >> ${OUT_DIR}${IN_ROOT}_miRNA.fa
@@ -100,7 +102,7 @@ OUTPUT_TB=${OUT_DIR}${IN_ROOT}_output.csv
 OUTPUT_TBG=${OUT_DIR}${IN_ROOT}_output_grouped.csv
 #Rearrange table |Change parts subtracting 1 so its nicer looking
 awk 'BEGIN{RS="Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*";FS="\n";print"Part,Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*"}{for(i=2; i<NF; i++ ){if( NR>1 ){print NR-1","$i;}} }' ${OUTPUT_TB} > ${OUTPUT_TBG}
-echo "Ran to point 1"
+#echo "Ran to point 1"
 
 #read mircat config file adding it vars
 . ${CFG}
@@ -124,7 +126,7 @@ tail -${lines} ${OUTPUT_TBG} | awk -F "," '{print $7}' | sort | uniq | xargs -n 
  part=$1   
 }
 }' | awk '{print $1}' | uniq > ${OUT_DIR}uniq_res.txt
-echo "Ran to point 2"
+#echo "Ran to point 2"
 #!Not finished!Now remove all line containing this these seqs from files. 
 miRNA_F=${OUT_DIR}${IN_ROOT}_miRNA_filtered.fa
 grep -wvf ${OUT_DIR}uniq_res.txt ${OUTPUT_TBG} > ${OUTPUT_TBG/_grouped.csv/_filtered.csv}
@@ -134,8 +136,10 @@ tmpFileSED=$(mktemp -t sedTempMircatCor.XXXXXX)
 sed -r "s:[.][0-9][)]:):g" ${miRNA_F} > $tmpFileSED
 mv $tmpFileSED ${miRNA_F}
 
-echo "Ran to point 3"
+#echo "Ran to point 3"
 #cleanUp
 #rm $tmpfileUn
+duration=$(date -u -d @${SECONDS} +"%T")
+printf "This lib ${IN_ROOT} ran in ${duration}\n${SECONDS}secs.\n"
 
 exit 0

@@ -10,6 +10,9 @@
 # Call: pipe_fasta.sh [Lib_first] [Lib_last] [template]
 #
 
+#Important if this script fails do not continue.
+set -e
+
 LIB_FIRST=$1
 LIB_LAST=$2
 TEMPLATE=$3
@@ -24,8 +27,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #Setting up log dir
 mkdir -p $workdir"log/"
 mkdir -p $workdir"data/fasta"
-log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":pipe_fasta:"$2":"$3)".log"
-echo ${log_file}" "$(date +"%y|%m|%d-%H:%M:%S")
+log_file=$workdir"log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:pipe_fasta:$1-$2.log"
+echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file}) 
 exec 2>&1 > ${log_file}
 
 SCRIPT_DIR=$DIR"/scripts/"
@@ -37,6 +40,7 @@ START_TIME=$(date +%s.%N)
 
 NPROC=0
 cycle=$(eval echo {${LIB_FIRST}..${LIB_LAST}})
+printf $(date +"%y/%m/%d-%H:%M:%S")" - Copying all fasta files to workdir\n"
 for i in $cycle
 do
   LIB_NOW=$i
@@ -51,11 +55,14 @@ do
   fi
 done
 wait  
+printf $(date +"%y/%m/%d-%H:%M:%S")" - Copied all fasta files\n"
 
 ok_log=${log_file/.log/:OK.log}
 
-
-echo $ok_log
 mv $log_file $ok_log
+
+duration=$(date -u -d @${SECONDS} +"%T")
+printf "\n-----------END--------------\nThis script ran in ${duration}\n${SECONDS}sec.\nUsing ${THREADS} threads.\n"
+echo $(basename $ok_log)
 
 exit 0

@@ -20,24 +20,28 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . $DIR"/config/workdirs.cfg"
 
 MAXPROC=$THREADS
-echo "Runnning with ${MAXPROC} threads"
 
 # define log file
-log_file=${workdir}"log/"$(echo $(date +"%y|%m|%d-%H:%M:%S")":"$(echo $$)":filter_genome_&_mirbase:"$1":"$2)".log"
-echo ${log_file}
+log_file="${workdir}log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID$PPID:filter_genome_&_mirbase:${1}-${2}.log"
+echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
+
 exec >&1 > ${log_file}
 SCRIPT_DIR=${DIR}"/scripts/"
 DATA_DIR=${workdir}"data/"
 
+echo "Runnning with ${MAXPROC} threads"
+
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
-	${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}"filter_overview/lib"$LIB"_filt-"${FILTER_SUF}".fa" ${DIR}
-
-  echo "Call this:" ${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}"filter_overview/lib"$LIB"_filt-"${FILTER_SUF}".fa" ${DIR}
+    run="${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}filter_overview/lib${LIB}_filt-${FILTER_SUF}.fa ${DIR}"
+    echo $run
+    $run
+	#${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}"filter_overview/lib"$LIB"_filt-"${FILTER_SUF}".fa" ${DIR}
 
 done
 wait
+echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished identifying conserved miRNAs."
 
 ##Deprecated code? Redundant code report calculates this.
 #Count reads
@@ -62,7 +66,13 @@ wait
 
 
 ok_log=${log_file/.log/:OK.log}
+
+duration=$(date -u -d @${SECONDS} +"%T")
+printf "\n-----------END--------------\nThis script ran in ${duration}\n${SECONDS}sec.\n"
+printf "Processed with filter "$WB_FILT"\n"
 echo $(basename $ok_log)
 mv $log_file $ok_log
+
+
 
 exit 0

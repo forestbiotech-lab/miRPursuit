@@ -19,8 +19,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 #Define log file
-log_file=${workdir}"log/"$(echo $(date +"%y|%m|%d-%H:%M:%S")":"$(echo $$)":tasi:"$1":"$2)".log"
-echo ${log_file}
+log_file=${workdir}"log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:tasi:$1-$2.log"
+echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec >&1 > ${log_file}
 
 SCRIPTS_DIR=${DIR}"/scripts"
@@ -42,13 +42,18 @@ do
 
   #awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print ">"$1"("$2")";newline;print $1}}' ${DATA_DIR}"/tasi/lib${LIB_NOW}"*"_noncons_tasi_srnas.txt" > "${DATA_DIR}/tasi/lib${LIB_NOW}-tasi.fa"
 done
+echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished identifying tasi-miRNAs."
 
 END_TIME=$(date +%s.%N)
 DIFF=$(echo "$END_TIME - $START_TIME" | bc)
 
 ok_log=${log_file/.log/:OK.log}
+
+duration=$(date -u -d @${SECONDS} +"%T")
+printf "\n-----------END--------------\nThis script ran in ${duration}\n${SECONDS}sec.\n"
+printf "Ran in ${SECONDS}secs\n"
+echo "Finished in ${DIFF} sec."
 echo $(basename $ok_log)
 mv $log_file $ok_log
-echo "Finished in ${DIFF} sec."
 
 exit 0

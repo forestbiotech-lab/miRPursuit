@@ -1,57 +1,5 @@
 CHANGELOG
 
-[Check before start] (TODO)
--mirbase file
-Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
--project dir empty
-Check if project dir is empty if not prompt if u want to continue
-
-[email notification] (TODO)
-When run is finished send email to responsible person.
-
-[Screen printing] (TODO)
--ensure minimum printing to screen
-mircat is printing stuff to screen in server but now here why?
-
-[Where to save] (TODO)
-Project dir
-Instead of changing manually the workdir. Add it as a optional arg at start.
-Flag the workdir with color
-
-[Install] (Done on 16/09/2016)
-+Changed path adding.
-Now the install script check which shell is being used and added to the proper startup file.
-+Add mirbase file
-Was only adding the directory to config file.
-
-
--Allow use of vars in prompt (Check if possible and inform in text)
-
-[Logging] (TODO)
-+This is terrible so many log files.
-Changing to master log file and folder with each subroutine (They are only copied to folder if run terminates with success)
-
--/-Added the run parameters used in the begining of the file. [TODO for the rest of the logs]
-
-[Config] (TODO)
--Improve config files folder: Must come with defaults in folder
-
--Improve the guide explaining that this is not intended for single files but can be used that way. (Well)
-
-
-[Filter] (TODO)
--(If filtering leaves you without no sRNA should no continue for this library)
-
-[Genome] (TODO)
--Set up in a way that check weather there are any results from genome search
-
-[Send bug]
-if bug send logs
-prompt and send if program doesn't finish properly
-
-[README]
--Add readme to log folder explaining structure
-
 [miRProf] (Done on 16/09/2016)
 +Create empty file
 If there aren't any files create an empty cons file.
@@ -62,16 +10,86 @@ Solved these errors:
 	cp: impossível analisar '.../data/mirprof/lib01_filt-18_26_5_[genome]_mirbase_srnas.fa': No such file or directory
 
 
+[Install] (Done)
++(16/09/2016)Changed path adding.
+Now the install script check which shell is being used and added to the proper startup file.
++(16/09/2016)Add mirbase file
+Was only adding the directory to config file.
+-(20/09/2016)Allow use of vars in prompt (Check if possible and inform in text)
+
+[Check before start] (Done)
++(16/09/2016)mirbase file
+Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
++(20/09/2016) project dir empty
+Check if project dir is empty if not prompt if u want to continue
+
+[Filter] (Done)
++(20/09/2016)If filtering leaves you with no sRNA should not continue for this library. No there's nothing to process.
+Will continue because other libraries might have interesting results. Only issue a warning.
+
+[Genome] (DONE)
++(20/09/2016)Set up in a way that check weather there are any results from genome search
+Checks weather the output of genome filtering produces an empty file. If so a warning is issued to main window anouncing that, that libary produced no reads and that analysis of that library is over, but program will continue execution.
++(20/09/2016)Add parameters for genome filtering.
+Added patman_genome.cfg file to configs with all the different possible parameters that can be changed when filtering genome.
++Genome folder in project(20/09/2016)
+Changed the FILTER-Genome folder to something more uniform. filter_genome
+
+[Logging] (TODO)
++(20/09/2016)This is terrible so many log files.
+Changing to master log file and folder with each subroutine (They are only copied to folder if run terminates with success)
++(20/09/2016)Saving logs with PPID
+Logs were being copied to the log folder by OK. in the file name. Now they are grouped by PPID. (This may still cause problems because PPIDs can still collide but it's very rare that this happens. Would only haven on multiple failed projects with restarts.)
++(20/09/2016) Added parameters of run in log.
+Parameters for every run are being stored in it's log file.
+-Logging for report.sh is still lacking should be dealt with once unique report file output starts to be generated.
+
+[Parallel processing] (TODO)
+-Update to dynamic parallel processing
+Currently the stack must finish running all subprocesses to start a new batch.
+With dyanamic parallel processing script could fork always the top number of processes as soon as on finishes.
+
+[Phread score] (TODO)
+-Hardcoded phread score
+Must set a configuration file to ajust phread score.
+
+[Document filtering](TODO)
+-Point to how you can change filtering t/rRNA lists.
+
+-/-Added the run parameters used in the begining of the file. [TODO for the rest of the logs]
+
+[Config] (TODO)
+-Improve config files folder: Must come with defaults in folder
+
+-Improve the guide explaining that this is not intended for single files but can be used that way. (Well)
+
+[Send bug]
+if bug send logs
+prompt and send if program doesn't finish properly
+
+[README]
+-Add readme to log folder explaining structure
+
+[Report file]
+-A general report file with a compilation of all the data generated. (Statistics and path to were results are.)
+
+
+[email notification] (TODO)
+When run is finished send email to responsible person.
+
+[Screen printing] (TODO)
+-ensure minimum printing to screen
+mircat is printing stuff to screen in server but now here why? (Version problem?)
+
+[Where to save] (TODO)
+Project dir
+Instead of changing manually the workdir. Add it as a optional arg at start.
+Flag the workdir with color
+
+
 ......
 
 [Origin? - Solved with empty files (Test this)] 
 ls: impossível aceder a '.../data/*_cons.fa': No such file or directory
 [Problem trying to get all cons sequences]
 [Solution upstream - Create empty file. If no results found]
-
-
-
-
-
-
-

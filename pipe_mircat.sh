@@ -20,32 +20,29 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 # define log file
-log_file=${workdir}"log/"$(echo $(date +"%y|%m|%d-%H:%M:%S")":"$(echo $$)":mircat:"$1":"$2)".log"
-echo ${log_file}
+log_file="${workdir}log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID$PPID:mircat:$1:$2.log"
+echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec >&1 > ${log_file}
 
 #Set directories
 SCRIPTS_DIR=${DIR}"/scripts"
 DATA_DIR=${workdir}"data"
 
-#Count exec time
-START_TIME=$(date +%s.%N)
 
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
-	
-  echo "Ran this command: "${SCRIPTS_DIR}"/mircat.sh" ${DATA_DIR}"/lib"${LIB}"_filt"*"_noncons.fa" ${DIR}
-  ${SCRIPTS_DIR}"/mircat.sh" ${DATA_DIR}"/lib"${LIB}"_filt"*"_noncons.fa" ${DIR}
-  echo "Finished runing LIB${LIB}"
+  	echo $(date +"%y/%m/%d-%H:%M:%S")" - Starting to run mircat on: LIB${LIB}"
+  	run="${SCRIPTS_DIR}/mircat.sh ${DATA_DIR}/lib${LIB}_filt"*"_noncons.fa ${DIR}"
+  	printf $(date +"%y/%m/%d-%H:%M:%S")" - Ran helper script for micat: \n${run}\n"
+  	$run
+  	echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished running mircat on: LIB${LIB}"
 done
 
-END_TIME=$(date +%s.%N)
-DIFF=$(echo "$END_TIME - $START_TIME" | bc)
-
-echo "Mircat took ${DIFF}secs to process all lib" 
 
 ok_log=${log_file/.log/:OK.log}
+duration=$(date -u -d @${SECONDS} +"%T")
+printf "\n-----------END--------------\nThis script ran in ${duration}\n${SECONDS}sec.\n"
 echo $(basename $ok_log)
 mv $log_file $ok_log
 

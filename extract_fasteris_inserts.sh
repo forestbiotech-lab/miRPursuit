@@ -24,8 +24,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #Setting up log dir
 mkdir -p $workdir"log/"
-log_file=$workdir"log/"$(echo $(date +"%y%m%d:%H%M%S")":"$(echo $$)":fastq_to_fasta:"$2":"$3)".log"
-echo ${log_file}
+log_file="${workdir}log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:fastq_to_fasta:$1-$2.log"
+echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec 2>&1 > ${log_file}
 
 SCRIPT_DIR=$DIR"/scripts/"
@@ -143,7 +143,11 @@ done
 
 ok_log=${log_file/.log/:OK.log}
 
-echo $ok_log
+echo $(basename $ok_log)
+
+duration=$(date -u -d @${SECONDS} +"%T")
+
+printf "Ran in ${duration}\nRan in ${SECONDS}secs\n"
 mv $log_file $ok_log
 
 exit 0
