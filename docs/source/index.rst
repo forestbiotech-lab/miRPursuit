@@ -1,16 +1,26 @@
-Welcome to sRNA-workflow's documentation!
-=========================================
+Welcome to miRPrusuit | sRNA-workflow's documentation!
+=======================================================
 
-This is still under construction.
+**Attention!** sRNA-workflow is now called miRPrusuit.
 
-But will be briefly filled out.
+| **This is still under construction.**
+| But we are working hard to complete this page.
+| 
+
+
+(?Should this really be here. Just check installation?)
 
 Installation:
 =============
+Quick guide. For detailed information please refer to the `Installation <install.html>`_ section.
+
 Simply type in your chosen directory::
 
-    git clone https://github.com/forestbiotech-lab/sRNA-workflow
-    cd
+    git clone https://github.com/forestbiotech-lab/miRPursuit
+    cd miRPursuit
+
+    ./install.sh #This will prompt all the necessary settings
+
 
 Guide
 ^^^^^
@@ -18,11 +28,14 @@ Guide
 .. toctree::
    :maxdepth: 3
 
-   install
+   intro
    methods
+   install
    config
    help 
 
+
+(Going out?)
 
 Indices and tables
 ==================
