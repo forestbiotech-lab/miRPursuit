@@ -8,6 +8,10 @@ Welcome to miRPrusuit | sRNA-workflow's documentation!
 | 
 
 
+.. image:: https://zenodo.org/badge/36737158.svg
+   :target: https://zenodo.org/badge/latestdoi/36737158
+
+
 (?Should this really be here. Just check installation?)
 
 Installation:

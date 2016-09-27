@@ -1,5 +1,7 @@
 # miRPursuit
 
+[![DOI](https://zenodo.org/badge/36737158.svg)](https://zenodo.org/badge/latestdoi/36737158)
+
 **Check out our read the docs page for a more structed overview of this project:**
 <ul>http://srna-workflow.rtfd.org/</ul>
 Soon will be changed to miRPursuit
@@ -150,7 +152,7 @@ Some commands are being changed to config files.
 </ul>
 </ul>
 
-<img src="https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/workflow.jpg" />
+<img src="https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/workflow.png" />
 
 ------
 
