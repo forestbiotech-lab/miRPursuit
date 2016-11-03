@@ -31,7 +31,7 @@ These two config files should be properly configured, to ensure the program runs
     **WBENCH_DIR**   
 
 
-  * workdirs.cfg::
+  * _`workdirs`.cfg::
 
       #Workdir is the path to the directory where this program will run data
       #workdir must end with trailing "/"
@@ -62,7 +62,7 @@ Module specific
 
 There is a config file for each module in the sRNA-workflow/config directory. The default values are posted, for further reference, please consult the website of the respective tool. 
 
-  * wbench_filter.cfg - `Filter <http://srna-workbench.cmp.uea.ac.uk/tools/helper-tools/filter/>`_ your sRNA sequences. Length, abundance, T/R RNA::
+  * _`wbench_filter`.cfg - `Filter <http://srna-workbench.cmp.uea.ac.uk/tools/helper-tools/filter/>`_ your sRNA sequences. Length, abundance, T/R RNA::
 
       #Broad range default values
       min_length=18
@@ -82,7 +82,7 @@ There is a config file for each module in the sRNA-workflow/config directory. Th
       kill_list=null
       discard_log=null
 
-  * wbench_mircat.cfg - `miRCat <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/mircat/>`_ predict novel miRNAs through alignment with genome to find putative precursors::
+  * _`wbench_mircat`.cfg - `miRCat <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/mircat/>`_ predict novel miRNAs through alignment with genome to find putative precursors::
       
       #Default values (Broad) 
       extend=100.0
@@ -126,7 +126,7 @@ There is a config file for each module in the sRNA-workflow/config directory. Th
       cluster_sentinel=200
       Thread_Count=20
 
-  * wbench_mirprof.cfg - `miRProf <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/mirprof/>`_ identifies conserved miRNA, through alignment to the `miRBase <http:://mirbase.org>`_ database of miRNA:: 
+  * _`wbench_mirprof`.cfg - `miRProf <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/mirprof/>`_ identifies conserved miRNA, through alignment to the `miRBase <http:://mirbase.org>`_ database of miRNA:: 
 
       #Default values	
       mismatches=0
@@ -140,15 +140,15 @@ There is a config file for each module in the sRNA-workflow/config directory. Th
       max_length=26
       min_abundance=5
 
-  * tasi.cfg - `ta-si predictor <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/ta-si-prediction/>`_, identifies phased 21nt sRNAs characterisctic of ta-siRNA loci::
+  * _`wbench_tasi`.cfg - `ta-si predictor <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/ta-si-prediction/>`_, identifies phased 21nt sRNAs characterisctic of ta-siRNA loci::
 
       #Default values
       p_val_threshold=1.0E-4
       min_abundance=2
 
-  * paresnip.cfg - `PAREsnip <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/paresnip/>`_ validates targets of regultation by sRNAs requires degradome and a transcriptome sequences::
+  * _`paresnip`.cfg - `PAREsnip <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/paresnip/>`_ validates targets of regultation by sRNAs requires degradome and a transcriptome sequences::
 
-  	  #Default values	
+  	#Default values	
       min_sRNA_abundance=5
       subsequences_are_secondary_hits=false
       output_secondary_hits_to_file=false
@@ -176,6 +176,22 @@ There is a config file for each module in the sRNA-workflow/config directory. Th
       number_of_threads=23
       auto_output_tplot_pdf=false
 
+  * _`patman_genome`.cfg - `Patman <http://bioinf.eva.mpg.de/patman>`_ a pattern matcher for short sequences::
+
+      #Default values
+      #Set mamimum edit distance to N (Default: 0)
+      EDITS=0
+      #Set maximum number of gaps to N (default: 0)
+      GAPS=0
+      #Do not match reverse-compliements (default: FALSE)
+      SINGLESTRAND=FALSE
+      #Prefetch N nodes (default: 3) Related with preformance
+      PREFETCH=3
+      #################
+      #Not implemented#
+      #################
+      #Interpret ambiguity codes in patterns (Flag for using ambicodes)
+      #ambicodes=FALSE
 
 System parameters
 ^^^^^^^^^^^^^^^^^
