@@ -133,12 +133,11 @@ echo "Running pipeline with the following arguments:"
 printf "FIRST Library\t\t\t= ${LIB_FIRST}\n"
 printf "Last Library\t\t\t= ${LIB_LAST}\n"
 printf "Number of threads\t\t= ${THREADS}\n"
-#Test numer of cores is equal or lower the avalible
 
-#Test Filter exists
+
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
   echo "Filter suffix                 = ${FILTER_SUF}"
-  cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/filters/wbench_filter_in_use.cfg
+  cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
   >&2 echo -e "${red}Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
   exit 127
@@ -167,9 +166,9 @@ else
   echo "Working directory (workdir) =  ${workdir}"      
 fi        
 if [[ -d "${INSERTS_DIR}" ]]; then
-  echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"      
+  echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
 else        
-  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config workdirs.cfg."
+  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config file ${blue}workdirs.cfg${NC}."
   exit 127
 fi        
 #nonempty string bigger than 0 (Can't remember purpose of this!)
@@ -235,13 +234,13 @@ if [[ "$step" -eq 0 ]]; then
 fi 
 if [[ "$step" -eq 1 ]]; then
   #Filter size, t/rRNA, abundance.
-  >&2 echo -ne "${blue} Step 1${NC} - Filtering lib workbench Filter            \t[#####                    ] 20%\r"
-  ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST $FILTER_SUF
+  >&2 echo -ne "${blue} Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
+  ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST
   step=2
 fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
-  >&2 echo -ne "${blue}Step 2${NC} - Filtering against genome and mirbase       \t[##########               ] 40%\r"
+  >&2 echo -ne "${blue}Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
 fi

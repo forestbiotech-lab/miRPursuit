@@ -44,7 +44,7 @@ fi
 # move and rename overview produced by wb_filter
 mv ${OUT_FILE}_overview.csv ${OUT_CSV}
 
-output_size=$(wc -l ${OUT_CSV} | awk '{print ${file}}')
+output_size=$(wc -l ${OUT_CSV} | awk '{print $1}')
 if [[ ${output_size} == 0 ]]; then
 	printf "###################\n##   ATTENTION ! ##\n###################\n###################\n"
 	printf $(date +"%y/%m/%d-%H:%M:%S")" - Filtering ${IN_ROOT} generated no reads\n\tResults for this library ${IN_ROOT} will be irrelevant from this point on.\n"

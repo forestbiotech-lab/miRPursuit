@@ -22,10 +22,15 @@ Was only adding the directory to config file.
 Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
 +(20/09/2016) project dir empty
 Check if project dir is empty if not prompt if u want to continue
++(17/11/2016) Check libs exist
+Check whether the libs given by the numbers exist in the inserts dir. This avoids running with no libs causing a bunch of erros.
+
 
 [Filter] (Done)
 +(20/09/2016)If filtering leaves you with no sRNA should not continue for this library. No there's nothing to process.
 Will continue because other libraries might have interesting results. Only issue a warning.
++(17/11/2016) Filter suffix chose from varous definitions
+Copies params from the filter with the filter suffix in filters dir, into the wbench_filter_in_use.cfg. This config file is the one that will be used throughout the workflow.
 
 [Genome] (DONE)
 +(20/09/2016)Set up in a way that check weather there are any results from genome search
