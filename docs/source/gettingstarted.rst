@@ -8,7 +8,7 @@ So at this point you have already completely installed<install>_ miRPursuit you 
 
 
 como correr o programa::
-	./sRNA.sh --
+	./miRPursuit.sh --
 
 
 Detalhar as várias opções. etc.

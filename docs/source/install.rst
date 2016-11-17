@@ -47,7 +47,7 @@ Install
 
  Congratulations you should now have miRPursuit installed in your system.
 
- Check help section for information on help and how to send feedback about this project.
+ Check `help <help.html>`_ section for information on help and how to send feedback about this project.
 
 **Configure parameters**
     Now check that all the parameters are set to your conviniance.
