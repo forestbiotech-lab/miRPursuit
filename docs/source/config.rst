@@ -4,7 +4,7 @@ Config files
 There are three types of config files, General use, Module specific and System parameters.
 
 **General use** 
-  Are those that are used by the main script to feed specific locations or general configuration parameters 
+  Are those that are used by the main script to feed specific locations or general configuration parameters. 
 
 **Module specific** 
   Are configurations that are used by the module. The names of these config files start with the wbench prefix.
@@ -33,34 +33,37 @@ These two config files should be properly configured, to ensure the program runs
 
   * _`workdirs`.cfg::
 
+      #LINES THE SWITH # ARE INFORMATIONAL ONLY
       #Workdir is the path to the directory where this program will run data
       #workdir must end with trailing "/"
-      workdir=
+      workdir=${HOME}/miRPursuit_Projects/miRtest/
       #Path to the mirbase database. Go to http://www.mirbase.org or download latest from: ftp://mirbase.org/pub/mirbase/CURRENT/
-      MIRBASE=${HOME}/Downloads/source_data/mirbase21/mature.fa
+      MIRBASE=${source_data}/mirbase/mature.fa
       #Used by java
       MEMORY="4g"
       #Set this to the max number of processed that can be used
-      THREADS=
-      #Path to the directory to get the input data
-      INSERTS_DIR=~/Downloads/git/sRNA-workflow/testDataset
+      THREADS=2
+      #Path to the directory where input data is located
+      #Test directory in miRPursuit/Test_dataset 
+      INSERTS_DIR=${SOURCE_DATA}/sRNA/
       #Path to the genome to be used
-      GENOME=/home/brunocosta/Downloads/source_data/genomes/c.canephora/pseudomolecules.fa
-      #Path to the genome to be used by mircat. Leave this, as ${GENOME} if no memory resctrictions apply to your case. Check manual on using parts      
-      GENOME_MIRCAT=${GENOME}      
-      #The suffix of the filter to be used. Check /config/workbench_filter_*.cfg      
-      FILTER_SUF=18_26_5      
-      #LCSciences      
-      ADAPTOR="TGGAATTCTCGGGTGCCAAGG"      
-      LCSCIENCE_LIB=      
-      #These vars are only used for target prediction (PAREsnip)      
+      GENOME=${SOURCE_DATA}/genomes/my_genome.fa
+      #Path to the genome to be used by mircat. Leave this, as ${GENOME} if no memory resctrictions apply to your case. Check manual on using parts
+      GENOME_MIRCAT=${GENOME/.fa/part-1.fa}
+      #The suffix of the filter to be used. Check /config/workbench_filter_*.cfg
+      FILTER_SUF=18_26_5
+      #Adaptor trimming
+      ADAPTOR="TGGAATTCTCGGGTGCCAAGG"
+      #Deprecated - Soon removed
+      LCSCIENCE_LIB=
+      #These var are only used for target prediction (PAREsnip)
       TRANSCRIPTOME=
       DEGRADOME=
 
 Module specific
 ^^^^^^^^^^^^^^^
 
-There is a config file for each module in the sRNA-workflow/config directory. The default values are posted, for further reference, please consult the website of the respective tool. 
+There is a config file for each module in the miRPursuit/config directory. The default values are posted, for further reference, please consult the website of the respective tool. 
 
   * _`wbench_filter`.cfg - `Filter <http://srna-workbench.cmp.uea.ac.uk/tools/helper-tools/filter/>`_ your sRNA sequences. Length, abundance, T/R RNA::
 

@@ -47,7 +47,7 @@ Install
 
  Congratulations you should now have miRPursuit installed in your system.
 
- You can send feedback about the project to brunocosta@itqb.unl.pt or ask for help if installation isn't working on your system.
+ Check help section for information on help and how to send feedback about this project.
 
 **Configure parameters**
     Now check that all the parameters are set to your conviniance.
@@ -56,6 +56,7 @@ Install
 
 Dependancies
 ^^^^^^^^^^^^
+FastQC (Not implemented yet.)
 
 Patman 
 

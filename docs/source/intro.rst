@@ -1,6 +1,6 @@
-Introdution
-===========
-
+============
+Introduction
+============
 
 miRPursuit is an open source project developed by the `Forest biotech lab <http://www.itqb.unl.pt/research/plant-sciences/forest-biotech>`_ to automate the management of workloads in sRNA identification process.
 
