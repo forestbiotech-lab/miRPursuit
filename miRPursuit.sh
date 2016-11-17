@@ -167,8 +167,16 @@ else
 fi        
 if [[ -d "${INSERTS_DIR}" ]]; then
   echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
+  #Not dealing files from multiple files with same pattern but diff extentions
+  testLib=$(echo ${INSERTS_DIR}/*${fasta}${fastq}${LC}${LIB_FIRST}*)
+  if [[ -e "$testLib" ]]; then
+    echo "First lib to be processed   = "${testLib}
+  else
+    >&2 echo -e "${red}Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
+    exit 127
+  fi      
 else        
-  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config file ${blue}workdirs.cfg${NC}."
+  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properely, see config file ${blue}workdirs.cfg${NC}."
   exit 127
 fi        
 #nonempty string bigger than 0 (Can't remember purpose of this!)
