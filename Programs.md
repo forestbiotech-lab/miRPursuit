@@ -17,8 +17,6 @@ Fastq quality scores are ploted
 </ul>
 </ul>
 
-
-
 <ul><strong>extract_lcscience_inserts.sh _</strong>
 <br>Description: The libraries in [.fastq.gz] format are extracted and converted to fasta.  
 Fastq quality scores are ploted. The template arguments is necessary if a range of lib are given.
@@ -49,25 +47,28 @@ Fastq quality scores are ploted. The template arguments is necessary if a range 
 <ul><strong>pipe_filter_wbench.sh</strong>
 <br>Description: Given an interval of libraries the script filters them through the workbench filter using the configs in the config file.
 Mirbase database in config file workpath.cfg
-<ul>input: [First_lib] [Last_lib] [Filter Suffix]</ul>
-<ul>Output: Filtered fasta, filteroverview</ul>
+<ul>input: [First_lib] [Last_lib]</ul>
+<ul>Output: Filtered fasta, filter_overview</ul>
 </ul>
 
 <ul><strong>pipe_filter_genome_mirbase.sh</strong>
-<br>Description: Given an interval of libraries the script aligns them to a reference genome and keeps reads that alig with a mismatch of 0, using bowtie1.
+<br>Description: Given an interval of libraries the script aligns them to a reference genome and keeps reads that align with a mismatch of X, using patman.
 Align previous reads with mirbase v20 matrue.fa. Reads that align are sent to the cons file while those that don't are sent to the noncons file. This filter using the configs in the config file.
 Mirbase database in config file workpath.cfg
-<br>config/workdirs.cfg [THREAD] [GENOME] [FILTER_SUF]
+<br>config/workdirs.cfg [THREAD] [GENOME]
 <br> missing a config file (Next update)
 <ul>input: [First_lib] [Last_lib] </ul>
 <ul>Output:
-  <ul>Cons fasta</ul>
-  <ul>Noncons fasta</ul>
-  <ul>[workdir]/count</ul>
+  <ul>[workdir]data/filter_genome/libX_filt-${FILTER_SUF}_${GENOME}${_REPORT.csv,.fa}</ul>
+  <ul>[workdir]/mirprof/libxx_filt-${FILTER_SUF}_${GENOME}_mibase{.uniq,_profile.csv,srna.fa}</ul>
+  <ul>Cons fasta libxx_filt-${FILTER_SUF}_${GENOME}_mirbase_cons.fa</ul>
+  <ul>Noncons fasta libxx_filt-${FILTER_SUF}_${GENOME}_mirbase_noncons.fa</ul>
+  <ul>[workdir]/data/count (?)</ul>
 </ul>
 <ul>Dependencies: 
   <ul> java >= 7</ul>
-  <ul>UEA workbench (mirprof)</ul>
+  <ul> Patman </ul>
+  <ul> UEA workbench (mirprof)</ul>
 </ul>_
 </ul>
 
@@ -77,9 +78,10 @@ Memory intensive script, java has to be run with memory settings. Big genome hav
 <ul>Configure: Set MEMORY and THREADS var in the config/workdirs.cfg file.</ul>
 <ul>input: [First lib] [Last lib] [Genome]</ul>
 <ul>output:
-  <ul>mircat/[basename]miRNA.fa</ul>
-  <ul>mircat/[basename]miRNA_hairpins.txt</ul>
-  <ul>mircat/[basename]ouput.csv _</ul>
+  <ul>Basename=libxx_filt-${FILTER_SUF}_${GENOME}_mirbase_noncons</ul>
+  <ul>mircat/${basename}_miRNA.fa</ul>
+  <ul>mircat/${basename}_miRNA_hairpins.txt</ul>
+  <ul>mircat/${basename}_ouput.csv _</ul>
 </ul>
 <ul>Dependencies:
   <ul>Java ~1.7</ul>
@@ -92,7 +94,7 @@ Memory intensive script, java has to be run with memory settings. Big genome hav
 This script is not memory intensive no memory settings have to be set to run the java file. So far now genome size restrictions have been detected. (Tested up to 18G genome)
 <ul>Configuration: Set TASI_GENOME var in config/workidr.cfg _</ul>
 <ul>inputs: [First_lib][Last_lib]</ul>
-<ul>ouputs: [workdir]/data/tasi/[see scripts/tasi.sh, outputs]</ul>
+<ul>ouputs: [workdir]/data/tasi/libxx_filt-${FILTER_SUF}_${GENOME}_mirbase_noncons_tasi_{srnas.txt,locuslist.csv}</ul>
 <ul>Dependencies:
   <ul>Java ~1.7</ul>
   <ul>UEA workbench</ul>

@@ -107,7 +107,7 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 
 #Check programs are set up and can run (Java and Wbench).
 if [[ -z "$JAVA_DIR"  ]]; then
-  echo -e "${red}Not set${NC}: Please set java var in config file or run install script"
+  echo -e "${red}Not set${NC}: Please set java var in ${blue}software_dirs.cfg${NC} config file or run install script"
   exit 127
 else
   if [[ -x "$JAVA_DIR" && -e "${JAVA_DIR}" ]]; then
@@ -118,13 +118,13 @@ else
   fi        
 fi
 if [[ -z "$WBENCH_DIR" ]]; then
-  echo -e "${red}Not set${NC}: Please set workbench var in config file or run install script"
+  echo -e "${red}Not set${NC}: Please set workbench var in ${blue}software_dirs.cfg${NC} config file or run install script"
   exit 127        
 else        
   if [[ -x "$WBENCH_DIR" && -e "$WBENCH_DIR" ]]; then
     echo -e "Workbench set up ${green}OK${NC}"   
   else
-    echo -e "${red}Failed${NC}: Workbench can't be run or invalid path"
+    echo -e "${red}Failed${NC}: Workbench can't be run or invalid path. Please check the workbench var in the ${blue}software_dirs.cfg${NC} config file."
     exit 127
   fi
 fi
@@ -136,26 +136,32 @@ printf "Number of threads\t\t= ${THREADS}\n"
 #Test numer of cores is equal or lower the avalible
 
 #Test Filter exists
-echo "Filter suffix                 = ${FILTER_SUF}"
+if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
+  echo "Filter suffix                 = ${FILTER_SUF}"
+  cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/filters/wbench_filter_in_use.cfg
+else
+  >&2 echo -e "${red}Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
+  exit 127
+fi
 if [[ -e "${GENOME}" ]]; then        
   echo "Genome                      = "${GENOME}
 else
-  >&2 echo -e "${red}Error${NC} - The given genome file doesn't exist please check the file exists. Correct the config file"
+  >&2 echo -e "${red}Error${NC} - The given genome file doesn't exist please check the file exists. Correct the GENOME var in ${blue}workdirs.cfg${NC} config file."
   exit 127
 fi
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
   echo "Genome mircat               = "${GENOME_MIRCAT}
 else
-  echo -e "${red}Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the config file."
+  echo -e "${red}Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the GENOME_MIRCAT var in ${blue}workdirs.cfg${NC} config file."
 fi
 if [[ -e "${MIRBASE}" ]]; then        
   echo "miRBase                     = "${MIRBASE}
 else
-  echo -e "${red}Error${NC} - The given mirbase file doesn't exist please check the file exists. Correct the config file"
+  echo -e "${red}Error${NC} - The given mirbase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
   exit 127
 fi
 if [[ -z "${workdir}" ]]; then
-  echo -e "${red}Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg"
+  echo -e "${red}Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
   exit 127
 else
   echo "Working directory (workdir) =  ${workdir}"      
@@ -163,7 +169,7 @@ fi
 if [[ -d "${INSERTS_DIR}" ]]; then
   echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"      
 else        
-  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config workdirs.cfg"
+  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properally, see config workdirs.cfg."
   exit 127
 fi        
 #nonempty string bigger than 0 (Can't remember purpose of this!)
