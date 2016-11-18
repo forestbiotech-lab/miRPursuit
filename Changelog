@@ -12,7 +12,6 @@ Solved these errors:
 Non redundant annotations by re running miRProf
 n order to perform the miRProf search without losing reads when allowing mismatches during searches, the workflow is designed using an interactive approach. Thus the first search is preformed using 0 mismatches and the annotated sequences are removed from the initial dataset. This dataset is used to perform a subsequent interaction by running with an increased number of mismatches and this process is repeated until the number of mismatches required is reached. The annotated sequences resulting from the individual runs are then grouped. The counting of the MiR families with sRNA sequences annotated in more than one miR family, are collapsed reporting the abundance of the multiply annotated sRNA sequence only once and avoiding redundant counting.
 
-
 [Install] (Done)
 +(16/09/2016)Changed path adding.
 Now the install script check which shell is being used and added to the proper startup file.
