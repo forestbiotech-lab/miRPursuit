@@ -44,6 +44,9 @@ case $key in
   fasta="$2"
   shift #past argument
   ;;
+  --trim)
+  TRIM=TRUE #Don't shift one argument
+  ;;
   --lc)
   LC="$2"
   shift # past argument
@@ -57,19 +60,22 @@ case $key in
   Optional args
   ---------------------
   ${blue}-s|--step${NC} Step is an optional argument used to jump steps to start the analysis from a different point  
-      ${green}Step 1${NC}: Wbench Filter
+      ${green}Step 1${NC}: Adaptor trimming (If flagged) & Wbench Filter
       ${green}Step 2${NC}: Filter Genome & mirbase
       ${green}Step 3${NC}: Tasi
       ${green}Step 4${NC}: Mircat
       ${green}Step 5${NC}: PAREsnip    
  ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
  ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
- ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.  
+ ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
+ ${blue}--trim${NC}  Set this flag to perform adaptor triming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
+
   "
   exit 0
 esac
 shift # past argument or value
 done
+
 
 if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
   echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
@@ -241,6 +247,15 @@ if [[ "$step" -eq 0 ]]; then
   step=1
 fi 
 if [[ "$step" -eq 1 ]]; then
+  if [[ $TRIM ]]; then  
+    if [[ -z "$ADAPTOR" ]]; then
+      echo -e "${red}Invalid Adaptor${NC}: - The adaptor variable hasn't  been configured properely, see config file ${blue}workdirs.cfg${NC}."
+      exit 127
+    else
+      >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"  
+      ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
+    fi
+  fi
   #Filter size, t/rRNA, abundance.
   >&2 echo -ne "${blue} Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
   ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST

@@ -41,6 +41,22 @@ Fastq quality scores are ploted. The template arguments is necessary if a range 
   <ul>fastq_xtract.sh, lib_cat, fq_to_fa.sh</ul>
 </ul>
 </ul>
+<ul><strong>pipe_trim_adaptor.sh _</strong>
+<br>Description: Trim adaptors from fasta libs.
+<br>The adaptor sequence must be set in the variable ADAPTOR in the workdirs.cfg configuration file. 
+<ul>Configs: config/workdir.cfg
+    <ul>ADAPTOR adaptor sequence to be clipped</ul>
+</ul>
+</ul>
+<ul>inputs: [First_lib] [Last_Lib]</ul>
+<ul>outputs:
+  <ul>[workdir]/data/fasta/libxx_report.txt</ul>
+  <ul>[workdir]/data/fasta/libxx_</ul> 
+</ul>
+<ul>dependencies:
+  <ul>fastx_clipper</ul>
+</ul>
+</ul>
 
 <ul><strong>pipe_filter_wbench.sh</strong>
   <br>Description: Given an interval of libraries the script filters them through the workbench filter using the configs in the config file.

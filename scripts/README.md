@@ -120,8 +120,22 @@ Report(Outfile): %y%m%d:%h%m%s%-c[type].tsv
 </ul>
 
 <ul><strong>trim-lcscience.sh</strong>
-<br>Description: Trims adaptores
+<br>Description: Deprecated soon phased out. 
+<br>Trims adaptores
 <ul>Configure: ADAPTOR var in config/workdirs.cfg</ul>
+<ul>input: [source] [Lib]</ul>
+<ul>output:
+  <ul>[workdir]/fasta/libXX.fa</ul>
+  <ul>[workdir]/fasta/summary</ul>
+  <ul>[workdir]/fasta/discardedreads</ul>
+</ul>
+<ul>Dependencies: fastx_toolbench _</ul>
+</ul>
+<ul><strong>trim-adaptors.sh</strong>
+<br>Description: Trims adaptores. Same as trim-lcsciences
+<ul>Configure: ADAPTOR var in config/workdirs.cfg</ul>
+<ul>Hardcoded options -l 0 -c -v</ul>
+<ul>Others are the defaults see: `Usage <http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastx_clipper_usage>`_ </ul>
 <ul>input: [source] [Lib]</ul>
 <ul>output:
   <ul>[workdir]/fasta/libXX.fa</ul>

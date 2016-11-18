@@ -95,6 +95,10 @@ Project dir
 Instead of changing manually the workdir. Add it as a optional arg at start.
 Flag the workdir with color
 
+[Trimming] (DONE)
++(18/11/2016) Set flag --trim to signal reads must be trimmed
+ This is valid for all modes. Adaptor is in workdirs.cfg
+ https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843951
 
 ......
 
