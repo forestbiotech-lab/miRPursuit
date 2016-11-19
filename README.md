@@ -185,3 +185,4 @@ files. %y%m%d:%h%m%s-type.log or *.log.ok if it ran till the end. *.
 References:
 <ul>Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Dalmay T, Moulton V: The UEA sRNA workbench: a suite of tools for analysing and visualizing nex generation sequencing microRNA and small RNA datasets.</ul>
 <a href="https://www.fasteris.com/dna/" target="_blank">Fasteris</a>
+<?php include_once("analyticstracking.php") ?>
