@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/36737158.svg)](https://zenodo.org/badge/latestdoi/36737158)
 
 **Check out our read the docs page for a more structed overview of this project:**
-<ul> [Documentation](http://goo.gl/HHijqe) </ul>
+<ul><a href="http://goo.gl/HHijqe" target="_blank">Documentation]</a> </ul>
 Soon will be changed to miRPursuit
   
 **miRPursuit: a pipeline for analysis of large-scale plant small RNA datasets**
