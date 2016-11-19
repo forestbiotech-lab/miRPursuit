@@ -252,7 +252,8 @@ if [[ "$step" -eq 1 ]]; then
       echo -e "${red}Invalid Adaptor${NC}: - The adaptor variable hasn't  been configured properely, see config file ${blue}workdirs.cfg${NC}."
       exit 127
     else
-      >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"  
+      >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
+  >&2 echo -ne "${blue} Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
   fi

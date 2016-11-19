@@ -1,105 +1,119 @@
-CHANGELOG
+CHANGELOG v1.2
 
-[miRProf] (Done on 16/09/2016)
-+Create empty file
-If there aren't any files create an empty cons file.
-[Problem for no results found with mirProf (Some species still don't have any)]
-Solved these errors:
+[miRProf] (TODO)
++(16/09/2016) Create empty file
+  If there aren't any files create an empty cons file.
+  [Problem for no results found with mirProf (Some species still don't have any)]
+  Solved these errors:
 	grep: .../sRNA/data/mirprof/lib01_filt-18_26_5_[gneome]_mirbase_srnas.fa: No such file or directory
 
 	cp: impossível analisar '.../data/mirprof/lib01_filt-18_26_5_[genome]_mirbase_srnas.fa': No such file or directory
 -(TODO) Deal with mismatches 
-Non redundant annotations by re running miRProf
-n order to perform the miRProf search without losing reads when allowing mismatches during searches, the workflow is designed using an interactive approach. Thus the first search is preformed using 0 mismatches and the annotated sequences are removed from the initial dataset. This dataset is used to perform a subsequent interaction by running with an increased number of mismatches and this process is repeated until the number of mismatches required is reached. The annotated sequences resulting from the individual runs are then grouped. The counting of the MiR families with sRNA sequences annotated in more than one miR family, are collapsed reporting the abundance of the multiply annotated sRNA sequence only once and avoiding redundant counting.
+  Non redundant annotations by re running miRProf
+  n order to perform the miRProf search without losing reads when allowing mismatches during searches, the workflow is designed using an interactive approach. Thus the first search is preformed using 0 mismatches and the annotated sequences are removed from the initial dataset. This dataset is used to perform a subsequent interaction by running with an increased number of mismatches and this process is repeated until the number of mismatches required is reached. The annotated sequences resulting from the individual runs are then grouped. The counting of the MiR families with sRNA sequences annotated in more than one miR family, are collapsed reporting the abundance of the multiply annotated sRNA sequence only once and avoiding redundant counting.
 
 [Install] (Done)
 +(16/09/2016)Changed path adding.
-Now the install script check which shell is being used and added to the proper startup file.
+  Now the install script check which shell is being used and added to the proper startup file.
 +(16/09/2016)Add mirbase file
-Was only adding the directory to config file.
--(20/09/2016) Allow use of vars in prompt (Check if possible and inform in text)
+  Was only adding the directory to config file.
+-(TODO) Allow use of vars in prompt (Check if possible and inform in text)
+  For bash this seams great. But what problems will this create in the long-term?
++(TODO) fastqc
+  Check if exists and install fastqc
 
 [Check before start] (Done)
 +(16/09/2016)mirbase file
-Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
+  Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
 +(20/09/2016) project dir empty
-Check if project dir is empty if not prompt if u want to continue
+  Check if project dir is empty if not prompt if u want to continue
 +(17/11/2016) Check libs exist
-Check whether the libs given by the numbers exist in the inserts dir. This avoids running with no libs causing a bunch of erros.
-https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843979
+  Check whether the libs given by the numbers exist in the inserts dir. This avoids running with no libs causing a bunch of erros.
+  https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843979
 
 [Filter] (Done)
 +(20/09/2016)If filtering leaves you with no sRNA should not continue for this library. No there's nothing to process.
-Will continue because other libraries might have interesting results. Only issue a warning.
+  Will continue because other libraries might have interesting results. Only issue a warning.
 +(17/11/2016) Filter suffix chose from varous definitions
-Copies params from the filter with the filter suffix in filters dir, into the wbench_filter_in_use.cfg. This config file is the one that will be used throughout the workflow.
+  Copies params from the filter with the filter suffix in filters dir, into the wbench_filter_in_use.cfg. This config file is the one that will be used throughout the workflow.
 
 [Genome] (DONE)
 +(20/09/2016)Set up in a way that check weather there are any results from genome search
-Checks weather the output of genome filtering produces an empty file. If so a warning is issued to main window anouncing that, that libary produced no reads and that analysis of that library is over, but program will continue execution.
+  Checks weather the output of genome filtering produces an empty file. If so a warning is issued to main window anouncing that, that libary produced no reads and that analysis of that library is over, but program will continue execution.
 +(20/09/2016)Add parameters for genome filtering.
-Added patman_genome.cfg file to configs with all the different possible parameters that can be changed when filtering genome.
-+Genome folder in project(20/09/2016)
-Changed the FILTER-Genome folder to something more uniform. filter_genome
+  Added patman_genome.cfg file to configs with all the different possible parameters that can be changed when filtering genome.
++(20/09/2016) Genome folder in project
+  Changed the FILTER-Genome folder to something more uniform. filter_genome
 
 [Logging] (TODO)
 +(20/09/2016)This is terrible so many log files.
-Changing to master log file and folder with each subroutine (They are only copied to folder if run terminates with success)
+  Changing to master log file and folder with each subroutine (They are only copied to folder if run terminates with success)
 +(20/09/2016)Saving logs with PPID
-Logs were being copied to the log folder by OK. in the file name. Now they are grouped by PPID. (This may still cause problems because PPIDs can still collide but it's very rare that this happens. Would only haven on multiple failed projects with restarts.)
+  Logs were being copied to the log folder by OK. in the file name. Now they are grouped by PPID. (This may still cause problems because PPIDs can still collide but it's very rare that this happens. Would only haven on multiple failed projects with restarts.)
 +(20/09/2016) Added parameters of run in log.
-Parameters for every run are being stored in it's log file.
--Logging for report.sh is still lacking should be dealt with once unique report file output starts to be generated.
+  Parameters for every run are being stored in it's log file.
+-(TODO) Logging for report.sh 
+  is still lacking should be dealt with once unique report file output starts to be generated.
+-(TODO) Add run parameter in logs
+  Added the run parameters used in the begining of the file. [TODO for the rest of the logs]
 
 [Parallel processing] (TODO)
 -Update to dynamic parallel processing
-Currently the stack must finish running all subprocesses to start a new batch.
-With dyanamic parallel processing script could fork always the top number of processes as soon as on finishes.
+  Currently the stack must finish running all subprocesses to start a new batch.
+  With dyanamic parallel processing script could fork always the top number of processes as soon as on finishes.
 
 [Phread score] (TODO)
--Hardcoded phread score
-Must set a configuration file to ajust phread score.
+-(TODO) Hardcoded phread score
+  Must set a configuration file to ajust phread score.
 
 [Document filtering](TODO)
 -Point to how you can change filtering t/rRNA lists. 
- https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843974
-
--/-Added the run parameters used in the begining of the file. [TODO for the rest of the logs]
+  https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843974
 
 [Config] (TODO)
 +(17/11/2016) Config folder defauts
-Improve config files folder: Must come with defaults in folder
-
--Improve the guide explaining that this is not intended for single files but can be used that way. (Well)
+  Improve config files folder: Must come with defaults in folder
+-(TODO) Not sure what is the issue
+  Improve the guide explaining that this is not intended for single files but can be used that way. (Well)
 
 [Send bug]
-if bug send logs
-prompt and send if program doesn't finish properly
+-(TODO) If bug send logs
+  prompt and send if program doesn't finish properly
 
 [README]
--Add readme to log folder explaining structure
+-(TODO) README to all folders
+  Add readme to log folder explaining structure and others if they exist.
 
-[Report file]
--A general report file with a compilation of all the data generated. (Statistics and path to were results are.)
-
+[Reporting]
+-(TODO) Report file
+  A general report file with a compilation of all the data generated. (Statistics and path to were results are.)
+-(TODO) grep error no reads 
+  Check which grep has problems with no reads. Looks like counts_merge.sh because of 90%. (Occurs when running dataset with trim option)
+-(TODO) merge tables
+  Run r script that merges all tables in counts
 
 [email notification] (TODO)
-When run is finished send email to responsible person.
+-(TODO) Send email automatically
+  When run is finished send email to responsible person.
 
 [Screen printing] (TODO)
--ensure minimum printing to screen
-mircat is printing stuff to screen in server but now here why? (Version problem?)
+-(TODO) Ensure minimum printing to screen
+  mircat is printing stuff to screen in server but now here why? (Version problem?)
+  Not sure this is common problem
 
 [Where to save] (TODO)
-Project dir
-Instead of changing manually the workdir. Add it as a optional arg at start.
-Flag the workdir with color
+-(TODO)Project dir
+  Instead of changing manually the workdir. Add it as a optional arg at start.
+  Flag the workdir with color
 
 [Trimming] (DONE)
 +(18/11/2016) Set flag --trim to signal reads must be trimmed
- This is valid for all modes. Adaptor is in workdirs.cfg
- https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843951
+  This is valid for all modes. Adaptor is in workdirs.cfg
+  https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843951
 
+[General] (TODO)
+-(TODO) Skip run e create empty files 
+  Don't run processes if input is empty. Just a wast of time. Simply check if file is empty
 ......
 
 [Origin? - Solved with empty files (Test this)] 
