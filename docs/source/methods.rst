@@ -36,8 +36,9 @@ _`Filtering`
 **Filtering Databases**
  The fasta sequences are filtered based on their length, abundance, low complexity and t/r RNA are removed. These parameters can be set in the `wbench_filter.cfg <config.html#wbench-filter>`_ configuration file.
 
-**Genome and miRBase**
-..[Fix this they should be seperated]
+..Fix this they should be seperated
+
+**Genome and miRBase** 
  The reads are further filtered by mapping them to the setup genome file with '0' mismatches using patman. These parameters can be set in the `patman_genome.cfg <config.html#patman-genome>`_ configuration file.
 
 -------------
@@ -51,8 +52,11 @@ _`Annotation`
  The non conserved reads are run through the `ta-si predictor <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/ta-si-prediction/>`_ to identify trans acting siRNA (tasi-RNA) using the parameters in the `wbench_tasi.cfg <config.html#wbench-tasi>`_
 
 **Novel miRNA** 
+
 ..[This will soon be changed to use conserved miRNAs alongside with non-conserved]
- The non conserved reads are also used to predict novel miRNA with `miRCat <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/mircat/>`_ by searching the genome for their respective precursor nucleotide sequences [detail this more? It isn't the pipeline that is  responsible for this] in the setup genome file. The parameters used by miRCat are set in the `wbench_mircat.cfg <config.html#wbench-mircat>`_ configuration file and the genome file is set in the `workdirs.cfg <config.html#workdirs>`_ . If  memory (RAM) restrictions apply, the genome can be split into several parts and miRCat will be run once for each part. The various parts should all be held in the same directory with a common name which includes the word part and the sequential number. Afterwards the resulting files will be merged and filtered to remove miRNAs that paired with more genome sites than those specified in the configuration file `wbench_mircat.cfg <config.html#wbench-mircat>`_.
+..[detail this more? It isn't the pipeline that is  responsible for this]
+
+ The non conserved reads are also used to predict novel miRNA with `miRCat <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/mircat/>`_ by searching the genome for their respective precursor nucleotide sequences in the setup genome file. The parameters used by miRCat are set in the `wbench_mircat.cfg <config.html#wbench-mircat>`_ configuration file and the genome file is set in the `workdirs.cfg <config.html#workdirs>`_ . If  memory (RAM) restrictions apply, the genome can be split into several parts and miRCat will be run once for each part. The various parts should all be held in the same directory with a common name which includes the word part and the sequential number. Afterwards the resulting files will be merged and filtered to remove miRNAs that paired with more genome sites than those specified in the configuration file `wbench_mircat.cfg <config.html#wbench-mircat>`_.
 
 ------------
 _`Reporting`
@@ -61,7 +65,7 @@ _`Reporting`
  The number of sequences kept in each step are given for each library, both total numbers and distinct numbers of sequences. The identified sequences and their respective absolute  count are stored in a tab separate value file (.tsv). This provides easy exportation to most statistical softwares as well as MS excel.
 
 
-..**TODO**
+.. TODO
 .. Various other tables and a report file is generated. 
 
 
