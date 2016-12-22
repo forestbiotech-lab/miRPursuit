@@ -28,8 +28,6 @@ Guide
    help 
 
 
-.. (Going out?)
-
 Indices and tables
 ==================
 
