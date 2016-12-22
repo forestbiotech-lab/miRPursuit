@@ -1,4 +1,4 @@
-Welcome to miRPrusuit | sRNA-workflow's documentation!
+Welcome to miRPursuit | sRNA-workflow's documentation!
 =======================================================
 
 .. image:: https://zenodo.org/badge/36737158.svg
@@ -11,7 +11,7 @@ Welcome to miRPrusuit | sRNA-workflow's documentation!
 -----------------
 Brief description
 -----------------
-This is an open source project, developed by Forest biotech lab group `ITQB-NOVA<http://itqb.unl.pt>`_ . This is a workflow suited for running end-to-end analysis of sRNA data, from the raw data to produce annotated reads. You can execute this workflow parallely for all your libraries, ensuring that all libraries are treated in the same way. Thus providing a high degree of reproducibility in your analysis. The execution of this program produces a detailed documentation of all the parameters used, visible in the logging files. Another major feature is the high customizability of all the steps, which proves essential when working with non-model organisms.   
+This is an open source project, developed by at the Forest Bbiotech lab group `ITQB-NOVA<http://itqb.unl.pt>`_ . This miRPursuit is a workflow suited for running end-to-end analysis of small RNA data, from the raw data to produce the annotated reads. You can execute this workflow parallely in parallel for all your libraries, ensuring that all libraries are treated in the same way, t. Thus providing a high degree of reproducibility in your analysis. The execution of this program produces a detailed documentation of all the parameters used, visible in the logging files. Another major feature is that the high customizability of all the steps can be customized, which proves essential making it particularly useful when working with non-model organisms.
 
 Guide
 ^^^^^
@@ -27,7 +27,7 @@ Guide
    help 
 
 
-(Going out?)
+//(Going out?)
 
 Indices and tables
 ==================

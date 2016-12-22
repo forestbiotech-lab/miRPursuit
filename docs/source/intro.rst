@@ -2,20 +2,23 @@
 Introduction
 ============
 
-miRPursuit is an open source project developed by the `Forest biotech lab <http://www.itqb.unl.pt/research/plant-sciences/forest-biotech>`_ to automate the management of workloads in sRNA identification process.
+miRPursuit is an open source project developed by at the `Forest Biotech group <http://www.itqb.unl.pt/research/plant-sciences/forest-biotech>`_ to automate the management of workloads in 
 
-Objectives
+### Objectives
 
-The main goal of this pipeline is to aggregate independent module into a pipeline to automate the process of extracting information from sequenced data.
+The main goal of this pipeline is to aggregate independent modules into a pipeline to automate the process of extracting information from sequence data.
 
-Pros:
+
+
+
+####Pros:
 
 Data in these project is usally genarate in various libraries which have to be processed independantly   
 
-Cons:
+####Cons:
 
 
-Outputs
+##Outputs
 
 Expression per lib
 conseved sRNAs
@@ -26,7 +29,7 @@ Lists with statistics (What?)
 Counts
 
 
-Future goals:
+##Future goals:
 
 
 
