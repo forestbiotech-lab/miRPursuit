@@ -1,11 +1,11 @@
 Installation
 ============
 
-This pipeline is intended to be run in a linux environment. Installation is quite simple and can be accomplished by grabbing a copy of the project from `github <https://github.com/forestbiotech-lab/miRPursuit>`_ and then running the installation script. Below are a few lines to help guide you through the installation process.
+This pipeline is intended to be run in a linux environment. Installation can be accomplished by grabbing a copy of the project from `github <https://github.com/forestbiotech-lab/miRPursuit>`_ and then running the installation script. Below are a few lines to help guide you through the installation process.
 
-* The pipeline is optimized to run in the command line so the following steps will focus on that approach.
+* The pipeline is optimized to run in the command line as detailed below.
 * To open a terminal on a debian based system press: **CTRL + ALT + T**
-* To install on a remote machine connect via ssh to it and navigate to the desired path of installation. 
+* To install on a remote machine, make a connection via ssh and navigate to the desired path of installation. 
  
 
 Download program
@@ -41,7 +41,7 @@ Install
 	./install.sh
 
  Make sure you restart your terminal/computer to update your path so patman can be accessed.
- Alternatively you can source you startup shell file. Ex:Bash. ::
+ Alternatively you can source your startup shell file. Ex:Bash. ::
 	
 		source ~/.bashrc
 
@@ -50,11 +50,11 @@ Install
  Check `help <help.html>`_ section for information on help and how to send feedback about this project.
 
 **Configure parameters**
-    Now check that all the parameters are set to your conviniance.
+    Now check that all the parameters are set to your convenience.
 
     `Go to configuration <config.html>`_ page.
 
-Dependancies
+Dependencies
 ^^^^^^^^^^^^
 FastQC (Not implemented yet.)
 

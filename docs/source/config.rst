@@ -1,5 +1,5 @@
 Config files
-====
+============
 
 There are three types of config files, General use, Module specific and System parameters.
 
