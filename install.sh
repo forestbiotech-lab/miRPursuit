@@ -20,19 +20,27 @@ NC='\e[0m' # No Color
 
 
 echo "Run as ./install.sh or it will produce errors"
-echo "Checking avalible software"
+echo "Checking available software"
 
-##Gets the scipt directory
+##Gets the script directory
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 CFG=${DIR}/config/software_dirs.cfg
 CFG_WD=${DIR}/config/workdirs.cfg
 CFG_mircat=${DIR}/config/wbench_mircat.cfg
 
+#URLS LIST
+fastQC_url="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip"
+patman_url="https://bioinf.eva.mpg.de/patman/patman-1.2.2.tar.gz"
+java_url="http://javadl.sun.com/webapps/download/AutoDL?BundleId=109700"
+workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version4/srna-workbenchV4.0Alpha.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fdownloadspage%2F&ts=1454556621&use_mirror=netcologne"
+fastx_toolkit_url="http://hannonlab.cshl.edu/fastx_toolkit/fastx_toolkit_0.0.13_binaries_Linux_2.6_amd64.tar.bz2"
 
 
 ##Snippet for getting current shell startup file
 ##Working for bash an zsh, not tested for the others
 shell=$(basename $SHELL)
+
+profile=$HOME/.profile
 
 case $shell in
   bash)
@@ -56,6 +64,9 @@ case $shell in
 esac
 shift
 
+#Ensure that the file exists
+touch $profile
+
 ##get software dirs
 . $CFG
 
@@ -75,18 +86,17 @@ echo $SOFTWARE
 echo "Software"
 command -v tar >/dev/null 2>&1 || { echo >&2 "Tar is required before starting. sudo apt-get install tar if you have administrative access or ask your sysadmin to install it."; }
 
-for i in patman fastq_to_fasta
+for i in patman fastq_to_fasta fastqc
 do
   eval $i="FALSE"
   command -v $i >/dev/null 2>&1 || { echo >&2 "$i required. Installing";eval $i="TRUE"; }
 done
 
-#Patman installation
+#PatMaN installation
 if [[ "$patman" == "TRUE" ]]; then
   echo $patman
-  echo "Patman installation"
+  echo "PatMaN installation"
   cd $SOFTWARE
-  patman_url="https://bioinf.eva.mpg.de/patman/patman-1.2.2.tar.gz"
   echo "Starting to download patman"
   wget -c $patman_url
   echo "Extracting data..."
@@ -100,19 +110,19 @@ if [[ "$patman" == "TRUE" ]]; then
     echo "patman has been add to you path in $profile if necessary add it to a more convinent location or change binaries to a directory in your path"
     echo "##Added patman to path" >> $profile
     echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/" >> $profile
-    echo -e "${green}Patman installation finished${NC} - patman added to PATH"
+    echo -e "${green}PatMaN installation finished${NC} - PatMaN added to PATH"
     sleep 1
     echo ""
   else
-    echo -e "${red}Warning!${NC} - Could not add patman to path."
+    echo -e "${red}Warning!${NC} - Could not add PatMaN to path."
     echo "File doesn't exist - $profile.  "
     sleep 1
-    echo "Add the following line to your startup shell file ex:bashrc,bash_profile, etc."
+    echo "Add the following line to your startup shell file ex: .bashrc, .bash_profile, etc."
     echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/"  
     echo ""
   fi
   export PATH=${PATH}:${SOFTWARE}"/patman-1.2.2/"
-  patman -V	
+  patman -V 
   cd -
 fi
 
@@ -122,13 +132,12 @@ if [[ -z "$JAVA_DIR" ]]; then
   cd $SOFTWARE
   echo "JAVA installation"
   echo "Downloading Java"
-  java_url="http://javadl.sun.com/webapps/download/AutoDL?BundleId=109700"
   wget -c $java_url
   tar -xzvf "AutoDL?BundleId=109700"
-  echo "Added Java to software.cfg"	
+  echo "Added Java to software.cfg" 
   sed -r "s:(JAVA_DIR=)(.*):\1${SOFTWARE}/jre1.8.0_60/bin:" ${CFG}  > temp_12345678987654321
   mv temp_12345678987654321 ${CFG}
-  #preform test to ensure installed sucessfully
+  #preform test to ensure installed successfully
   echo -e "${green}Java installed$NC - Java added to software_dirs.cfg"
   sleep 1
   echo ""
@@ -137,7 +146,6 @@ fi
 #Fastx_toolkit installation
 if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   echo "Fastx_toolkit installation"
-  fastx_toolkit_url="http://hannonlab.cshl.edu/fastx_toolkit/fastx_toolkit_0.0.13_binaries_Linux_2.6_amd64.tar.bz2"
   cd ${SOFTWARE}
   echo "Starting to download fastx_toolkit"
   wget -c $fastx_toolkit_url
@@ -146,16 +154,16 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   #Check if file exists to append to it
   if [[ -e $profile ]]; then
     echo "appended to ${profile}"
-    echo "Fastx_toolkit has been add to you path in ~/.profile if necessary add it to a more convinent location or change binaries to a directory in your path"
+    echo "Fastx_toolkit has been added to you path in ~/.profile if necessary add it to a more convenient location or change binaries to a directory in your path"
     echo "##Added Fastx_toolkit binaries to path" >> $profile
     echo "PATH=\$PATH:${SOFTWARE}/bin/" >> $profile
     echo -e "${green} Fastx_toolkit installation finished $NC"
     echo ""
     sleep 1
   else
-    echo -e "${red}Warning!${NC} - Could not add patman to path."
+    echo -e "${red}Warning!${NC} - Could not add Fastx_toolkit to path."
     echo "File doesn't exist - $profile.  "
-    echo "Add the following line to your startup shell file ex:bashrc,bash_profile, etc."
+    echo "Add the following line to your startup shell file ex: .bashrc, .bash_profile, etc."
     echo "PATH=\$PATH:${SOFTWARE}/bin/"
     echo ""
     sleep 1
@@ -163,10 +171,43 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   export PATH=${PATH}:${SOFTWARE}"/bin/"
   cd -
 fi
+
+#Fastx_toolkit installation
+if [[ "$fastqc" == "TRUE"  ]]; then
+  echo "fastQC installation"
+  cd ${SOFTWARE}
+  echo "Starting to download fastx_toolkit"
+  wget -c $fastQC_url
+  echo "Extracting data..."
+  unzip "fastqc_v0.11.5.zip"
+  ## Set file as executable might require permission 
+  chmod +x ${SOFTWARE}/FastQC/fastqc
+  #Check if file exists to append to it
+  if [[ -e $profile ]]; then
+    echo "appended to ${profile}"
+    echo "fastQC has been added to you path in ${profile} if necessary add it to a more convenient location or change binaries to a directory in your path"
+    echo "##Added fastQC binaries to path" >> $profile
+    echo "PATH=\$PATH:${SOFTWARE}/FastQC/" >> $profile
+    echo -e "${green} Fastx_toolkit installation finished $NC"
+    echo ""
+    sleep 1
+  else
+    echo -e "${red}Warning!${NC} - Could not add fastQC to path."
+    echo "File doesn't exist - ${profile}.  "
+    echo "Add the following line to your startup shell file ex: .bashrc, .bash_profile, etc."
+    echo "PATH=\$PATH:${SOFTWARE}/fastqc_v0.11.5/FastQC/"
+    echo ""
+    sleep 1
+  fi
+  export PATH=${PATH}:${SOFTWARE}"/FastQC/"
+  cd -
+fi
+
+
+
 #UEA sRNA workbench  || Get creative....
 
 if [[ -z "$WBENCH_DIR" ]]; then
-  workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version4/srna-workbenchV4.0Alpha.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fdownloadspage%2F&ts=1454556621&use_mirror=netcologne"
   cd ${SOFTWARE}
   echo "Starting to download UEA sRNA Workbench"
   wbench_filename=srna-workbenchV4.0_ALPHA.zip
@@ -174,7 +215,7 @@ if [[ -z "$WBENCH_DIR" ]]; then
   unzip $wbench_filename
   wbench_folder=$(unzip -l ${SOFTWARE}/${wbench_filename} | grep "Workbench.jar" | awk '{print $4}'| awk -F "/" '{print $1}')
   sed -ri "s:(WBENCH_DIR=)(.*):\1${SOFTWARE}/${wbench_folder}:" ${CFG}
-  echo -e "$green Wbench instalation finished $NC"
+  echo -e "$green Workbench installation finished $NC"
   sleep 1
   echo ""
   cd -
@@ -183,13 +224,12 @@ fi
 
 
 ##activate new .profile
-source ~/.profile
-
-echo -ne "${green}Installation completed...${NC} However please check patman is in your path if not please restart your terminal"
+#source ${profile}
+echo -ne "${green}Installation completed...${NC} However please check PatMaN is in your path if not please restart your terminal"
 sleep 2
 echo ""
 echo -ne "${blue}Configuring the workdir parameters.${NC}\r"
-#Just to make it more visually apealing let's set the illution that something is happening here
+#Just to make it more visually appealing let's set the illusion that something is happening here
 sleep 1
 echo -ne "${blue}Configuring the workdir parameters. .${NC}\r"
 sleep 1
@@ -201,7 +241,7 @@ echo ""
 
 while [[ "$booleanYorN" != [yYnN] ]]
 do        
-	read -n1 -p "Create source data folder (Where genomes and other stuff will be) in: ${SOURCE_DATA} ? (Y/N)" booleanYorN
+	read -n1 -p "Create source data folder (Where genomic resources, such as genomes, miRBase, etc...) in: ${SOURCE_DATA} ? (Y/N)" booleanYorN
 	case $boolreanYorN in
 	  y|Y) echo "Creating folder";mkdir -p ${SOURCE_DATA};;
 	  n|N) echo "Alternative path";;
@@ -219,10 +259,10 @@ unset booleanYorN
 
 while [[ "$booleanYorN" != [yYnN] ]]
 do        
-  read -n1 -p  "Do you wish to download the latest version of mirbase? (Y/N)" booleanYorN
+  read -n1 -p  "Do you wish to download the latest version of miRBase? (Y/N)" booleanYorN
   case $booleanYorN in 
-    y|Y) echo -e "\nDownloading mirbase";;
-    n|N) echo "Skipped mirbase installtion please set up this value in config file";;
+    y|Y) echo -e "\nDownloading miRBase";;
+    n|N) echo "Skipped miRBase installation please set up this value in configuration file";;
     *)  echo -e"\nInvalid Input please type either (Y/N) ";;
   esac  
 done
@@ -239,19 +279,19 @@ if [[ "$booleanYorN" == [yY] ]]; then
     gunzip $mirbase_filename
     sed -ri "s:(MIRBASE=)(.*):\1${SOURCE_DATA}/mirbase/${mirbase_filename/.gz/}:" ${CFG_WD} 
   else
-    echo -e "${red}Warning - Failed to download mirbase but script will continue.${NC}"
+    echo -e "${red}Warning - Failed to download miRBase but script will continue.${NC}"
   fi
-  else
-    read -n1 -p "The current mirbase dir in config is $MIRBASE do you want to change it? (Y/N)" mirYorN
-    case $mirYorN in
-      y|Y) echo -e "\n Please set if up";;
-      n|N) echo "Value inaltered";;
-      *)  echo -e"\nInvalid Input please type either (Y/N) Sorry skipped change value in config ";;
-    esac
-    if [[ "$mirYorN" == [yY] ]]; then
-      read -p "Type new path for mirbase: " MIRBASE
-      sed -ri "s:(MIRBASE=)(.*):\1${MIRBASE}:" ${CFG_WD} 
-    fi
+else
+  read -n1 -p "The current miRBase directory in configuration file is $MIRBASE do you want to change it? (Y/N)" mirYorN
+  case $mirYorN in
+    y|Y) echo -e "\n Setting miRBase var.\n";;
+    n|N) echo "Value not altered";;
+    *)  echo -e"\nInvalid Input please type either (Y/N) Sorry skipped change value in configuration.";;
+  esac
+  if [[ "$mirYorN" == [yY] ]]; then
+    read -p "Type new path for mirbase:" MIRBASE
+    sed -ri "s:(MIRBASE=)(.*):\1${MIRBASE}:" ${CFG_WD} 
+  fi
 fi
 unset booleanYorN
 

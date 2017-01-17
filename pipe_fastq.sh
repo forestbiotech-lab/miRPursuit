@@ -79,19 +79,34 @@ else
       NPROC=0
     fi
 
-   
-
-
   done
   wait
   NPROC=0
-  printf $(date +"%y/%m/%d-%H:%M:%S")" - Extracted / Copied all fastq files - Starting to convert to fasta PHREAD score is hardcoded to 33\n"
-   
+  printf $(date +"%y/%m/%d-%H:%M:%S")" - Extracted / Copied all fastq files - Quality control. With FastQC\n"
+
+  #Test fastqc is installed  
+  installedFastQC="FALSE"
+  prog=fastqc
+  command -v $prog >/dev/null 2>&1 || { echo >&2 "${prog} required. Installing"; installedFastQC="TRUE"; }
+  if [[ "$installedFastQC" ]]; then 
+    for i in $cycle
+    do 
+      LIB_NOW=$i
+      LIB=$(printf "%02d\n"  $LIB_NOW)
+      #Not running in parallel should it? Needs testing
+      fastqc -o ${workdir}data/quality ${workdir}data/lib${LIB}.fq   
+    done 
+  else
+    printf $(date +"%y/%m/%d-%H:%M:%S")" -FastQC isn't installed will continue without quality control \n" 
+  fi
+
+  printf $(date +"%y/%m/%d-%H:%M:%S")" - Starting to convert to fasta PHREAD score is hard-coded to 33\n"
   for i in $cycle
   do 
     #Running multiple threads of fq_to_fa_exe.sh
     NPROC=$(( $NPROC + 1 ))
     LIB_NOW=$i
+    LIB=$(printf "%02d\n"  $LIB_NOW)
     ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB_NOW} &
     if [ "$NPROC" -ge "$THREADS" ]; then 
       wait
@@ -101,24 +116,8 @@ else
   done
   wait
   NPROC=0
-  printf $(date +"%y/%m/%d-%H:%M:%S")" - Finished convertion to fasta for all libs\n"
+  printf $(date +"%y/%m/%d-%H:%M:%S")" - Finished conversion to fasta for all libs\n"
 
-####################################################### Extract
-# for i in $cycle
-# do 
-#   #Paralell threading trim-lcschience.sh
-#   NPROC=$(($NPROC+1))
-#   LIB_NOW=$i
-#   ${SCRIPT_DIR}trim-lcscience.sh ${DIR} ${LIB_NOW} & 
-#   if [ "$NPROC" -ge "$THREADS" ]; then 
-#     wait
-#     NPROC=0
-#   fi
-#
-# done
-# wait
-#######################################################
-  #echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished trimming"
 fi
 
 END_TIME=$(date +%s.%N) 
