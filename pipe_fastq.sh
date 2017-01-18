@@ -94,6 +94,7 @@ else
       LIB_NOW=$i
       LIB=$(printf "%02d\n"  $LIB_NOW)
       #Not running in parallel should it? Needs testing
+      mkdir -p ${workdir}data/quality
       fastqc -o ${workdir}data/quality ${workdir}data/lib${LIB}.fq   
     done 
   else
