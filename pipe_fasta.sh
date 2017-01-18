@@ -61,7 +61,7 @@ printf $(date +"%y/%m/%d-%H:%M:%S")" - Copied all fasta files\n"
 installedFastQC="TRUE"
 prog=fastqc
 command -v $prog >/dev/null 2>&1 || { echo >&2 "${prog} required. Or not in path yet."; installedFastQC="FALSE"; }
-if [[ "$installedFastQC" ]]; then 
+if [[ "$installedFastQC" == "TRUE" ]]; then 
   for i in $cycle
   do 
     LIB_NOW=$i

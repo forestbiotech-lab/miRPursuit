@@ -92,8 +92,8 @@ do
   command -v $i >/dev/null 2>&1 || { echo >&2 "$i required. Installing";eval $i="TRUE"; }
 done
 
-if [[ "$unzip" ]]; then
-  >&2 echo -e "${red} Warning!${NC} - unzip needed cannot continue without this tool." 
+if [[ "$unzip" == "TRUE" ]]; then
+  >&2 echo -e "${red} Warning!${NC} - unzip needed. Can not continue without this tool." 
   >&2 echo -e "${red} Warning!${NC} - Ask your administrator to install unzip." 
   >&2 echo -e "${red} Warning!${NC} - If you have administrator access run: sudo apt-get install unzip." 
   >&2 echo -e "${red} Warning!${NC} - Or download unzip and add it to your path."
