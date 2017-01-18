@@ -58,15 +58,16 @@ wait
 printf $(date +"%y/%m/%d-%H:%M:%S")" - Copied all fasta files\n"
 
 #Test fastqc is installed  
-installedFastQC="FALSE"
+installedFastQC="TRUE"
 prog=fastqc
-command -v $prog >/dev/null 2>&1 || { echo >&2 "${prog} required. Installing"; installedFastQC="TRUE"; }
+command -v $prog >/dev/null 2>&1 || { echo >&2 "${prog} required. Or not in path yet."; installedFastQC="FALSE"; }
 if [[ "$installedFastQC" ]]; then 
   for i in $cycle
   do 
     LIB_NOW=$i
     LIB=$(printf "%02d\n"  $LIB_NOW)
     #Not running in parallel should it? Needs testing
+    
     fastqc -o ${workdir}data/quality ${workdir}data/lib${LIB}.fa   
   done 
 else

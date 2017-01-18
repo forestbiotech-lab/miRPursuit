@@ -86,11 +86,21 @@ echo $SOFTWARE
 echo "Software"
 command -v tar >/dev/null 2>&1 || { echo >&2 "Tar is required before starting. sudo apt-get install tar if you have administrative access or ask your sysadmin to install it."; }
 
-for i in patman fastq_to_fasta fastqc
+for i in patman fastq_to_fasta fastqc unzip
 do
   eval $i="FALSE"
   command -v $i >/dev/null 2>&1 || { echo >&2 "$i required. Installing";eval $i="TRUE"; }
 done
+
+if [[ "$unzip" ]]; then
+  >&2 echo -e "${red} Warning!${NC} - unzip needed cannot continue without this tool." 
+  >&2 echo -e "${red} Warning!${NC} - Ask your administrator to install unzip." 
+  >&2 echo -e "${red} Warning!${NC} - If you have administrator access run: sudo apt-get install unzip." 
+  >&2 echo -e "${red} Warning!${NC} - Or download unzip and add it to your path."
+  >&2 echo -e "${red} Warning!${NC} - Help on installation here: http://www.linuxfromscratch.org/blfs/view/svn/general/unzip.html " 
+  >&2 echo -e "${red} Warning!${NC} - Please run this again once unzip is installed."
+  exit 1
+fi
 
 #PatMaN installation
 if [[ "$patman" == "TRUE" ]]; then
@@ -195,7 +205,7 @@ if [[ "$fastqc" == "TRUE"  ]]; then
     echo -e "${red}Warning!${NC} - Could not add fastQC to path."
     echo "File doesn't exist - ${profile}.  "
     echo "Add the following line to your startup shell file ex: .bashrc, .bash_profile, etc."
-    echo "PATH=\$PATH:${SOFTWARE}/fastqc_v0.11.5/FastQC/"
+    echo "PATH=\$PATH:${SOFTWARE}/FastQC/"
     echo ""
     sleep 1
   fi
@@ -289,7 +299,7 @@ else
     *)  echo -e"\nInvalid Input please type either (Y/N) Sorry skipped change value in configuration.";;
   esac
   if [[ "$mirYorN" == [yY] ]]; then
-    read -p "Type new path for mirbase:" MIRBASE
+    read -p "Type new path for miRBase:" MIRBASE
     sed -ri "s:(MIRBASE=)(.*):\1${MIRBASE}:" ${CFG_WD} 
   fi
 fi
@@ -345,12 +355,12 @@ if [[ "$booleanYorN" == [yY] ]]; then
   sed -ri "s:(MEMORY=)(.*):\1\"${SET_MEM}g\":" ${CFG_WD}
 fi
 echo "What is the full path to the directory where your sRNA libraries are inserts_dir"
-read -p "	(Please work with backuped files) " inserts_dir
+read -p "	(Please work with backed files) " inserts_dir
   sed -ri "s:(INSERTS_DIR=)(.*):\1${inserts_dir}:" ${CFG_WD}
 
 echo -e "\nYour current settings are:"
 echo $(cat ${CFG_WD})
-echo -e "${blue}Don't forget to ${blink}restart${unblink} terminal or ${NC}source~/.profile"
+echo -e "${blue}Don't forget to ${blink}restart${unblink} terminal or ${NC}source ${profile}"
 echo -e "${green}Installation finished${NC}"
 
 exit 0

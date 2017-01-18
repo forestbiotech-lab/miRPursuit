@@ -253,7 +253,7 @@ if [[ "$step" -eq 1 ]]; then
       exit 127
     else
       >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
-  >&2 echo -ne "${blue} Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
+      >&2 echo -ne "${blue} Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
   fi
