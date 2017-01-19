@@ -45,13 +45,13 @@ for i in $cycle
 do
   LIB_NOW=$i
   LIB=$(printf "%02d\n"  $LIB_NOW)  
-  EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fa|fasta)+")
+  EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fa|fasta)+$")
 
 
   ##Add gzip extraction
   if [[ -z "$EXTRACT_LIB" ]]; then
       #Test if .fastq/fq.gz exists      
-      EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}*\.(fa|fasta)+\.gz")
+      EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}*\.(fa|fasta)+\.gz$")
       if [[ -e "${INSERTS_DIR}/${EXTRACT_LIB}" ]]; then
         NPROC=$(( $NPROC + 1 ))
         gunzip -c ${INSERTS_DIR}/${EXTRACT_LIB} > ${workdir}data/fasta/Lib${LIB}.fa &       
@@ -84,7 +84,7 @@ if [[ "$installedFastQC" == "TRUE" ]]; then
     #Not running in parallel should it? Needs testing
     mkdir -p ${workdir}data/quality
     #Zero based number prob
-    fastqc -o ${workdir}data/quality ${workdir}data/Lib${LIB}.fa   
+    fastqc -o ${workdir}data/quality ${workdir}data/fasta/Lib${LIB}.fa   
   done 
 else
   printf $(date +"%y/%m/%d-%H:%M:%S")" -FastQC isn't installed will continue without quality control \n" 

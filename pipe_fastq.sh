@@ -56,12 +56,12 @@ else
   do 
     LIB_NOW=$i
     LIB=$(printf "%02d\n"  $LIB_NOW)
-    CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+")
+    CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+$")
     #Test if "fq exists"
     if [[ -z "$CONVERT_LIB" ]]; then
           
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+\.gz")
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+\.gz$")
       if [[ -e "${INSERTS_DIR}/${CONVERT_LIB}" ]]; then
         NPROC=$(( $NPROC + 1 ))
         gunzip -c ${INSERTS_DIR}/$CONVERT_LIB > ${workdir}data/fastq/Lib${LIB}.fq &       
@@ -71,7 +71,7 @@ else
       fi
     else      
       NPROC=$(( $NPROC+1 ))
-      cp ${INSERTS_DIR}/$CONVERT_LIB ${workdir}data/fastq/Lib${LIB}.fq &
+      cp ${INSERTS_DIR}/${CONVERT_LIB} ${workdir}data/fastq/Lib${LIB}.fq &
     fi
 
     if [ "$NPROC" -ge "$THREADS" ]; then 
@@ -95,7 +95,7 @@ else
       LIB=$(printf "%02d\n"  $LIB_NOW)
       #Not running in parallel should it? Needs testing
       mkdir -p ${workdir}data/quality
-      fastqc -o ${workdir}data/quality ${workdir}data/Lib${LIB}.fq   
+      fastqc -o ${workdir}data/quality ${workdir}data/fastq/Lib${LIB}.fq   
     done 
   else
     printf $(date +"%y/%m/%d-%H:%M:%S")" -FastQC isn't installed will continue without quality control \n" 
