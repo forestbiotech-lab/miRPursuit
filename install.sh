@@ -86,7 +86,7 @@ echo $SOFTWARE
 echo "Software"
 command -v tar >/dev/null 2>&1 || { echo >&2 "Tar is required before starting. sudo apt-get install tar if you have administrative access or ask your sysadmin to install it."; }
 
-for i in patman fastq_to_fasta fastqc unzip
+for i in patman fastq_to_fasta fastqc unzip java
 do
   eval $i="FALSE"
   command -v $i >/dev/null 2>&1 || { echo >&2 "$i required. Installing";eval $i="TRUE"; }
@@ -116,10 +116,10 @@ if [[ "$patman" == "TRUE" ]]; then
   cd "patman-1.2.2"
   #Check if file exists to append to it
   if [[ -e $profile ]]; then
-    echo "appended to ${profile}"
     echo "patman has been add to you path in $profile if necessary add it to a more convinent location or change binaries to a directory in your path"
     echo "##Added patman to path" >> $profile
     echo "PATH=\$PATH:${SOFTWARE}/patman-1.2.2/" >> $profile
+    echo "appended to ${profile}"
     echo -e "${green}PatMaN installation finished${NC} - PatMaN added to PATH"
     sleep 1
     echo ""
@@ -150,7 +150,25 @@ if [[ -z "$JAVA_DIR" ]]; then
   #preform test to ensure installed successfully
   echo -e "${green}Java installed$NC - Java added to software_dirs.cfg"
   sleep 1
-  echo ""
+  if [[ "${java}" == "TRUE" ]]; then
+    echo "No other version of java was installed. Java will be added to your path in profile"
+    if [[ -e $profile ]]; then
+      echo "Java has been add to you path in ${profile} if necessary add it to a more convinent location or change binaries to a directory in your path"
+      echo "##Added java to path" >> $profile
+      echo "PATH=\$PATH:${SOFTWARE}/jre1.8.0_60/bin/" >> $profile
+      echo "Java appended to ${profile}"
+      echo -e "${green}Java installation finished${NC} - Java added to PATH"
+      sleep 1
+      echo ""
+    else
+      echo -e "${red}Warning!${NC} - Could not add Java to path."
+      echo "File doesn't exist - $profile.  "
+      sleep 1
+      echo "Add the following line to your startup shell file ex: .bashrc, .bash_profile, etc."
+      echo "PATH=\$PATH:${SOFTWARE}/jre1.8.0_60/bin/"  
+    fi    
+  echo "If you want to use a different flavour of java just remove it from it's path. Inclusion in path is just for fastqc."
+  fi
 fi
 
 #Fastx_toolkit installation

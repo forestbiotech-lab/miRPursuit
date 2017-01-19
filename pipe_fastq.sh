@@ -40,7 +40,7 @@ SCRIPT_DIR=$DIR"/scripts/"
 
 START_TIME=$(date +%s.%N)
 
-#Chosses run mode based on input arguments
+#Chooses run mode based on input arguments
 echo $(date +"%y/%m/%d-%H:%M:%S")" - Extracting / Copying fastq files to workdir." 
 if [[ -z $2 || -z $3 ]]; then
   #Only one argument was given
@@ -61,7 +61,7 @@ else
     if [[ -z "$CONVERT_LIB" ]]; then
           
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}*\.(fq|fastq)+\.gz")
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+\.gz")
       if [[ -e "${INSERTS_DIR}/${CONVERT_LIB}" ]]; then
         NPROC=$(( $NPROC + 1 ))
         gunzip -c ${INSERTS_DIR}/$CONVERT_LIB > ${workdir}data/fastq/Lib${LIB}.fq &       
