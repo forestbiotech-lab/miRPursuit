@@ -44,11 +44,11 @@ printf $(date +"%y/%m/%d-%H:%M:%S")" - Copying all fasta files to workdir\n"
 for i in $cycle
 do
   LIB_NOW=$i
-  LIB=$(printf "%02d\n"  $LIB_NOW)
-  #Might have problems with well numbers files such as 01 or so.
-  EXTRACT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB_NOW}*.fa)
+  LIB=$(printf "%02d\n"  $LIB_NOW)  
+  EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fa|fasta)+")
+
   NPROC=$(($NPROC+1))
-  cp $EXTRACT_LIB ${workdir}data/fasta/lib${LIB}.fa &
+  cp ${INSERTS_DIR}/$EXTRACT_LIB ${workdir}data/fasta/Lib${LIB}.fa &
   if [ "$NPROC" -ge "$THREADS" ]; then
     wait
     NPROC=0
@@ -68,7 +68,8 @@ if [[ "$installedFastQC" == "TRUE" ]]; then
     LIB=$(printf "%02d\n"  $LIB_NOW)
     #Not running in parallel should it? Needs testing
     mkdir -p ${workdir}data/quality
-    fastqc -o ${workdir}data/quality ${workdir}data/lib${LIB}.fa   
+    #Zero based number prob
+    fastqc -o ${workdir}data/quality ${workdir}data/Lib${LIB}.fa   
   done 
 else
   printf $(date +"%y/%m/%d-%H:%M:%S")" -FastQC isn't installed will continue without quality control \n" 

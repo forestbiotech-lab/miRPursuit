@@ -44,10 +44,10 @@ START_TIME=$(date +%s.%N)
 echo $(date +"%y/%m/%d-%H:%M:%S")" - Extracting / Copying fastq files to workdir." 
 if [[ -z $2 || -z $3 ]]; then
   #Only one argument was given
-   CONVERT_LIB=$LCSCIENCE_LIB  #From config file?
-   LIB=$LIB_FIRST   
-   cp $CONVERT_LIB ${workdir}data/fastq/lib${LIB}.fq &
-   ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB}
+  CONVERT_LIB=$LCSCIENCE_LIB  #From config file?
+  LIB=$LIB_FIRST   
+  cp $CONVERT_LIB ${workdir}data/fastq/Lib${LIB}.fq &
+  ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB}
 else
   #Running various threads      
   NPROC=0
@@ -56,22 +56,21 @@ else
   do 
     LIB_NOW=$i
     LIB=$(printf "%02d\n"  $LIB_NOW)
-    CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.{fq,fastq})
-
+    CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+")
     #Test if "fq exists"
     if [[ -z "$CONVERT_LIB" ]]; then
           
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR}/*${TEMPLATE}${LIB}*.{fastq,fq}.gz)
-      if [[ -e "$CONVERT_LIB" ]]; then
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]${LIB_NOW}*\.(fq|fastq)+\.gz")
+      if [[ -e "${INSERTS_DIR}/${CONVERT_LIB}" ]]; then
         NPROC=$(( $NPROC + 1 ))
-        gunzip -c $CONVERT_LIB > ${workdir}data/fastq/lib${LIB}.fq &       
+        gunzip -c ${INSERTS_DIR}/$CONVERT_LIB > ${workdir}data/fastq/Lib${LIB}.fq &       
       else
         exit 1
       fi
     else      
       NPROC=$(( $NPROC+1 ))
-      cp $CONVERT_LIB ${workdir}data/fastq/lib${LIB}.fq &
+      cp ${INSERTS_DIR}/$CONVERT_LIB ${workdir}data/fastq/Lib${LIB}.fq &
     fi
 
     if [ "$NPROC" -ge "$THREADS" ]; then 
@@ -95,7 +94,7 @@ else
       LIB=$(printf "%02d\n"  $LIB_NOW)
       #Not running in parallel should it? Needs testing
       mkdir -p ${workdir}data/quality
-      fastqc -o ${workdir}data/quality ${workdir}data/lib${LIB}.fq   
+      fastqc -o ${workdir}data/quality ${workdir}data/Lib${LIB}.fq   
     done 
   else
     printf $(date +"%y/%m/%d-%H:%M:%S")" -FastQC isn't installed will continue without quality control \n" 
