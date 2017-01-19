@@ -32,7 +32,7 @@ do
 	# perform fastqc
 	fastq_to_fasta -Q33 -i ${file_now} -o ${fasta_dir}"/"${out}
 	#Quality scores
-	fastx_quality_stats -Q33 -i ${file_now}" -o ${qual_dir}"/lib"${lib}".stat"
+	fastx_quality_stats -Q33 -i ${file_now} -o ${qual_dir}"/lib"${lib}".stat"
 	/usr/local/bin/fastq_quality_boxplot_graph.sh -i ${qual_dir}"/lib"${lib}".stat" -t lib${lib} -p -o ${qual_dir}"/lib"${lib}".pdf"
 
 	echo "done"

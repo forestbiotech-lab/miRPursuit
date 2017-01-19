@@ -26,9 +26,6 @@ exec >&1 > ${log_file}
 SCRIPTS_DIR=${DIR}"/scripts"
 DATA_DIR=${workdir}"data"
 
-#Count execution time
-START_TIME=$(date +%s.%N)
-
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})  
@@ -44,15 +41,13 @@ do
 done
 echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished identifying tasi-miRNAs."
 
-END_TIME=$(date +%s.%N)
-DIFF=$(echo "$END_TIME - $START_TIME" | bc)
 
 ok_log=${log_file/.log/:OK.log}
 
 duration=$(date -u -d @${SECONDS} +"%T")
 printf "\n-----------END--------------\nThis script ran in ${duration}\n${SECONDS}sec.\n"
 printf "Ran in ${SECONDS}secs\n"
-echo "Finished in ${DIFF} sec."
+
 echo $(basename $ok_log)
 mv $log_file $ok_log
 

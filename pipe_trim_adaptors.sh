@@ -29,9 +29,8 @@ exec 2>&1 > ${log_file}
 SCRIPT_DIR=$DIR"/scripts/"
 
 
-START_TIME=$(date +%s.%N)
 
-#Chosses run mode based on input arguments
+#Chooses run mode based on input arguments
 
 printf $(date +"%y/%m/%d-%H:%M:%S")" - Starting adaptor trimming for adaptor: ${ADAPTOR}\n\n"
 
@@ -52,11 +51,9 @@ do
 done
 wait
 printf $(date +"%y/%m/%d-%H:%M:%S")" - Trimmed all libraries.\n"
-
-END_TIME=$(date +%s.%N) 
-DIFF=$(echo "$END_TIME - $START_TIME" | bc)
+duration=$(date -u -d @${SECONDS} +"%T")
 printf "\n-----------END--------------\nThis script ran in ${duration}\n${SECONDS}sec.\n"
-printf $(date +"%y/%m/%d-%H:%M:%S")" - Trimming finished in "${DIFF}" secs.\n"
+printf $(date +"%y/%m/%d-%H:%M:%S")" - Trimming finished in "${SECONDS}" secs.\n" #Redundant can be killed
 
 ok_log=${log_file/.log/:OK.log}
 

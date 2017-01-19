@@ -34,8 +34,6 @@ exec 2>&1 > ${log_file}
 SCRIPT_DIR=$DIR"/scripts/"
 
 
-START_TIME=$(date +%s.%N)
-
 #Chosses run mode based on input arguments
 
 NPROC=0

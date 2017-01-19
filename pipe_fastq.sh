@@ -37,9 +37,6 @@ exec 2>&1 > ${log_file}
 
 SCRIPT_DIR=$DIR"/scripts/"
 
-
-START_TIME=$(date +%s.%N)
-
 #Chooses run mode based on input arguments
 echo $(date +"%y/%m/%d-%H:%M:%S")" - Extracting / Copying fastq files to workdir." 
 if [[ -z $2 || -z $3 ]]; then
@@ -120,10 +117,6 @@ else
   printf $(date +"%y/%m/%d-%H:%M:%S")" - Finished conversion to fasta for all libs\n"
 
 fi
-
-END_TIME=$(date +%s.%N) 
-DIFF=$(echo "$END_TIME - $START_TIME" | bc)
-echo "alignment finished in "${DIFF}" secs"
 
 
 ok_log=${log_file/.log/:OK.log}
