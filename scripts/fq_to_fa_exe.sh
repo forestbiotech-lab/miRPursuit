@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # fq_to_fa_exe.sh
 # 
@@ -19,7 +19,7 @@ mkdir -p ${qual_dir}
 mkdir -p ${fasta_dir}
 lib=$(printf "%02d\n" ${2})
 
-files=$(ls ${fastq_dir}"/lib"${lib}*".fq")
+files=$(ls ${fastq_dir}"/Lib"${lib}*".fq")
 
 # loop if more than 1 one file per library
 for file_now in $files

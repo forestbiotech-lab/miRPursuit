@@ -35,7 +35,7 @@ for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
 	
-	run="${SCRIPT_DIR}filter_wbench.sh ${FASTA_DIR}lib${LIB}.fa ${DIR}"
+	run="${SCRIPT_DIR}filter_wbench.sh ${FASTA_DIR}Lib${LIB}.fa ${DIR}"
   	printf $(date +"%y/%m/%d-%H:%M:%S")" - Ran filter helper script with this command: \n\t${run}\n"
 	$run
 

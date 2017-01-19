@@ -173,16 +173,17 @@ else
 fi        
 if [[ -d "${INSERTS_DIR}" ]]; then
   echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
-  #Not dealing files from multiple files with same pattern but diff extentions
+  #Not dealing files from multiple files with same pattern but different extensions
+  #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   testLib=$(echo ${INSERTS_DIR}/*${fasta}${fastq}${LC}${LIB_FIRST}*)
-  if [[ -e "$testLib" ]]; then
+  if [[ ! -z "$testLib" ]]; then
     echo "First lib to be processed   = "${testLib}
   else
     >&2 echo -e "${red}Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
     exit 127
   fi      
 else        
-  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properely, see config file ${blue}workdirs.cfg${NC}."
+  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
   exit 127
 fi        
 #nonempty string bigger than 0 (Can't remember purpose of this!)
@@ -198,7 +199,7 @@ if [[ -d "$workdir" ]]; then
     read -n1 -p "Continue? (Y/N)" booleanYorN
   done
   if [[ $booleanYorN == [nN] ]]; then
-    echo $(date +"%y|%m|%d-%H:%M:%S")" - Terminated prematurely due to possibility of workdir beeing overwritten."
+    echo $(date +"%y|%m|%d-%H:%M:%S")" - Terminated prematurely due to possibility of workdir being overwritten."
     >&2 printf "\nTerminating prematurely"
     exit 1
   fi

@@ -47,11 +47,26 @@ do
   LIB=$(printf "%02d\n"  $LIB_NOW)  
   EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fa|fasta)+")
 
-  NPROC=$(($NPROC+1))
-  cp ${INSERTS_DIR}/$EXTRACT_LIB ${workdir}data/fasta/Lib${LIB}.fa &
-  if [ "$NPROC" -ge "$THREADS" ]; then
-    wait
-    NPROC=0
+
+  ##Add gzip extraction
+  if [[ -z "$EXTRACT_LIB" ]]; then
+      #Test if .fastq/fq.gz exists      
+      EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}*\.(fa|fasta)+\.gz")
+      if [[ -e "${INSERTS_DIR}/${EXTRACT_LIB}" ]]; then
+        NPROC=$(( $NPROC + 1 ))
+        gunzip -c ${INSERTS_DIR}/${EXTRACT_LIB} > ${workdir}data/fasta/Lib${LIB}.fa &       
+      else
+        >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}." 
+        exit 1
+      fi
+  else
+    NPROC=$(($NPROC+1))
+    #Change this to set for dynamic threading.
+    cp ${INSERTS_DIR}/$EXTRACT_LIB ${workdir}data/fasta/Lib${LIB}.fa &
+    if [ "$NPROC" -ge "$THREADS" ]; then
+      wait
+      NPROC=0
+    fi
   fi
 done
 wait  
