@@ -12,9 +12,16 @@
 file=$1
 source=$2
 
+
+
 # read softwares dir
 . ${source}"/config/software_dirs.cfg"
 . ${source}"/config/workdirs.cfg"
+
+if [[ $HEADLESS == "TRUE" ]]; then
+	xserv=xvfb-run
+fi
+
  
 # configuration file path
 CFG=${source}"/config/wbench_filter_in_use.cfg"
@@ -36,9 +43,9 @@ printf $(date +"%y/%m/%d-%H:%M:%S")" - Filtering ${IN_ROOT} with wbench.\n"
 # run sRNA_Workbench filter if first time redirect output to stderr
 if [[ "$RUN" == 0 ]]; then
  >&2 echo "                                                                                                      "
- >&2 ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file ${file} -out_file $OUT_FILE -params $CFG
+ >&2 ${xserv} ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file ${file} -out_file $OUT_FILE -params $CFG
 else
-  ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file ${file} -out_file $OUT_FILE -params $CFG
+  ${xserv} ${JAVA_DIR}"/java" -jar ${WBENCH_DIR}"/Workbench.jar" -tool filter -f -srna_file ${file} -out_file $OUT_FILE -params $CFG
 fi
 
 # move and rename overview produced by wb_filter

@@ -17,6 +17,7 @@
 
 FILE=$1
 SOURCE=$2
+xserv=$3
 
 # Loading cfg vars
 CFG_PATMAN=${SOURCE}"/config/patman_genome.cfg"
@@ -25,6 +26,11 @@ CFG=${SOURCE}"/config/wbench_mirprof.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
 . ${SOURCE}"/config/term-colors.cfg"
 . $CFG_PATMAN
+
+
+if [[ $HEADLESS == "TRUE" ]]; then
+	xserv=xvfb-run
+fi
 
 #Rename workdir var beacause of reconfig
 WORKDIR=$workdir
@@ -106,7 +112,7 @@ echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} mirbase filtering"
 ##cp ${FILE} ${OUT_FILT_GENOME}
 
 ##patman -D ${MIRBASE} -e 0 -P ${OUT_FILT_GENOME} -o ${PMN_FILE}
-run="${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE} -params ${CFG}"
+run="${xserv} ${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE} -params ${CFG}"
 printf $(date +"%y/%m/%d-%H:%M:%S")" - Ran mirprof with this command: \n\t${run}\n"
 #Run mirprof
 $run

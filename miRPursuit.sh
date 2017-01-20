@@ -47,6 +47,9 @@ case $key in
   --trim)
   TRIM=TRUE #Don't shift one argument
   ;;
+  --headless)
+  HEADLESS=TRUE
+  ;;
   --lc)
   LC="$2"
   shift # past argument
@@ -65,16 +68,19 @@ case $key in
       ${green}Step 3${NC}: Tasi
       ${green}Step 4${NC}: Mircat
       ${green}Step 5${NC}: PAREsnip    
- ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceading substring from the lib num (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
+ ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceding substring from the lib num. (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
  ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
- ${blue}--trim${NC}  Set this flag to perform adaptor triming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
+ ${blue}--trim${NC}  Set this flag to perform adaptor trimming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
+ ${blue}--headless${NC}  Set this flag to run on headless server. Requires Xvfb be installed on your system.
 
   "
   exit 0
 esac
 shift # past argument or value
 done
+
+
 
 
 if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
@@ -110,6 +116,11 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . $DIR/"config/workdirs.cfg"
 SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 . $SOFT_CFG
+
+#Set this to use HEADLESS version
+if [[ $HEADLESS ]]; then
+  sed -ri "s:(HEADLESS=)(.*):\1${HEADLESS}:" ${SOFT_CFG} 
+fi
 
 #Check programs are set up and can run (Java and Wbench).
 if [[ -z "$JAVA_DIR"  ]]; then

@@ -19,8 +19,10 @@ CHANGELOG v1.2
   Was only adding the directory to config file.
 -(TODO) Allow use of vars in prompt (Check if possible and inform in text)
   For bash this seams great. But what problems will this create in the long-term?
-+(TODO) fastqc
-  Check if exists and install fastqc
+-(19/01/2017) fastqc
+  Check if exists and install fastqc. In fastq or fasta depending on the input. If not installed it's not ran.
++(19/01/2017) Adding java to path if not installed
+  If java isn't on the system the downloaded version will be added to the path.
 
 [Check before start] (Done)
 +(16/09/2016)mirbase file
@@ -110,6 +112,10 @@ CHANGELOG v1.2
 +(18/11/2016) Set flag --trim to signal reads must be trimmed
   This is valid for all modes. Adaptor is in workdirs.cfg
   https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843951
+
+[Headless] (DONE)  
++(20/01/2017) Add dummy X session.
+  This allows miRPursuit to run headless. If Xvfb is installed.
 
 [General] (TODO)
 -(TODO) Skip run e create empty files 

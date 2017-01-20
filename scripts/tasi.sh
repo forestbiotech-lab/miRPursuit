@@ -18,6 +18,10 @@ SOURCE=$2
 . ${SOURCE}/config/software_dirs.cfg
 . ${SOURCE}/config/workdirs.cfg
 
+if [[ $HEADLESS == "TRUE" ]]; then
+	xserv=xvfb-run
+fi
+
 # configuration file paths
 CFG="${SOURCE}/config/wbench_tasi.cfg"
 
@@ -41,7 +45,7 @@ mkdir -p $OUT_DIR
 OUT_FILE=${OUT_DIR}"/"${IN_ROOT}_tasi
 
 # run filter
-RUN_TASI="${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool tasi -f -srna_file ${FILE} -genome ${GENOME} -out_file ${OUT_FILE} -params ${CFG}"
+RUN_TASI="${xserv} ${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool tasi -f -srna_file ${FILE} -genome ${GENOME} -out_file ${OUT_FILE} -params ${CFG}"
 echo "Ran tasi with the following command:"
 echo " "${RUN_TASI}
 $RUN_TASI

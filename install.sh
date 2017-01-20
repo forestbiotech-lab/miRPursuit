@@ -18,6 +18,20 @@ unblink='\e[25m'
 invert='\e[7m'
 NC='\e[0m' # No Color
 
+#dependencies (Problems caused by UEA sRNA workbench)
+#libgtk2.0-0
+#libXtst6
+#libxxf86vm1
+#etc.. 
+#Must install openjdk-8-jdk because of UEA sRNA workbench.
+#Then it on remote server o my have to connect with x11 enabled ex: ssh -Y username@server
+#Then run:: java -jar pathtoWorkbench/workbench.java -tool filter
+#And accept their terms and conditions.
+# install xvfb
+# then Xvfb :1 &
+# export DISPLAY=:1
+# 
+
 
 echo "Run as ./install.sh or it will produce errors"
 echo "Checking available software"

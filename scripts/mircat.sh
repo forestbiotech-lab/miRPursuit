@@ -15,7 +15,7 @@
 #rename inputs
 FILE=$1
 SOURCE=$2
-
+xserv=$3
 
 # configuration file paths
 #GENOME_FILE="./input/"${GENOME}
@@ -24,6 +24,9 @@ echo   ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
 
+if [[ $HEADLESS == "TRUE" ]]; then
+  xserv=xvfb-run
+fi
 
 printf "\nRan with these vars:\n###################\n#wbench_mircat.cfg#\n###################\n"
 cat $CFG
@@ -70,7 +73,7 @@ OUT_STRUCTURES=${OUT_DIR}${IN_ROOT}"_structures.pdf"
 if [ "$parts" == "1" ]; then
 
   # run mircat on filtered file
-  runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
+  runMircat="${xserv} ${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
   printf "Running mircat with this command: \n\t $runMircat"
   $runMircat
 
@@ -88,7 +91,7 @@ else
   for i in ${GENOMES}
   do        
     # run mircat on filtered file
-    runMircat="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome $i -params ${CFG}" 
+    runMircat="${xserv} ${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome $i -params ${CFG}" 
     echo "Running part: "$i
     echo "Running mircat with this command:  \n${runMircat}\n\n"
     $runMircat
