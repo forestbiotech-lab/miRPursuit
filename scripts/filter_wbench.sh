@@ -19,7 +19,7 @@ source=$2
 . ${source}"/config/workdirs.cfg"
 
 if [[ $HEADLESS == "TRUE" ]]; then
-  xserv=${SOURCE}"/./xvfb-run-safe"
+  xserv=${source}"/./xvfb-run-safe"
 fi
 
  
