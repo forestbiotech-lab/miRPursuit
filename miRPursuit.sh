@@ -288,7 +288,7 @@ if [[ "$step" -eq 3 ]]; then
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
-  >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient slow step)     \t[####################     ] 80%\r"
+  >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
