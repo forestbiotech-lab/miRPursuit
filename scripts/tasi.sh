@@ -19,7 +19,7 @@ SOURCE=$2
 . ${SOURCE}/config/workdirs.cfg
 
 if [[ $HEADLESS == "TRUE" ]]; then
-	xserv=xvfb-run
+  xserv=${SOURCE}"/./xvfb-run-safe"
 fi
 
 # configuration file paths

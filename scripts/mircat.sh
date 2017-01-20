@@ -25,7 +25,7 @@ echo   ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
 
 if [[ $HEADLESS == "TRUE" ]]; then
-  xserv=xvfb-run
+  xserv=${SOURCE}"/./xvfb-run-safe"
 fi
 
 printf "\nRan with these vars:\n###################\n#wbench_mircat.cfg#\n###################\n"

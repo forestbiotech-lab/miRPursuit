@@ -29,10 +29,10 @@ CFG=${SOURCE}"/config/wbench_mirprof.cfg"
 
 
 if [[ $HEADLESS == "TRUE" ]]; then
-	xserv=xvfb-run
+  xserv=${SOURCE}"/./xvfb-run-safe"
 fi
 
-#Rename workdir var beacause of reconfig
+#Rename workdir var because of re-config
 WORKDIR=$workdir
 
 printf "\nRan with these vars:\n####################\n#wbench_mirprof.cfg#\n####################\n"
