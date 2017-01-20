@@ -48,7 +48,7 @@ case $key in
   TRIM=TRUE #Don't shift one argument
   ;;
   --headless)
-  HEADLESS=TRUE
+  HEADLESS_MODE=TRUE
   ;;
   --lc)
   LC="$2"
@@ -118,8 +118,8 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 . $SOFT_CFG
 
 #Set this to use HEADLESS version
-if [[ $HEADLESS ]]; then
-  sed -ri "s:(HEADLESS=)(.*):\1${HEADLESS}:" ${SOFT_CFG} 
+if [[ $HEADLESS_MODE == "TRUE" ]]; then
+  sed -ri "s:(HEADLESS=)(.*):\1${HEADLESS_MODE}:" ${SOFT_CFG} 
 fi
 
 #Check programs are set up and can run (Java and Wbench).
