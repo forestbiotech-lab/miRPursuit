@@ -33,7 +33,7 @@ for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
   	echo $(date +"%y/%m/%d-%H:%M:%S")" - Starting to run mircat on: LIB${LIB}"
-  	run="${SCRIPTS_DIR}/mircat.sh ${DATA_DIR}/lib${LIB}_filt"*"_noncons.fa ${DIR}"
+  	run="${SCRIPTS_DIR}/mircat.sh ${DATA_DIR}/Lib${LIB}_filt"*"_noncons.fa ${DIR}"
   	printf $(date +"%y/%m/%d-%H:%M:%S")" - Ran helper script for micat: \n${run}\n"
   	$run
   	echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished running mircat on: LIB${LIB}"

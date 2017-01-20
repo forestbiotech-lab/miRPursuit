@@ -29,13 +29,13 @@ DATA_DIR=${workdir}"data"
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})  
-  RUN_TASI=$(echo ${SCRIPTS_DIR}/tasi.sh ${DATA_DIR}"/lib"$LIB"_filt-"*"_mirbase_noncons.fa" ${DIR})
+  RUN_TASI=$(echo ${SCRIPTS_DIR}/tasi.sh ${DATA_DIR}"/Lib"$LIB"_filt-"*"_mirbase_noncons.fa" ${DIR})
   echo "Ran this command: "
   echo " "$RUN_TASI
   $RUN_TASI
 
   #This produces a fasta file that may have repeated sequences only use for counting
-  awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1"("$2")"}}' ${DATA_DIR}"/tasi/lib${LIB}"*"_noncons_tasi_srnas.txt" | sort | uniq | awk -F "[()]" '{print ">"$1"("$2")";newline;print $1}' > "${DATA_DIR}/tasi/lib${LIB}-tasi.fa"
+  awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1"("$2")"}}' ${DATA_DIR}"/tasi/lib${LIB}"*"_noncons_tasi_srnas.txt" | sort | uniq | awk -F "[()]" '{print ">"$1"("$2")";newline;print $1}' > "${DATA_DIR}/tasi/Lib${LIB}-tasi.fa"
 
   #awk -F "[(.]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print ">"$1"("$2")";newline;print $1}}' ${DATA_DIR}"/tasi/lib${LIB_NOW}"*"_noncons_tasi_srnas.txt" > "${DATA_DIR}/tasi/lib${LIB_NOW}-tasi.fa"
 done

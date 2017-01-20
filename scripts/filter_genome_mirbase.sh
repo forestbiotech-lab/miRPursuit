@@ -77,15 +77,15 @@ if [[ -e $testPatman && -x $testPatman ]]; then
  #Patman command
  run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
  if [[ ${SINGLESTRAND} == "TRUE" ]]; then
-	echo $(date +"%y/%m/%d-%H:%M:%S")" - Running patman with following command\n\t${run} -s\n"
+	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command\n\t${run} -s\n"
 	$run -s    
  else
- 	echo $(date +"%y/%m/%d-%H:%M:%S")" - Running patman with following command\n\t${run}\n"
+ 	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command\n\t${run}\n"
  	$run
  fi
 else
  ##This is not printing out to user?? Fix this       
- >&2 echo -e "${red}Error${NC} - Patman is no properly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
+ >&2 echo -e "${red}Error${NC} - PatMaN is no properly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
  exit 127
 fi
 #Even if patman doesn't find anything this it still makes an empty file.
@@ -99,7 +99,7 @@ if [[ ${output_size} == 0 ]]; then
 	printf "###################\n##   ATTENTION ! ##\n###################\n###################\n"
 	printf $(date +"%y/%m/%d-%H:%M:%S")" - Filtering ${IN_ROOT} with genome generated no reads\n\tResults for this library ${IN_ROOT} will be irrelevant from this point on.\n"
 	>&2 echo ""
-	>&2 echo -e "${red}Attention${NC} - Filtering ${IN_ROOT} with genome generated no reads but program will continue" 
+	>&2 echo -e "${red}Attention${NC} - Filtering ${IN_ROOT} with genome generated no reads but program will continue." 
 	>&2 echo ""
 else
 	echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} genome filtered"

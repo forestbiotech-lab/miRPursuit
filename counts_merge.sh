@@ -33,7 +33,7 @@ tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
 #Get count matrix save to counts
 $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons
 $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel
-$SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/lib*-tasi.fa" "tasi" $THREADS > $tasi
+$SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/Lib*-tasi.fa" "tasi" $THREADS > $tasi
 
 #$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
 
