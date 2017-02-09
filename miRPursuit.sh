@@ -124,7 +124,6 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 
 ##Progress report starting and declaring variable
 progress=${workdir}PROGRESS
-printf "0\tStarted\t0" >$progress
 
 #Set this to use HEADLESS version
 if [[ $HEADLESS_MODE == "TRUE" ]]; then
@@ -225,6 +224,7 @@ if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
   fi
 fi
 mkdir -p $workdir"log/"
+printf "0\tStarted\t0" >$progress
 runDate=$(date +"%y|%m|%d-%H:%M:%S")
 log_file="${workdir}log/${runDate}:$$:Global:${LIB_FIRST}-${LIB_LAST}.log"
 
@@ -299,29 +299,29 @@ fi
 if [[ "$step" -eq 3 ]]; then 
   #tasi
   >&2 echo -ne "${blue} Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
-  printf "60\tStarted\t3" >$progress
+  printf "60\tTasi\t3" >$progress
   ${DIR}/pipe_tasi.sh $LIB_FIRST $LIB_LAST 
   step=4
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
   >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
-  printf "80\tStarted\t4" >$progress
+  printf "80\tmiRCat\t4" >$progress
 
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
   >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix     \t[######################   ] 90%\r"
-  printf "90\tStarted\t5" >$progress
+  printf "90\tCounting\t5" >$progress
   ${DIR}/counts_merge.sh 
   >&2 echo -ne "${blue} Step 5${NC} - Running report                            \t[######################## ] 95%\r"
-  printf "95\tStarted\t5" >$progress
+  printf "95\tReporting\t5" >$progress
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
 fi
 
   >&2 echo -e "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
-  printf "100\tStarted\t5" >$progress
+  printf "100\tFinished\t5" >$progress
   sleep 4
   >&2 echo "    "
   >&2 echo "This workflow was created by Forest Biotech Lab - iBET, Portugal                                         "
