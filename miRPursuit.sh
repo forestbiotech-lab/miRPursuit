@@ -124,7 +124,7 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 
 ##Progress report starting and declaring variable
 progress=${workdir}PROGRESS
-printf "0%\tStarted\t0" >$progress
+printf "0\tStarted\t0" >$progress
 
 #Set this to use HEADLESS version
 if [[ $HEADLESS_MODE == "TRUE" ]]; then
@@ -264,7 +264,7 @@ fi
 if [[ "$step" -eq 0 ]]; then        
   #Concatenate and convert to fasta
   >&2 echo -ne "${blue} Step 0${NC} - Concatenating libs and converting to fasta\t[                         ]  0%\r"
-  printf "0%\tConverting\t0" > $progress
+  printf "0\tConverting\t0" > $progress
   ${DIR}/extract_fasteris_inserts.sh $LIB_FIRST $LIB_LAST
   step=1
 fi 
@@ -276,14 +276,14 @@ if [[ "$step" -eq 1 ]]; then
     else
       >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
       >&2 echo -ne "${blue} Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
-      printf "10%\tAdaptor\t1" >$progress
+      printf "10\tAdaptor\t1" >$progress
 
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
   fi
   #Filter size, t/rRNA, abundance.
   >&2 echo -ne "${blue} Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
-  printf "20%\tFiltering\t1" >$progress
+  printf "20\tFiltering\t1" >$progress
 
   ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST
   step=2
@@ -291,7 +291,7 @@ fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
   >&2 echo -ne "${blue}Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
-  printf "40%\tGenome MiRBase\t2" >$progress
+  printf "40\tGenome MiRBase\t2" >$progress
 
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
@@ -299,29 +299,29 @@ fi
 if [[ "$step" -eq 3 ]]; then 
   #tasi
   >&2 echo -ne "${blue} Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
-  printf "60%\tStarted\t3" >$progress
+  printf "60\tStarted\t3" >$progress
   ${DIR}/pipe_tasi.sh $LIB_FIRST $LIB_LAST 
   step=4
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
   >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
-  printf "80%\tStarted\t4" >$progress
+  printf "80\tStarted\t4" >$progress
 
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
   >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix     \t[######################   ] 90%\r"
-  printf "90%\tStarted\t5" >$progress
+  printf "90\tStarted\t5" >$progress
   ${DIR}/counts_merge.sh 
   >&2 echo -ne "${blue} Step 5${NC} - Running report                            \t[######################## ] 95%\r"
-  printf "95%\tStarted\t5" >$progress
+  printf "95\tStarted\t5" >$progress
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
 fi
 
   >&2 echo -e "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
-  printf "100%\tStarted\t5" >$progress
+  printf "100\tStarted\t5" >$progress
   sleep 4
   >&2 echo "    "
   >&2 echo "This workflow was created by Forest Biotech Lab - iBET, Portugal                                         "
