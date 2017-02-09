@@ -18,6 +18,7 @@ blink='\e[5m'
 unblink='\e[25m'
 invert='\e[7m'
 NC='\e[0m' # No Color
+noPrompt=FALSE
 
 while [[ $# > 0 ]]
 do
@@ -50,6 +51,9 @@ case $key in
   --headless)
   HEADLESS_MODE=TRUE
   ;;
+  --no-prompt)
+  noPrompt=TRUE
+  ;;
   --lc)
   LC="$2"
   shift # past argument
@@ -73,6 +77,7 @@ case $key in
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
  ${blue}--trim${NC}  Set this flag to perform adaptor trimming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
  ${blue}--headless${NC}  Set this flag to run on headless server. Requires Xvfb be installed on your system.
+ ${blue}--no-prompt${NC}  Set this flag to skip all prompts.
 
   "
   exit 0
@@ -116,6 +121,10 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . $DIR/"config/workdirs.cfg"
 SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 . $SOFT_CFG
+
+##Progress report starting and declaring variable
+progress=${workdir}PROGRESS
+printf "0%\tStarted\t0" >$progress
 
 #Set this to use HEADLESS version
 if [[ $HEADLESS_MODE == "TRUE" ]]; then
@@ -202,7 +211,7 @@ if [[ -n $1 ]]; then
   echo "Last line of file specified as non-opt/last argument:"
   tail -1 $1
 fi
-if [[ -d "$workdir" ]]; then
+if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
   unset $booleanYorN
   >&2 echo -e "${red}Attention!${NC}\nworkdir - $workdir \nData already exists data in this folder might be overwritten." 
   while [[ "$booleanYorN" != [yYnN] ]]
@@ -255,6 +264,7 @@ fi
 if [[ "$step" -eq 0 ]]; then        
   #Concatenate and convert to fasta
   >&2 echo -ne "${blue} Step 0${NC} - Concatenating libs and converting to fasta\t[                         ]  0%\r"
+  printf "0%\tConverting\t0" > $progress
   ${DIR}/extract_fasteris_inserts.sh $LIB_FIRST $LIB_LAST
   step=1
 fi 
@@ -266,40 +276,52 @@ if [[ "$step" -eq 1 ]]; then
     else
       >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
       >&2 echo -ne "${blue} Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
+      printf "10%\tAdaptor\t1" >$progress
+
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
   fi
   #Filter size, t/rRNA, abundance.
   >&2 echo -ne "${blue} Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
+  printf "20%\tFiltering\t1" >$progress
+
   ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST
   step=2
 fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
   >&2 echo -ne "${blue}Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
+  printf "40%\tGenome MiRBase\t2" >$progress
+
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
 fi
 if [[ "$step" -eq 3 ]]; then 
   #tasi
   >&2 echo -ne "${blue} Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
+  printf "60%\tStarted\t3" >$progress
   ${DIR}/pipe_tasi.sh $LIB_FIRST $LIB_LAST 
   step=4
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
   >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
+  printf "80%\tStarted\t4" >$progress
+
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
   >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix     \t[######################   ] 90%\r"
+  printf "90%\tStarted\t5" >$progress
   ${DIR}/counts_merge.sh 
   >&2 echo -ne "${blue} Step 5${NC} - Running report                            \t[######################## ] 95%\r"
+  printf "95%\tStarted\t5" >$progress
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
 fi
 
   >&2 echo -e "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
+  printf "100%\tStarted\t5" >$progress
   sleep 4
   >&2 echo "    "
   >&2 echo "This workflow was created by Forest Biotech Lab - iBET, Portugal                                         "
