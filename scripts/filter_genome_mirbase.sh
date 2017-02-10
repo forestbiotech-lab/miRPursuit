@@ -75,7 +75,7 @@ echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} genome filtering"
 testPatman=$(which patman)
 echo "testPatman: "$testPatman
 checkPatman="TRUE"
-command -v patman >/dev/null 2>&1 || { echo >&2 "PatMaN required.";eval checkPatman="FALSE"; }
+command -v patman >/dev/null 2>&1 || { echo "PatMaN required.";checkPatman="FALSE"; }
 if [[ -e "$testPatman" && -x "$testPatman" ]]; then
  #Patman command
  run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
