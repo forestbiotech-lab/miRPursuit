@@ -73,7 +73,10 @@ echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} genome filtering"
 
 #Testing if file exists and script has permissions to run it.
 testPatman=$(which patman)
-if [[ -e $testPatman && -x $testPatman ]]; then
+echo "testPatman: "$testPatman
+checkPatman="TRUE"
+command -v patman >/dev/null 2>&1 || { echo >&2 "PatMaN required.";eval checkPatman="FALSE"; }
+if [[ -e "$testPatman" && -x "$testPatman" ]]; then
  #Patman command
  run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
  if [[ ${SINGLESTRAND} == "TRUE" ]]; then
