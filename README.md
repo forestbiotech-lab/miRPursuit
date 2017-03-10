@@ -20,7 +20,7 @@ M. Miguel <sup>a,b,c</sup></ul>
 ## Table of Contents
 - [Abstract](#abstract)
 - [How to start](#how-to-start)
-
+- [References](#References)
 
 
 ## Abstract
@@ -173,6 +173,7 @@ Some commands are being changed to config files.
 
 ------
 
+ 
 <ul><strong>predict_target.sh</strong>
 <br>Description: This is last step of the pipeline responsible for identifying sRNA targets in the transcriptome through degradome mediated search.
 <ul>inputs:
@@ -200,7 +201,7 @@ files. %y%m%d:%h%m%s-type.log or *.log.ok if it ran till the end. *.
 
 ------
 
-References:
+## References:
 <ul>1 - **Borges F & Martienssen RA** (2015) The expanding world of small RNAs in plants. Nat Rev Mol Cell Biol 16, 727–741.</ul>
 <ul>2 - **Sunkar R** (2010) MicroRNAs with macro-effects on plant stress responses. Semin Cell Dev Biol 21, 805–811.</ul>
 <ul>3 - **Liu J & Vance CP** (2010) Crucial roles of sucrose and miRNA399 in systemic signaling of P deficiency - A tale of two team players? Plant Signaling and</ul>
