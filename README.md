@@ -6,8 +6,8 @@
 <ul><a href="http://goo.gl/HHijqe" target="_blank">Read the Docs - DOCUMENTATION</a> </ul>
   
 **miRPursuit – a pipeline for automated analyses of small RNAs in non-model plants**
-<ul>Inês Chaves <sup>a,b,*,φ</sup> , Bruno Costa <sup>a,b,φ</sup> , Andreia S. Rodrigues <sup>a,b</sup> , Andreas Bohn a,b<sup> , Célia
-M. Miguel <sup>a,b,c</sup></sup>
+<ul>Inês Chaves <sup>a,b,*,φ</sup> , Bruno Costa <sup>a,b,φ</sup> , Andreia S. Rodrigues <sup>a,b</sup> , Andreas Bohn <sup>a,b</sup> , Célia
+M. Miguel <sup>a,b,c</sup>
 
 <ul><sup>a</sup> iBET, Instituto de Biologia Experimental e Tecnológica, Apartado 12, 2781-901 Oeiras, Portugal</ul>
 <ul><sup>b</sup> Instituto de Tecnologia Química e Biológica António Xavier, Universidade Nova de Lisboa, Av. República, 2780-157 Oeiras, Portugal</ul>
