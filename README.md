@@ -20,7 +20,9 @@ M. Miguel <sup>a,b,c</sup></ul>
 ## Table of Contents
 - [Abstract](#abstract)
 - [How to start](#how-to-start)
-- [References](#References)
+- [Analysing sRNA](#analysing-srna)
+- [Programs](#programs)
+- [References](#references)
 
 
 ## Abstract
@@ -107,7 +109,7 @@ However if the .fastq files are in .gz archives they can also be used, given the
     bash pathToMirPursuit/miRPursuit.sh -f 1 -l 2 --fasta test_dataset-
 
 
-<h3>Analysing sRNA</h3>
+## Analysing sRNA
 
 Works for fastq and fasta input formats. 
   
@@ -132,7 +134,7 @@ Works for fastq and fasta input formats.
 <br>
 <ul><strong>wbench_tasi.cfg</strong> - General parameters for TaSi.</ul>
 
-<h3>Programs</h3>
+## Programs
 
 <ul><strong>sRNAworkFlow.sh</strong>
 <br>Description: This is the main script that runs the full pipeline.
@@ -173,7 +175,7 @@ Some commands are being changed to config files.
 
 ------
 
- 
+P 
 <ul><strong>predict_target.sh</strong>
 <br>Description: This is last step of the pipeline responsible for identifying sRNA targets in the transcriptome through degradome mediated search.
 <ul>inputs:
