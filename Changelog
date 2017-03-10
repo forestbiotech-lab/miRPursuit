@@ -19,11 +19,14 @@ CHANGELOG v1.2
   Was only adding the directory to config file.
 -(TODO) Allow use of vars in prompt (Check if possible and inform in text)
   For bash this seams great. But what problems will this create in the long-term?
--(19/01/2017) fastqc
++(19/01/2017) fastqc
   Check if exists and install fastqc. In fastq or fasta depending on the input. If not installed it's not ran.
 +(19/01/2017) Adding java to path if not installed
   If java isn't on the system the downloaded version will be added to the path.
-
+-(TODO) Check if R exists
+  Must install it if doesn't exist. Any version should do. At least for building the graphs. "Not feasible to install it. Either bring it along or "
+-(TODO) Report build in LaTeX texlive-core and possibly bin have to be installed 400mb and 40mb respectivly. Must se how to do this seams big to generate a pdf. But some stripping might be possible. Another possiblility would be setting up a push server to produce PDFs. But might be over the top. Besides people wouldn't like it that much.
+  
 [Check before start] (Done)
 +(16/09/2016)mirbase file
   Check the var in mirbase var is a file that exists (Only checking if var exists use -e or something man test)
@@ -126,3 +129,33 @@ CHANGELOG v1.2
 ls: impossível aceder a '.../data/*_cons.fa': No such file or directory
 [Problem trying to get all cons sequences]
 [Solution upstream - Create empty file. If no results found]
+
+
+[Report structure MD / Latex]
+pandoc for MD --> PDF
+Latex might be over the top.
+
+After each step runs a script will we called to append the markdown. So the report isn't only build at the end.
+Conversion to PDF happens at the end.
+
+Tables only have lib# in columns and are limited to 10 columns or what ever fits.
+
+  Fastq
+    - Fastqc (For now just this one)
+      Per base sequence quality
+      *Per sequence GC content
+      *Adapter Content
+       
+  Trimming
+    - Detailed Log (Table?)
+  Fasta
+    - Size profiles
+      One graph per lib. 
+      Possible pair-wise comparison depending on lib number. (I think two at most)
+  Filtering
+    - Detailed report of filtering (Grab that log and build table)
+  Genome
+    - (How low details not sure has spot)
+  End
+    - Stats per lib (for each )
+    - Counts per lib. (Issues with matrix size. Needs to be sized)

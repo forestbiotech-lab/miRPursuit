@@ -34,7 +34,7 @@ exec 2>&1 > ${log_file}
 SCRIPT_DIR=$DIR"/scripts/"
 
 
-#Chosses run mode based on input arguments
+#Choses run mode based on input arguments
 
 NPROC=0
 cycle=$(eval echo {${LIB_FIRST}..${LIB_LAST}})

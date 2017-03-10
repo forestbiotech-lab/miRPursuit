@@ -258,6 +258,7 @@ fi
 if [[ ! -z "$fasta" ]]; then
   >&2 echo -e "${blue}Running in fasta mode.${NC}"
   ${DIR}/pipe_fasta.sh $LIB_FIRST $LIB_LAST $fasta
+  ##Make profile
   step=1
 fi
 
@@ -271,7 +272,7 @@ fi
 if [[ "$step" -eq 1 ]]; then
   if [[ $TRIM ]]; then  
     if [[ -z "$ADAPTOR" ]]; then
-      echo -e "${red}Invalid Adaptor${NC}: - The adaptor variable hasn't  been configured properely, see config file ${blue}workdirs.cfg${NC}."
+      echo -e "${red}Invalid Adaptor${NC}: - The adaptor variable hasn't  been configured properly, see config file ${blue}workdirs.cfg${NC}."
       exit 127
     else
       >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
@@ -291,7 +292,7 @@ fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
   >&2 echo -ne "${blue}Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
-  printf "40\tGenome MiRBase\t2" >$progress
+  printf "40\tGenome miRBase\t2" >$progress
 
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
