@@ -19,7 +19,7 @@ M. Miguel <sup>a,b,c</sup></ul>
 
 ## Table of Contents
 - [Abstract](#abstract)
-- [How to start:](#Howtostart)
+- [How to start](#how-to-start)
 
 
 
