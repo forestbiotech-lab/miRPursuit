@@ -73,24 +73,26 @@ However if the .fastq files are in .gz archives they can also be used, given the
 <h3>Installation</h3>
 <h5>From git hub</h5>
 
-    cd /toDesiredLocation/
-    git clone https://github.com/forestbiotech-lab/miRPursuit.git
-    cd miRPursuit
+```shell
+$ cd /toDesiredLocation/
+$ git clone https://github.com/forestbiotech-lab/miRPursuit.git
+$ cd miRPursuit
+```
 
 <h5>From tar</h5>
 
 ```shell
-Download archive from github
-cd /toDesiredLocation/
-unzip miRPursuit-master.zip
+$ Download archive from github
+$ cd /toDesiredLocation/
+$ unzip miRPursuit-master.zip
 ``` 
 
 <h5>Dependencies</h5> 
 <ul>To install the necessary dependencies you can run install.sh in the main folder</ul>
 
 ```shell
-cd /pathtoMiRPursuit/
-./install.sh
+$ cd /pathtoMiRPursuit/
+$ ./install.sh
 ```
 
 <h5>Custom Installation</h5>
@@ -98,8 +100,8 @@ cd /pathtoMiRPursuit/
 <ul>Fill out the software variables in the software.cfg file. <br>Set the paths to any program listed if already installed.</ul>
 
 ```shell
-cd /pathtoMiRPusuit/
-vim config/software_dirs.cfg
+$ cd /pathtoMiRPusuit/
+$ vim config/software_dirs.cfg
 ```
 
 <h5>Running test dataset</h5>
