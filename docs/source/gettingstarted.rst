@@ -4,12 +4,16 @@ Getting Started
 
 So at this point you have already completely `installed <install>_` miRPursuit. You should be familiar with the various `steps<steps>_` in the workflow and have step up all the necessary configuration file[refer to config]. You are now ready to run miRPursuit for the first time.
 
-..()You can run with the default parameter settings or you can start with your customized settings.
+You can run with the default parameter settings or you can start with your customized settings.
 
 
-..How to run the program::
-..	./miRPursuit.sh --
+How to run the program::
+	./miRPursuit.sh -f 1 -l 2 --fasta test_dataset-
 
+
+.. image:: https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/MiRPursuit-full-run.png
+	:alt: miRPursuit workflow schema
+**Image 2** - miRPursuit full run in fasta mode for libraries 1 and 2.
 
 ..Detalhar as várias opções. etc.
 
