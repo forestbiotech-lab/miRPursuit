@@ -10,13 +10,13 @@ There are three types of config files, General use, Module specific and System p
   Are configurations that are used by the module. The names of these config files start with the wbench prefix.
 
 **System parameters** 
-  These configs hold the values of colors and others miscellanous variables for ease of access.
+  These configs hold the values of colors and others miscellaneous variables for ease of access.
 
 General use
 ^^^^^^^^^^^
 These two config files should be properly configured, to ensure the program runs. The install script will fill out all variables. 
 
-  * software_dirs.cfg::
+  * _`software_dirs`.cfg::
 
       #Path were install script will install software
       SOFTWARE=
@@ -143,13 +143,13 @@ There is a config file for each module in the miRPursuit/config directory. The d
       max_length=26
       min_abundance=5
 
-  * _`wbench_tasi`.cfg - `ta-si predictor <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/ta-si-prediction/>`_, identifies phased 21nt sRNAs characterisctic of ta-siRNA loci::
+  * _`wbench_tasi`.cfg - `ta-si predictor <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/ta-si-prediction/>`_, identifies phased 21nt sRNAs characteristic of ta-siRNA loci::
 
       #Default values
       p_val_threshold=1.0E-4
       min_abundance=2
 
-  * _`paresnip`.cfg - `PAREsnip <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/paresnip/>`_ validates targets of regultation by sRNAs requires degradome and a transcriptome sequences::
+  * _`paresnip`.cfg - `PAREsnip <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/paresnip/>`_ validates targets of regulation by sRNAs requires degradome and a transcriptome sequences::
 
   	#Default values	
       min_sRNA_abundance=5
@@ -182,13 +182,13 @@ There is a config file for each module in the miRPursuit/config directory. The d
   * _`patman_genome`.cfg - `Patman <http://bioinf.eva.mpg.de/patman>`_ a pattern matcher for short sequences::
 
       #Default values
-      #Set mamimum edit distance to N (Default: 0)
+      #Set maximum edit distance to N (Default: 0)
       EDITS=0
       #Set maximum number of gaps to N (default: 0)
       GAPS=0
-      #Do not match reverse-compliements (default: FALSE)
+      #Do not match reverse-complements (default: FALSE)
       SINGLESTRAND=FALSE
-      #Prefetch N nodes (default: 3) Related with preformance
+      #Prefetch N nodes (default: 3) Related with performance
       PREFETCH=3
       #################
       #Not implemented#
@@ -201,4 +201,4 @@ System parameters
 
 These are generally hardcoded, don't change these unless you know what you are doing.
 
-  * term-colors.cfg - Colors for terminal and other usefull vars.
+  * term-colors.cfg - Colors for terminal and other useful vars.

@@ -21,7 +21,7 @@ Guide
    :maxdepth: 3
 
    intro
-   methods
+   stages
    install
    config
    gettingstarted
