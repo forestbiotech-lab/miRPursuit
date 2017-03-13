@@ -2,9 +2,9 @@
 Installation
 ============
 
-This pipeline is intended to be run in a linux environment. Installation can be accomplished by grabbing a copy of the project from `github <https://github.com/forestbiotech-lab/miRPursuit>`_ and then running the installation script. Below are a few lines to help guide you through the installation process.
+This pipeline is intended to be run in a Linux environment. Installation can be accomplished by grabbing a copy of the project from `github <https://github.com/forestbiotech-lab/miRPursuit>`_ and then running the installation script. Below are a few lines to help guide you through the installation process.
 
-* The workflow is optimized to run in the command line as detailed below.
+* The pipeline is optimized to run in the command line as detailed below.
 * To open a terminal on a debian based system press: **CTRL + ALT + T**
 * To install on a remote machine, make a connection via ssh and navigate to the desired path of installation. 
  
@@ -12,7 +12,7 @@ This pipeline is intended to be run in a linux environment. Installation can be 
 Download program
 ================
 
-**Grab a copy from github**
+**Grab a copy from `github <https://github.com/forestbiotech-lab/miRPrusuit>`_**
 
 - If you have git installed on you machine. 
    Simply navigate to your chosen directory::
@@ -29,21 +29,22 @@ Download program
 
    Extract contents to chosen directory ::
 
-   		#Extract contents of archieve
+   	#Extract contents of archive
 		unzip miRPrusuit 
 
 
-Install
-=======
+Install Script
+==============
 
 *Run the install.sh file*:: 
 
 	cd [toPath]/miRPrusuit
 	./install.sh
 
-Make sure you restart your terminal/computer to update your `path <install.html#id2>`_ so PatMaN can be accessed.
-Alternatively you can source your startup shell file. Example for Bash shell. ::
-	
+.. Important:: Make sure you restart your terminal/computer to update your `path <install.html#id2>`_ so PatMaN can be accessed.
+
+Alternatively you can source your startup shell file. Example for Bash shell.::
+
     source ~/.bashrc
 
 Congratulations you should now have miRPursuit installed in your system.
@@ -57,7 +58,7 @@ Check `help <help.html>`_ section for information on help and how to send feedba
 
 Dependencies
 ============
-- `FastQC <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/>`_ (Not implemented yet.)
+- `FastQC <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/>`_ 
 - `PatMaN <https://bioinf.eva.mpg.de/patman/>`_
 - `Java <https://www.java.com>`_
 - `FASTX-Toolkit <http://hannonlab.cshl.edu/fastx_toolkit/>`_
@@ -103,7 +104,7 @@ The default directory for storing dependencies is ${HOME}/.Software, it will be 
 
 PatMaN
 ......
-The installation script starts by checking if `PatMaN <https://bioinf.eva.mpg.de/patman/>`_ is installed on the system. If it is not on available on the system it will be downloaded to the directory in the variable SOFTWARE. The downloaded archive is extracted and added to the path.
+The installation script starts by checking if `PatMaN <https://bioinf.eva.mpg.de/patman/>`_ is installed on the system. If it is not available on the system it will be downloaded to the directory in the variable SOFTWARE. The downloaded archive is extracted and added to the path.
 
 Java
 .... 
@@ -116,7 +117,7 @@ If `fastq_to_fasta <http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fas
 UEA sRNA workbench
 ..................
 `UEA sRNA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_ is run by miRPursuit from the WBENCH_DIR variable in `software_dirs.cfg <config.html#software-dirs>`_. If the variable isn't set the installation script will download the workbench and set up the variable.
-
+Since usage of UEA sRNA workbench requires acceptance of it's terms of use. On your first run you will be prompted to read and accept their term of use. Alternatively you can run their GUI and accept their terms of use in a graphical environment.  
 
 Setting variables in workdirs.cfg
 ---------------------------------
@@ -125,11 +126,12 @@ This section will guide you through the command prompts that will be issued.
 
 1. Create source data folder?
    This creates a directory for storing resources such as genomes, miRBase, etc. As a good practise it is recommend to store every thing in a common folder structure. Default is $HOME/source_data
-     - Y|y - Default directory is created
+     - Y|y - Default directory is created.
      - N|n - Specify an alternate directory. 
-2. **?**
-3. dfsf  
-4. fsdfsd
+
+.. 2. **?**
+.. 3. dfsf  
+.. 4. fsdfsd
 
 
 

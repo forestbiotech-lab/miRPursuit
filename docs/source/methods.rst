@@ -1,26 +1,26 @@
-=====
-Steps
-=====
+======
+Stages
+======
 
-This is an overview of the organizational structure of the workflow. This is useful if you want to re-do the analysis of the workflow with different parameters only from a more advanced step. This way you can avoid repeating necessary steps.
+This is an overview of the organizational structure of miRPursuit. This is useful if you want to re-do the analysis of the pipeline with different parameters only from a specific stage onward. This way you can avoid unnecessary repeating of stages.
 
-The workflow is divided in 4 main steps:
+The workflow is divided in 4 main stages:
  * `Pre-preprocessing`_
  * `Filtering`_
  * `Annotation`_
  * `Reporting`_
 
 
-.. image:: https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/workflow.png
+.. image:: https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/Figure1-miRPursuit.png
 	:alt: miRPursuit workflow schema
-**Image 1** - miRPursuit workflow schema
+**Image 1** - miRPursuit general schema.
    
 
 --------------------
 _`Pre-preprocessing`
 --------------------
 There are multiple entry points depending on the form of the raw data.
-Some NGS sequencing service providers might ship your data already trimmed for adaptors, or you might want to use the raw data provided directly by the sequencing equiptment, or you might want to use fasta files compiled from another source. 
+Some NGS sequencing service providers might ship your data already trimmed for adaptors, or you might want to use the raw data provided directly by the sequencing equipment, or you might want to use fasta files compiled from another source. 
 ..[needs flag for trimming] 
 
 By using miRPursuit you can specify the type of input file you will use. 
@@ -62,7 +62,7 @@ _`Annotation`
 _`Reporting`
 ------------
 **Merging results and stepwise stats**
- The number of sequences kept in each step are given for each library, both total numbers and distinct numbers of sequences. The identified sequences and their respective absolute  count are stored in a tab separate value file (.tsv). This provides easy exportation to most statistical softwares as well as MS excel.
+ The number of sequences kept in each step are given for each library, both total numbers and distinct numbers of sequences. The identified sequences and their respective absolute count are stored in a tab separate value file (.tsv). This provides easy exportation to most statistical softwares as well as MS Excel.
 
 
 .. TODO
