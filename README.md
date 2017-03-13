@@ -148,21 +148,21 @@ Works for fastq and fasta input formats.
 <br>Description: This is the main script that runs the full pipeline.
 Some commands are being changed to config files.
 <ul>inputs:
-  <ul>-f|--lib-first "First library to be processed"</ul>
-  <ul>-l|--lib-last "last Library to be processed"</ul>
-  <ul>-h|--help "Display help" </ul>
+  <ul><strong>-f|--lib-first</strong> "First library to be processed"</ul>
+  <ul><strong>-l|--lib-last</strong> "last Library to be processed"</ul>
+  <ul><strong>-h|--help</strong> "Display help" </ul>
 </ul>
 <ul>Optional arguments:
-  <ul>-s|--step Step is an optional argument used to jump steps and start analysis from a different point.
+  <ul><strong>-s|--step</strong> Step is an optional argument used to jump steps and start analysis from a different point.
     <ul>Step 1: Wbench Filter</ul>
     <ul>Step 2: Filter Genome & miRBase</ul>
     <ul>Step 3: Tasi</ul>
     <ul>Step 4: Mircat</ul>
     <ul>Step 5: PareSnip</ul>
   </ul>
-  <ul>--lc Set the program to begin in lcmode instead of fs mode. The preceding substring from the lib num (Pattern) Template + Lib num mas identify only one file in the inserts_dir</ul>
-  <ul>--fasta Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_</ul>
-  <ul>--fastq Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib, will also extract the file if extension is fastq.gz </ul>
+  <ul><strong>--fasta</strong> Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_</ul>
+  <ul><strong>--fastq</strong> Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib, will also extract the file if extension is fastq.gz </ul>
+  <ul><strong>--trim</strong> Set this flag to perform adaptor triming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.</ul>
 </ul>
 <ul>Outputs:
   <ul>mirbase hits</ul>
