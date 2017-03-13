@@ -63,9 +63,9 @@ However if the .fastq files are in .gz archives they can also be used, given the
 </ul>
 <ul> Set up the variables in the config dir.</ul>
 <ul>You should also have the following software configured in your path
-    <ul><a href="https://bioinf.eva.mpg.de/patman/" target="blank_">Patman</a> (Can be installed with install script)</ul>
-    <ul> [Tar](http://linuxcommand.org/man_pages/tar1.html) sudo apt-get install tar</ul>
-    <ul> [Fastx Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) (Can be install with install script)</ul>
+    <ul><a href="https://bioinf.eva.mpg.de/patman/" target="_blank">Patman</a> (Can be installed with install script)</ul>
+    <ul><a href="http://linuxcommand.org/man_pages/tar1.html" target="_blank">Tar</a> sudo apt-get install tar</ul>
+    <ul><a href="http://hannonlab.cshl.edu/fastx_toolkit/" target="_blank">Fastx Toolkit</a> (Can be install with install script)</ul>
 </ul>
 <ul>run miRPursuit.sh</ul>
 
