@@ -82,7 +82,7 @@ $ cd miRPursuit
 <h5>From tar</h5>
 
 ```shell
-$ Download archive from github
+#Download archive from github
 $ cd /toDesiredLocation/
 $ unzip miRPursuit-master.zip
 ``` 
@@ -113,8 +113,9 @@ $ vim config/software_dirs.cfg
 
 <ul>Example code to analyse test_dataset (Make sure all var above mentions are already set):</ul>
 
-    bash pathToMirPursuit/miRPursuit.sh -f 1 -l 2 --fasta test_dataset-
-
+```shell
+$ bash pathToMirPursuit/miRPursuit.sh -f 1 -l 2 --fasta test_dataset-
+```
 
 ## Analysing sRNA
 
