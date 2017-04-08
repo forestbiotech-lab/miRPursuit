@@ -21,7 +21,10 @@ NC='\e[0m' # No Color
 noPrompt=FALSE
 
 err_report() {
-   >&2 echo -e "${red}Error${NC} - " on line $1 caused a code $2 exit"
+   >&2 echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
+   echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
+          
+          
 }
 trap 'err_report $LINENO $?' ERR
 
@@ -77,7 +80,7 @@ case $key in
       ${green}Step 2${NC}: Filter Genome & mirbase
       ${green}Step 3${NC}: Tasi
       ${green}Step 4${NC}: Mircat
-      ${green}Step 5${NC}: PAREsnip    
+      ${green}Step 5${NC}: Report   
  ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceding substring from the lib num. (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
  ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
