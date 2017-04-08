@@ -20,6 +20,12 @@ invert='\e[7m'
 NC='\e[0m' # No Color
 noPrompt=FALSE
 
+err_report() {
+   >&2 echo -e "${red}Error${NC} - " on line $1 caused a code $2 exit"
+}
+trap 'err_report $LINENO $?' ERR
+
+
 while [[ $# > 0 ]]
 do
   key="$1"
@@ -346,4 +352,6 @@ mv $log_file $ok_log
 
 RUN=$(( $RUN + 1 ))
 sed -ri "s:(RUN=)(.*):\1${RUN}:" ${SOFT_CFG}
+
 exit 0
+
