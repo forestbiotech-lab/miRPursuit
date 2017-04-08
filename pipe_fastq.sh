@@ -55,9 +55,9 @@ else
     LIB=$(printf "%02d\n"  $LIB_NOW)
 
     #Test if "fq exists"
-    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}.*${LIB_NOW}.*\.(fq|fastq)+$") ]]; then
+    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_NOW}.*\.(fq|fastq)+$") ]]; then
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}.*${LIB_NOW}.*\.(fq|fastq)+\.gz$")
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_NOW}.*\.(fq|fastq)+\.gz$")
       archive="${INSERTS_DIR}/${CONVERT_LIB}"
       if [[ -e "${archive}" ]]; then
         NPROC=$(( $NPROC + 1 ))
@@ -67,7 +67,7 @@ else
         exit 1
       fi
     else      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}.*${LIB_NOW}.*\.(fq|fastq)+$")
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_NOW}.*\.(fq|fastq)+$")
       NPROC=$(( $NPROC+1 ))
       cp ${INSERTS_DIR}/${CONVERT_LIB} ${workdir}data/fastq/Lib${LIB}.fq &
     fi
