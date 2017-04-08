@@ -53,15 +53,16 @@ else
   do 
     LIB_NOW=$i
     LIB=$(printf "%02d\n"  $LIB_NOW)
-    CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+$")
+    CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}.*${LIB_NOW}.*\.(fq|fastq)+$")
     #Test if "fq exists"
     if [[ -z "$CONVERT_LIB" ]]; then
           
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fq|fastq)+\.gz$")
-      if [[ -e "${INSERTS_DIR}/${CONVERT_LIB}" ]]; then
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}.*${LIB_NOW}.*\.(fq|fastq)+\.gz$")
+      archive="${INSERTS_DIR}/${CONVERT_LIB}"
+      if [[ -e "${archive}" ]]; then
         NPROC=$(( $NPROC + 1 ))
-        gunzip -c ${INSERTS_DIR}/$CONVERT_LIB > ${workdir}data/fastq/Lib${LIB}.fq &       
+        gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
       else
         >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}." 
         exit 1
