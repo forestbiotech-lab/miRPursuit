@@ -48,13 +48,14 @@ exec 2>&1 >> ${log_file}
 SCRIPT_DIR=$DIR"/scripts"
 OUTPUT_FILE=${workdir}count/miRPursuit_REPORT-Run${PPID}.tex
 
+graphicspath=$(echo ${workdir}count/images/ | sed -r "s:_:\_:g")
 
 if [[ "${TYPE}" == "header" ]]; then
 	printf "\\\documentclass{article}
 \\\title{miRPursuit - REPORT}
 \\\author{miRPursuit - Forest-BiotechLab}
 \\\usepackage{graphicx}
-\\\graphicspath{ {${workdir}count/images/} }
+\\\graphicspath{ {${graphicspath}} }
 \\\begin{document}
 	\\\maketitle
 	Hello world
