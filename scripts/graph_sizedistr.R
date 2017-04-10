@@ -92,7 +92,7 @@ xx=c(min(names(mat)),max(names(mat)))
 #lty=lty,lwd=lwd,col=col)
 #dev.off()
 
-barplotFile=paste0(args[2],"Barplot_",identifier,"_size_distr.png")
+barplotFile=paste0(args[2],"Barplot-",identifier,"-size-distr.png")
 png(barplotFile)
 if(length(args)==4){
   barplot(mat,beside=TRUE,legend.text=TRUE,names.arg=colnames(mat),col=col,xlab=xlab,ylab=ylab,main=main,sub=sub)

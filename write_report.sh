@@ -54,7 +54,7 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\title{miRPursuit - REPORT}
 \\\author{miRPursuit - Forest-BiotechLab}
 \\\usepackage{graphicx}
-\\\graphicspath{ {${workdir}count/image} }
+\\\graphicspath{ {${workdir}count/images/} }
 \\\begin{document}
 	\\\maketitle
 	Hello world
@@ -82,7 +82,8 @@ if [[ "${TYPE}" == "fasta" ]]; then
 	  #convert image Add image
 	printf "
 	\\\begin{figure}[h]
-	\\\includegraphics[width=8cm, height=8cm]{barplot_Lib${LIB}_size_distr}
+	\\\centering
+	\\\includegraphics[width=8cm, height=8cm]{barplot-Lib${LIB}-size-distr}
 	\\\caption{this is the caption of the picture above}
 	\\\label{fig:profile${LIB}}
 	\\\end{figure}\n" >> ${OUTPUT_FILE}
