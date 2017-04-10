@@ -85,7 +85,9 @@ case $key in
  ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
  ${blue}--trim${NC}  Set this flag to perform adaptor trimming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
- ${blue}--headless${NC}  Set this flag to run on headless server. Requires Xvfb be installed on your system.
+ ${blue}--headless${NC}  Set this flag to run on headless server. Requires Xvfb be installed on your system. Along with libswt-gtk-3-java and gkt3.
+		sudo apt-get update
+		sudo apt-get install xvfb libswt-gtk-java gkt3
  ${blue}--no-prompt${NC}  Set this flag to skip all prompts.
 
   "
