@@ -83,7 +83,7 @@ if [[ "${TYPE}" == "fasta" ]]; then
 	printf "
 	\\\begin{figure}[h]
 	\\\centering
-	\\\includegraphics[width=8cm, height=8cm]{barplot-Lib${LIB}-size-distr}
+	\\\includegraphics[width=8cm, height=8cm]{Barplot-Lib${LIB}-size-distr}
 	\\\caption{this is the caption of the picture above}
 	\\\label{fig:profile${LIB}}
 	\\\end{figure}\n" >> ${OUTPUT_FILE}
