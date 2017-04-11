@@ -60,6 +60,11 @@ However if the .fastq files are in .gz archives they can also be used, given the
   <ul> UEA Workbench Optimized for linux version (~3.2) </ul>
   <ul> perl version (5.8) </ul>
   <ul> Java optimized for version (~1.7) </ul>
+  <ul> RNAfold depends on /lib/ld-linux.so.2 (You can compile a new version of it an replace RNAfold in srna-workbenchV4.0Alpha/ExeFiles/linux/)
+    <ul>On ubuntu it can be found in this package: libc6-i386 </ul>
+    <ul> sudo apt-get update</ul>
+    <ul> sudo apt-get libc6-i386</ul>
+  </ul>
 </ul>
 <ul> Set up the variables in the config dir.</ul>
 <ul>You should also have the following software configured in your path
