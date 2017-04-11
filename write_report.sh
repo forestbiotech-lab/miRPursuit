@@ -150,7 +150,7 @@ if [[ "${TYPE}" == "stats" ]]; then
 	    		else
 	    			captionText="Number of distinct reads throughout the various steps"
 	    			newSection="\\\section{Distinct reads counts}\nThis section depicts the number of distinct reads throughout the various steps.\n\n"
-				
+				fi
 				printf "${newSection}\\\begin{center}
 \\\begin{table}[h]
 \\\begin{tabular}{$cellStructure}
