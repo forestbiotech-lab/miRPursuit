@@ -189,7 +189,7 @@ if [[ "${TYPE}" == "logs" ]]; then
 	LOGS=${workdir}log
 	#Choose last dir. 
 	lastlog=$(ls -d ${LOGS}/*/ | tail -1)
-	if [[ -e $(ls ${LOGS}/*Global*) ]]; then
+	if [[ -e $(ls ${LOGS}/*Global*  | tail -1) ]]; then
 		printf "\\\section{Global log}" >> ${OUTPUT_FILE}
 		sed -r "s:$:\\\\\\\:g" ${LOGS}/*Global* >> ${OUTPUT_FILE}
 	fi
