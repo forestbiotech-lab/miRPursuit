@@ -205,7 +205,7 @@ if [[ "${TYPE}" == "logs" ]]; then
 		printf "\\\section{Filtering}" >> ${OUTPUT_FILE}
 		sed -r "s:$:\\\\\\\:g" ${lastLog}/*filters* >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo ${lastLog}/*genome_&_mirbase*) ]]; then
+	if [[ -e $(echo ${lastLog}/*genome_*_mirbase*) ]]; then
 		printf "\\\section{Genome and Mirbase Filtering}" >> ${OUTPUT_FILE}
 		sed -r "s:$:\\\\\\\:g" ${lastLog}/*genome_&_mirbase* >> ${OUTPUT_FILE}
 	fi
