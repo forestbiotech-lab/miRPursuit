@@ -50,6 +50,15 @@ OUTPUT_FILE=${workdir}count/miRPursuit_REPORT-Run${PPID}.tex
 
 graphicspath=$(echo ${workdir}count/images/ | sed -r "s:_:\_:g")
 
+
+if [[ "${TYPE}" == "complete" ]]; then
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST header
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST fasta
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST stats
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST logs
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST end
+fi
+
 if [[ "${TYPE}" == "header" ]]; then
 	printf "\\\documentclass{book}
 \\\title{miRPursuit - REPORT}
