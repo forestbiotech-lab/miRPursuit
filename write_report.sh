@@ -189,29 +189,37 @@ if [[ "${TYPE}" == "logs" ]]; then
 	LOGS=${workdir}log
 	#Choose last dir. 
 	lastlog=$(ls -d ${LOGS}/*/ | tail -1)
-	if [[ -e $(echo *pipe_fastq*) ]]; then
+	if [[ -e $(ls ${LOGS}/*Global*) ]]; then
+		printf "\\\section{Global log}" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${LOGS}/*Global* >> ${OUTPUT_FILE}
+	fi
+	if [[ -e $(echo ${lastLog}/*pipe_fastq*) ]]; then
 		printf "\\\section{Pipe Fastq}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" *pipe_fastq* >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*pipe_fastq* >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo *pipe_fasta*) ]]; then
+	if [[ -e $(echo ${lastLog}/*pipe_fasta*) ]]; then
 		printf "\\\section{Pipe Fasta}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" *pipe_fasta* >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*pipe_fasta* >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo *filters*) ]]; then
+	if [[ -e $(echo ${lastLog}/*filters*) ]]; then
 		printf "\\\section{Filtering}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" *filters* >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*filters* >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo *genome_&_mirbase*) ]]; then
+	if [[ -e $(echo ${lastLog}/*genome_&_mirbase*) ]]; then
 		printf "\\\section{Genome and Mirbase Filtering}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" *genome_&_mirbase* >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*genome_&_mirbase* >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo *mircat*) ]]; then
+	if [[ -e $(echo ${lastLog}/*mircat*) ]]; then
 		printf "\\\section{Mircat}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" *mircat* >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*mircat* >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo *tasi*) ]]; then
+	if [[ -e $(echo ${lastLog}/*tasi*) ]]; then
 		printf "\\\section{TaSi}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" *tasi* >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*tasi* >> ${OUTPUT_FILE}
+	fi
+	if [[ -e $(echo ${lastLog}/*tasi*) ]]; then
+		printf "\\\section{TaSi}" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${lastLog}/*tasi* >> ${OUTPUT_FILE}
 	fi
 	##Are there others?
 
