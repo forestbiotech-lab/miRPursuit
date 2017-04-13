@@ -184,7 +184,7 @@ ${tasiLine} \\\\\\
 fi
 
 if [[ "${TYPE}" == "logs" ]]; then
-	printf"\\\chapter{Logs}
+	printf "\\\chapter{Logs}
 \\\section{Filters log}" >> ${OUTPUT_FILE}
 	LOGS=${workdir}log
 	#Choose last dir. 
