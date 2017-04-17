@@ -23,7 +23,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 log_file="${workdir}log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:filters:${1}-${2}.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec >&1 > ${log_file}
-printf "\nRan with these vars:\n###################\n#wbench_filter.cfg#\n###################\n"
+printf "Ran with these vars:\n###################\n#wbench_filter.cfg#\n###################\n"
 cat $DIR/config/wbench_filter_in_use.cfg
 printf "\n\n"
 
