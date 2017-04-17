@@ -195,42 +195,49 @@ ${tasiLine} \\\\\\
 fi
 
 if [[ "${TYPE}" == "logs" ]]; then
-	printf "\\\chapter{Logs}
-\\\section{Filters log}" >> ${OUTPUT_FILE}
+	printf "\\\chapter{Logs}\n" >> ${OUTPUT_FILE}
 	LOGS=${workdir}log
 	#Choose last dir. 
 	lastlog=$(ls -d ${LOGS}/*/ | tail -1)
 	if [[ -e $(ls ${LOGS}/*Global*  | tail -1) ]]; then
-		printf "\\\section{Global log}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${LOGS}/*Global* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+		printf "\\\section{Global log}\n" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo ${lastlog}/*pipe_fastq*) ]]; then
-		printf "\\\section{Pipe Fastq}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*pipe_fastq* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+	if [[ -e $(echo "${lastlog}"/*pipe_fastq*) ]]; then
+		printf "\\\section{Pipe Fastq}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*pipe_fastq*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo ${lastlog}/*pipe_fasta*) ]]; then
-		printf "\\\section{Pipe Fasta}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*pipe_fasta* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+		printf "\\\section{Pipe Fasta}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*pipe_fasta*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo ${lastlog}/*filters*) ]]; then
-		printf "\\\section{Filtering}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*filters* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+	if [[ -e $(echo "${lastlog}"/*filters*) ]]; then
+		printf "\\\section{Filtering}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*filters*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo ${lastlog}/*genome_*_mirbase*) ]]; then
-		printf "\\\section{Genome and Mirbase Filtering}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*genome_&_mirbase* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+	if [[ -e $(echo "${lastlog}"/*genome_*_mirbase*) ]]; then
+		printf "\\\section{Genome and Mirbase Filtering}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*genome*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo ${lastlog}/*mircat*) ]]; then
-		printf "\\\section{Mircat}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*mircat* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+		printf "\\\section{Mircat}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*mircat*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo ${lastlog}/*tasi*) ]]; then
-		printf "\\\section{TaSi}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*tasi* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+	if [[ -e $(echo "${lastlog}"/*tasi*) ]]; then
+		printf "\\\section{TaSi}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*tasi*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
-	if [[ -e $(echo ${lastlog}/*tasi*) ]]; then
-		printf "\\\section{TaSi}" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" ${lastLog}/*tasi* | sed -r "s:#:\\\#:g" | sed -r "s:_:\\\_:g" | sed -r "s:&:\\\&:g" >> ${OUTPUT_FILE}
+	#Extra for another log.
+	if [[ -e $(echo "${lastlog}"/*tasi---*) ]]; then
+		printf "\\\section{TaSi}\n" >> ${OUTPUT_FILE}
+		log="${lastlog}"/*tasi*)
+		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	##Are there others?
 
