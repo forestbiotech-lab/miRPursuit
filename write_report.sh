@@ -205,38 +205,38 @@ if [[ "${TYPE}" == "logs" ]]; then
 	fi
 	if [[ -e $(echo "${lastlog}"/*pipe_fastq*) ]]; then
 		printf "\\\section{Pipe Fastq}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*pipe_fastq*)
+		log=$(echo "${lastlog}"/*pipe_fastq*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo ${lastlog}/*pipe_fasta*) ]]; then
 		printf "\\\section{Pipe Fasta}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*pipe_fasta*)
+		log=$(echo "${lastlog}"/*pipe_fasta*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*filters*) ]]; then
 		printf "\\\section{Filtering}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*filters*)
+		log=$(echo "${lastlog}"/*filters*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*genome_*_mirbase*) ]]; then
 		printf "\\\section{Genome and Mirbase Filtering}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*genome*)
+		log=$(echo "${lastlog}"/*genome*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo ${lastlog}/*mircat*) ]]; then
 		printf "\\\section{Mircat}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*mircat*)
+		log=$(echo "${lastlog}"/*mircat*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*tasi*) ]]; then
 		printf "\\\section{TaSi}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*tasi*)
+		log=$(echo "${lastlog}"/*tasi*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	#Extra for another log.
 	if [[ -e $(echo "${lastlog}"/*tasi---*) ]]; then
 		printf "\\\section{TaSi}\n" >> ${OUTPUT_FILE}
-		log="${lastlog}"/*tasi*)
+		log=$(echo "${lastlog}"/*tasi*)
 		sed -r "s:$:\\\\\\\:g" ${log} | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	##Are there others?
