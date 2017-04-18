@@ -169,10 +169,10 @@ if [[ "${TYPE}" == "stats" ]]; then
 	    		novelLine="Novel & "$(echo ${novel[@]:$arrStart:${columns}} | tr -t " " "&")
 	    		tasiLine="TaSi & "$(echo ${tasi[@]:$arrStart:${columns}} | tr -t " " "&")
 	    		if [[ "$c"  == "2" ]];then
-	    			captionText="Total reads counts throughout the various steps"
-	    			newSection="\\\subsection{Total read counts}\nThis sections shows the total read count for each step\n\n"
+	    			captionText="Total reads counts throughout the various steps.\label{table}"
+	    			newSection="\\\subsection{Total read counts}\nThis sections shows the total read count for each step.\n\n"
 	    		else
-	    			captionText="Number of distinct reads throughout the various steps"
+	    			captionText="Number of distinct reads throughout the various steps.\label{table}"
 	    			newSection="\\\subsection{Distinct reads counts}\nThis section depicts the number of distinct reads throughout the various steps.\n\n"
 				fi
 				printf "${newSection}\\\begin{center}
@@ -191,7 +191,6 @@ ${tasiLine} \\\\\\
 \\\hline
 \\\end{tabular}
 \\\caption{${captionText}}
-\\\label{table:$(( ${c} - 1 ))}
 \\\end{table}
 \\\end{center}\n" >> ${OUTPUT_FILE}
 
@@ -228,42 +227,54 @@ if [[ "${TYPE}" == "conserved" ]]; then
 			fi
 
             arrStart=$(( ( ( $i - 1 ) * 6 ) ))
-            arrStop=$(( ( ( $i - 1 ) * 6 ) + ${columns} ))
+            arrStop=$(( ${arrStart} + ${columns} ))
 
     		cellStructure=${columnStructure}${allCols[@]:0:${columns}}"|"
     		tHeader="Sequence & miR & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
     		#fastqLine="Fastq & "$(echo ${fastq[@]:$arrStart:${columns}} | tr -t " " "&")
-    		##Not finished here.
-    		table=$(awk -F "\t" -v s=3 -v e=7 '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\\\"}}' ${conservedMat} )
+    		
+    		##Not finished here. Might be done
+
+    		firstCol=$(( $arrStart + 3 ))
+    		lastCol=$(( $arrStop + 3 ))
+    		table=$(awk -F "\t" -v s=$firstCol -v e=${lastCol} '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\\\ \\n"}}' ${conservedMat} )
     	
-    		captionText="Conserved reads matrix"
+    		captionText="Conserved reads matrix raw values.\label{long}"
     		
 			
-			printf "\\\begin{center}
-\\\begin{table}[h!]
-\\\begin{tabular}{$cellStructure}
+			printf "\\\begin{longtable}{$cellStructure}
+\\\caption{${captionText}}
+\\\hline
+\\\multicolumn{${columns}}{| c |}{Begin of conserved table \ref{long}} \\\\\\
 \\\hline
 ${tHeader} \\\\\\
-\\\hline">> ${OUTPUT_FILE}
-echo ${table} >> ${OUTPUT_FILE}
-printf "\\\hline
-\\\end{tabular}
-\\\caption{${captionText}}
-\\\label{table:1}
-\\\end{table}
-\\\end{center}\n" >> ${OUTPUT_FILE}
+\\\hline
+\\\endfirsthead
+
+\\\hline
+\\\multicolumn{${columns}}{| c |}{Continuation of table \ref{long}} \\\\\\
+\\\hline
+${tHeader} \\\\\\
+\\\hline
+\\\endhead
+
+\\\hline
+\\\endfoot
+
+\\\hline
+\\\multicolumn{${columns}}{| c |}{End of table \ref{long}} \\\\\\
+\\\hline
+\\\hline
+\\\endlastfoot
+">> ${OUTPUT_FILE}
+
+			echo -e ${table} >> ${OUTPUT_FILE}
+			printf "\\\end{longtable}\n" >> ${OUTPUT_FILE}
 
 		fi
 
 	done
 	printf "\\\newpage\n\n" >> ${OUTPUT_FILE}		
-
-
-
-
-
-
-
 
 fi
 
