@@ -65,6 +65,7 @@ if [[ "${TYPE}" == "header" ]]; then
 	printf "\\\documentclass{article}
 \\\usepackage[utf8]{inputenc}
 \\\usepackage{graphicx}
+\\\usepackage{longtable}
 \\\graphicspath{ {${graphicspath}} }
 \\\begin{document}
 \\\title{miRPursuit - REPORT}
@@ -119,7 +120,7 @@ This section depicts the sRNA profiles of the various libraries using barplots.\
 
 
 	done
-	printf "\\\newpage\n\n" >> ${OUTPUT_FILE}		
+	printf "\\\newpage\\\newpage\n\n" >> ${OUTPUT_FILE}		
 
 	##Write to tex
 
@@ -198,12 +199,12 @@ ${tasiLine} \\\\\\
 
 		done
 	done
-	printf "\\\newpage\n\n" >> ${OUTPUT_FILE}		
+	printf "\\\newpage\\\newpage\n\n" >> ${OUTPUT_FILE}		
 fi
 
 
 if [[ "${TYPE}" == "conserved" ]]; then
-	printf "\\\section{Conserved miRNAs}\n\\\paragraph{This section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv. }" >> ${OUTPUT_FILE}
+	printf "\\\section{Conserved miRNAs}\n\\\paragraph{This section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv. }\n" >> ${OUTPUT_FILE}
 	COUNTS=${workdir}count
 	conservedMat=${COUNTS}/all_seq_counts_cons.tsv
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
@@ -226,6 +227,7 @@ if [[ "${TYPE}" == "conserved" ]]; then
 				columns=6	
 			fi
 
+			tColumns=$(( ${columns} + 2 ))
             arrStart=$(( ( ( $i - 1 ) * 6 ) ))
             arrStop=$(( ${arrStart} + ${columns} ))
 
@@ -245,14 +247,14 @@ if [[ "${TYPE}" == "conserved" ]]; then
 			printf "\\\begin{longtable}{$cellStructure}
 \\\caption{${captionText}}
 \\\hline
-\\\multicolumn{${columns}}{| c |}{Begin of conserved table \\\ref{long}} \\\\\\
+\\\multicolumn{${tColumns}}{| c |}{Begin of conserved table \\\ref{long}} \\\\\\
 \\\hline
 ${tHeader} \\\\\\
 \\\hline
 \\\endfirsthead
 
 \\\hline
-\\\multicolumn{${columns}}{| c |}{Continuation of table \\\ref{long}} \\\\\\
+\\\multicolumn{${tColumns}}{| c |}{Continuation of table \\\ref{long}} \\\\\\
 \\\hline
 ${tHeader} \\\\\\
 \\\hline
@@ -262,7 +264,7 @@ ${tHeader} \\\\\\
 \\\endfoot
 
 \\\hline
-\\\multicolumn{${columns}}{| c |}{End of table \\\ref{long}} \\\\\\
+\\\multicolumn{${tColumns}}{| c |}{End of table \\\ref{long}} \\\\\\
 \\\hline
 \\\hline
 \\\endlastfoot
