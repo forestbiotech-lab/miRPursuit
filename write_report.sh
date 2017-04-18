@@ -214,7 +214,7 @@ if [[ "${TYPE}" == "conserved" ]]; then
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
     cycles=$(( $libs / 6 + 1 ))
     
-	columnStructure="| r r |"
+	columnStructure="| l l |"
 	declare -a allCols=(r r r r r r)
 	declare -a allLibs=($(eval echo Lib{$LIB_FIRST..$LIB_LAST}))
 
