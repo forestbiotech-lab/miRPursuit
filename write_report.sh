@@ -66,6 +66,9 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\usepackage[utf8]{inputenc}
 \\\usepackage{graphicx}
 \\\usepackage{longtable}
+\\\usepackage{caption}
+\\\captionsetup[h!]{justification=justified,singlelinecheck=false,indention=0cm}
+\\\captionsetup[longtable]{justification=justified,singlelinecheck=false,indention=0cm}
 \\\graphicspath{ {${graphicspath}} }
 \\\begin{document}
 \\\title{miRPursuit - REPORT}
@@ -96,7 +99,9 @@ fi
 if [[ "${TYPE}" == "fasta" ]]; then
 	printf "\\\section{Characterization of sRNA libraries}
 \\\subsection{sRNA Profile}
-This section depicts the sRNA profiles of the various libraries using barplots.\n" >> $OUTPUT_FILE
+\\\begin{flushleft}
+This section depicts the sRNA profiles of the various libraries using barplots.
+\\\end{flushleft}\n" >> $OUTPUT_FILE
 
 
 	#Choses run mode based on input arguments
@@ -176,8 +181,9 @@ if [[ "${TYPE}" == "stats" ]]; then
 	    			captionText="Number of distinct reads throughout the various steps.\label{table}"
 	    			newSection="\\\subsection{Distinct reads counts}\nThis section depicts the number of distinct reads throughout the various steps.\n\n"
 				fi
-				printf "${newSection}\\\begin{center}
+				printf "${newSection}
 \\\begin{table}[h!]
+\\\caption{${captionText}}
 \\\begin{tabular}{$cellStructure}
 \\\hline
 ${tHeader} \\\\\\
@@ -191,9 +197,7 @@ ${novelLine} \\\\\\
 ${tasiLine} \\\\\\
 \\\hline
 \\\end{tabular}
-\\\caption{${captionText}}
-\\\end{table}
-\\\end{center}\n" >> ${OUTPUT_FILE}
+\\\end{table}\n" >> ${OUTPUT_FILE}
 
 			fi
 
@@ -204,7 +208,7 @@ fi
 
 
 if [[ "${TYPE}" == "conserved" ]]; then
-	printf "\\\section{Conserved miRNAs}\n\\\paragraph{This section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv. }\n" >> ${OUTPUT_FILE}
+	printf "\\\section{Conserved miRNAs}\n\\\begin{flushleft}\nThis section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv.\n\\\end{flushleft}}\n" >> ${OUTPUT_FILE}
 	COUNTS=${workdir}count
 	conservedMat=${COUNTS}/all_seq_counts_cons.tsv
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
