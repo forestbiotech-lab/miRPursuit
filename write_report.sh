@@ -287,43 +287,43 @@ if [[ "${TYPE}" == "logs" ]]; then
 	lastlog=$(ls -d ${LOGS}/*/ | tail -1)
 	if [[ -e $(ls "${LOGS}"/*Global*  | tail -1) ]]; then
 		printf "\\\subsection{Global log}\n" >> ${OUTPUT_FILE}
-		sed -r "s:$:\\\\\\\:g" "${LOGS}"/*Global* | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${LOGS}"/*Global* | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*pipe_fastq*) ]]; then
 		printf "\\\subsection{Pipe Fastq}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*pipe_fastq*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo ${lastlog}/*pipe_fasta*) ]]; then
 		printf "\\\subsection{Pipe Fasta}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*pipe_fasta*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*filters*) ]]; then
 		printf "\\\subsection{Filtering}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*filters*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*genome_*_mirbase*) ]]; then
 		printf "\\\subsection{Genome and Mirbase Filtering}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*genome*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo ${lastlog}/*mircat*) ]]; then
 		printf "\\\subsection{Mircat}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*mircat*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	if [[ -e $(echo "${lastlog}"/*tasi*) ]]; then
 		printf "\\\subsection{TaSi}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*tasi*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	#Extra for another log.
 	if [[ -e $(echo "${lastlog}"/*tasi---*) ]]; then
 		printf "\\\subsection{TaSi}\n" >> ${OUTPUT_FILE}
 		log=$(echo "${lastlog}"/*tasi*)
-		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
+		sed -r "s:$:\\\\\\\:g" "${log}" | sed -r "s:([%#_&]):\\\\\1:g" >> ${OUTPUT_FILE}
 	fi
 	##Are there others?
 
