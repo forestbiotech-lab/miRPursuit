@@ -213,7 +213,7 @@ if [[ "${TYPE}" == "conserved" ]]; then
 	columnStructure="| r r |"
 	declare -a allCols=(r r r r r r)
 	declare -a allLibs=($(eval echo Lib{$LIB_FIRST..$LIB_LAST}))
-	$(awk '{if(NR>1){printf $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\n"}}' $conservedMat)
+
 	   
 
 
@@ -234,7 +234,7 @@ if [[ "${TYPE}" == "conserved" ]]; then
     		tHeader="Sequence & miR & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
     		#fastqLine="Fastq & "$(echo ${fastq[@]:$arrStart:${columns}} | tr -t " " "&")
     		##Not finished here.
-    		table=$(awk -F "\t" -v s=3 -v e=7 '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\"}}' ${conservedMat} )
+    		table=$(awk -F "\t" -v s=3 -v e=7 '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\\\"}}' ${conservedMat} )
     	
     		captionText="Conserved reads matrix"
     		
@@ -244,9 +244,9 @@ if [[ "${TYPE}" == "conserved" ]]; then
 \\\begin{tabular}{$cellStructure}
 \\\hline
 ${tHeader} \\\\\\
-\\\hline
-${table}
-\\\hline
+\\\hline">> ${OUTPUT_FILE}
+echo ${table} >> ${OUTPUT_FILE}
+printf "\\\hline
 \\\end{tabular}
 \\\caption{${captionText}}
 \\\label{table:1}
