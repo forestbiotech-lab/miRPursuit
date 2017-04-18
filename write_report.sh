@@ -208,7 +208,7 @@ fi
 
 
 if [[ "${TYPE}" == "conserved" ]]; then
-	printf "\\\section{Conserved miRNAs}\n\\\begin{flushleft}\nThis section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv.\n\\\end{flushleft}}\n" >> ${OUTPUT_FILE}
+	printf "\\\section{Conserved miRNAs}\n\\\begin{flushleft}\nThis section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv.\n\\\end{flushleft}\n" >> ${OUTPUT_FILE}
 	COUNTS=${workdir}count
 	conservedMat=${COUNTS}/all_seq_counts_cons.tsv
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))

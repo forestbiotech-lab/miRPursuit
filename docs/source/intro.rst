@@ -2,7 +2,7 @@
 Introduction
 ============
 
-miRPursuit is an open source project developed by at the `Forest Biotech group <http://www.itqb.unl.pt/research/plant-sciences/forest-biotech>`_ to automate the management of workloads in 
+miRPursuit is an open source project developed by `Forest Biotech group <http://www.itqb.unl.pt/research/plant-sciences/forest-biotech>`_ to automate the management of workloads in 
 
 ----------
 Objectives
