@@ -55,9 +55,9 @@ if [[ "${TYPE}" == "complete" ]]; then
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST header
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST fasta
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST stats
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST conserved
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST logs
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST end
-	#bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST conserved
 fi
 
 if [[ "${TYPE}" == "header" ]]; then
@@ -203,7 +203,7 @@ fi
 
 
 if [[ "${TYPE}" == "conserved" ]]; then
-	printf "\\\section{Conserved miRNAs}\n" >> ${OUTPUT_FILE}
+	printf "\\\section{Conserved miRNAs}\n\\\paragraph{This section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv. }" >> ${OUTPUT_FILE}
 	COUNTS=${workdir}count
 	conservedMat=${COUNTS}/all_seq_counts_cons.tsv
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
@@ -245,14 +245,14 @@ if [[ "${TYPE}" == "conserved" ]]; then
 			printf "\\\begin{longtable}{$cellStructure}
 \\\caption{${captionText}}
 \\\hline
-\\\multicolumn{${columns}}{| c |}{Begin of conserved table \ref{long}} \\\\\\
+\\\multicolumn{${columns}}{| c |}{Begin of conserved table \\\ref{long}} \\\\\\
 \\\hline
 ${tHeader} \\\\\\
 \\\hline
 \\\endfirsthead
 
 \\\hline
-\\\multicolumn{${columns}}{| c |}{Continuation of table \ref{long}} \\\\\\
+\\\multicolumn{${columns}}{| c |}{Continuation of table \\\ref{long}} \\\\\\
 \\\hline
 ${tHeader} \\\\\\
 \\\hline
@@ -262,7 +262,7 @@ ${tHeader} \\\\\\
 \\\endfoot
 
 \\\hline
-\\\multicolumn{${columns}}{| c |}{End of table \ref{long}} \\\\\\
+\\\multicolumn{${columns}}{| c |}{End of table \\\ref{long}} \\\\\\
 \\\hline
 \\\hline
 \\\endlastfoot
