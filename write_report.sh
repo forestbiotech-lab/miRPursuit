@@ -57,6 +57,7 @@ if [[ "${TYPE}" == "complete" ]]; then
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST stats
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST logs
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST end
+	#bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST conserved
 fi
 
 if [[ "${TYPE}" == "header" ]]; then
@@ -199,6 +200,71 @@ ${tasiLine} \\\\\\
 		done
 	done
 	printf "\\\newpage\n\n" >> ${OUTPUT_FILE}		
+fi
+
+
+if [[ "${TYPE}" == "conserved" ]]; then
+	printf "\\\section{Conserved miRNAs}\n" >> ${OUTPUT_FILE}
+	COUNTS=${workdir}count
+	conservedMat=${COUNTS}/all_seq_counts_cons.tsv
+	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
+    cycles=$(( $libs / 6 + 1 ))
+    
+	columnStructure="| r r |"
+	declare -a allCols=(r r r r r r)
+	declare -a allLibs=($(eval echo Lib{$LIB_FIRST..$LIB_LAST}))
+	$(awk '{if(NR>1){printf $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\n"}}' $conservedMat)
+	   
+
+
+	cycle=$(eval echo {1..${cycles}})
+	for i in $cycle ;do
+		columns=$(( $libs - ( $i - 1 ) * 6  ))
+		if [[ "${columns}" -gt "0" ]];then
+			#if columns = 0; don't print; if < 6 that is the number of columns
+			#if bigger use 6 and continue
+			if [[ "${columns}" -gt "6" ]];then
+				columns=6	
+			fi
+
+            arrStart=$(( ( ( $i - 1 ) * 6 ) ))
+            arrStop=$(( ( ( $i - 1 ) * 6 ) + ${columns} ))
+
+    		cellStructure=${columnStructure}${allCols[@]:0:${columns}}"|"
+    		tHeader="Sequence & miR & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
+    		#fastqLine="Fastq & "$(echo ${fastq[@]:$arrStart:${columns}} | tr -t " " "&")
+    		##Not finished here.
+    		table=$(awk -F "\t" -v s=3 -v e=7 '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\"}}' ${conservedMat} )
+    	
+    		captionText="Conserved reads matrix"
+    		
+			
+			printf "\\\begin{center}
+\\\begin{table}[h!]
+\\\begin{tabular}{$cellStructure}
+\\\hline
+${tHeader} \\\\\\
+\\\hline
+${table}
+\\\hline
+\\\end{tabular}
+\\\caption{${captionText}}
+\\\label{table:1}
+\\\end{table}
+\\\end{center}\n" >> ${OUTPUT_FILE}
+
+		fi
+
+	done
+	printf "\\\newpage\n\n" >> ${OUTPUT_FILE}		
+
+
+
+
+
+
+
+
 fi
 
 if [[ "${TYPE}" == "logs" ]]; then
