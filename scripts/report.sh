@@ -65,7 +65,7 @@ if [[ -d "${workdir}data/fastq" ]]; then
 
   filesLines=$(cat $files | wc -l ) 
   if [[ "$filesLines" -gt 3 ]];then
-    total=$(( $fileLines / 4 ))
+    total=$(( $filesLines / 4 ))
   fi
   printf "Total\t$total\t$total_d\n" >> $output
 
