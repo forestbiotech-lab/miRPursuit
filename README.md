@@ -238,19 +238,8 @@ tissue-specific expression patterns. Tree Genet. Genomes 10, 721–737.
 <ul>16 - **Griffiths-Jones S**, Saini HK, van Dongen S & Enright AJ (2008) miRBase: tools for microRNA genomics. Nucleic Acids Res 36, D154–8.</ul>
 <ul>17 - **Taylor RS, Tarver JE, Foroozani A & Donoghue PCJ** (2017) MicroRNA annotation of plant genomes - Do it right or not at all. Bioessays 39.</ul>
 <ul>18 - **Meyers BC, Axtell MJ, Bartel B, Bartel DP, Baulcombe D, Bowman JL, Cao X, Carrington JC, Chen X, Green PJ, Griffiths-Jones S, Jacobsen SE, Mallory AC, Martienssen RA, Poethig RS, Qi Y, Vaucheret H, Voinnet O, Watanabe Y, Weigel D & Zhu J-K** (2008) Criteria for annotation of plant MicroRNAs. Plant Cell 20, 3186–3190.</ul>
-<ul>19 **Goodstein DM, Shu S, Howson R, Neupane R, Hayes RD, Fazo J, Mitros T, Dirks W, Hellsten U, Putnam N & Rokhsar DS** (2012) Phytozome: a comparative platform for green plant genomics. Nucleic Acids Res 40, D1178–86.
-<ul>20 **Kersey PJ, Allen JE, Armean I, Boddu S, Bolt BJ, Carvalho-Silva D, Christensen M, Davis P, Falin LJ, Grabmueller C, Humphrey J, Kerhornou A, Khobova J, Aranganathan NK, Langridge N, Lowy E, McDowall MD, Maheswari U, Nuhn M, Ong CK & Staines DM (2016)** Ensembl Genomes 2016: more genomes, more complexity. Nucleic Acids Res 44, D574–80.</ul>
 
+19 **Goodstein DM, Shu S, Howson R, Neupane R, Hayes RD, Fazo J, Mitros T, Dirks W, Hellsten U, Putnam N & Rokhsar DS** (2012) Phytozome: a comparative platform for green plant genomics. Nucleic Acids Res 40, D1178–86.
 
+20 **Kersey PJ, Allen JE, Armean I, Boddu S, Bolt BJ, Carvalho-Silva D, Christensen M, Davis P, Falin LJ, Grabmueller C, Humphrey J, Kerhornou A, Khobova J, Aranganathan NK, Langridge N, Lowy E, McDowall MD, Maheswari U, Nuhn M, Ong CK & Staines DM (2016)** Ensembl Genomes 2016: more genomes, more complexity. Nucleic Acids Res 44, D574–80.
 
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-47286927-5', 'auto');
-  ga('send', 'pageview');
-
-</script>
