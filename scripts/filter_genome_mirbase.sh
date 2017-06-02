@@ -13,7 +13,8 @@
 
 #Important if this fail no point to continue
 #Problem continuing if no result is found.
-#set -e
+set -e
+
 
 FILE=$1
 SOURCE=$2
@@ -22,11 +23,20 @@ xserv=$3
 # Loading cfg vars
 CFG_PATMAN=${SOURCE}"/config/patman_genome.cfg"
 CFG=${SOURCE}"/config/wbench_mirprof.cfg"
+. ${SOURCE}"/config/wbench_mirprof.cfg"
 . ${SOURCE}"/config/software_dirs.cfg"
 . ${SOURCE}"/config/workdirs.cfg"
 . ${SOURCE}"/config/term-colors.cfg"
 . $CFG_PATMAN
 
+
+err_report() {
+   >&2 echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
+   echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
+          
+          
+}
+trap 'err_report $LINENO $?' ERR
 
 if [[ $HEADLESS == "TRUE" ]]; then
   xserv=${SOURCE}"/./xvfb-run-safe"
@@ -64,7 +74,7 @@ OUT_REPORT=${FILTER_GENOME}${IN_ROOT}"_${GENOME_ROOT}_REPORT.csv"
 MPF_DIR=${WORKDIR}"data/mirprof/"
 mkdir -p ${MPF_DIR}
 MPF_FILE=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase"
-MPF_FILE_TEMP=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase.uniq"
+MPF_FILE_UNIQ=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase.uniq"
 
 echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} genome filtering"
 
@@ -84,7 +94,7 @@ if [[ -e "$testPatman" && -x "$testPatman" ]]; then
 	$run -s    
  else
  	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command\n\t${run}\n"
- 	$run
+# 	$run
  fi
 else
  ##This is not printing out to user?? Fix this       
@@ -94,8 +104,8 @@ fi
 #Even if patman doesn't find anything this it still makes an empty file.
 
 #Patman sorting
-awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
-#awk -F '\t' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print ">"$0; newline; print $1}' > ${OUT_FILT}
+#awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
+
 
 output_size=$(wc -l ${OUT_REPORT} | awk '{print $1}')
 if [[ ${output_size} == 0 ]]; then
@@ -113,32 +123,122 @@ echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} mirbase filtering"
 # align mirprof
 ##Don't filter genome activate below (Used for testing or others)
 ##cp ${FILE} ${OUT_FILT_GENOME}
+mismatches=$(echo "${mismatches}" | tr -d '\r' )
+only_keep_best=$(echo "${only_keep_best}" | tr -d '\r' )
 
-##patman -D ${MIRBASE} -e 0 -P ${OUT_FILT_GENOME} -o ${PMN_FILE}
-run="${xserv} ${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool mirprof -srna_file_list ${OUT_FILT_GENOME} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE} -params ${CFG}"
-printf $(date +"%y/%m/%d-%H:%M:%S")" - Ran mirprof with this command: \n\t${run}\n"
-#Run mirprof
-$run
-# filter mirbase results and get unique read sequences
-##awk -F '[\t(]' '{print $2}' ${PMN_FILE} | sort | uniq | awk -F '(' '{print $1}' > ${PMN_FILE_TEMP}
+function runMiRProf {
+	#This function runs miRProf
+	#runMiRProf [sRNA file] [output file]
 
-##awk '{print $1}' ${PMN_FILE_TEMP} | xargs -n 1 -I pattern grep -w -m1 pattern ${PMN_FILE} | awk -F "[\t()]" '{split($1,a,"-"); match(a[2],"[0-9]+",arr); print "all-combined-"arr[0]"-Abundance("$3")"$2}' | sort | awk -F "[-)]" '{split($3,a,"miR"); if(("c[a[1]]" -eq "0")); then; d=((c[a[1]]++));fi; if (("c[a[1]]" -gt "0")); then; d=((c[a[1]]));fi; print ">"$5"-"$1"-"$2"-miR"a[1]"_"d"_"$4")";newline;print $5;}' > ${OUT_CONS}
+	sRNAfile=$1 #${OUT_FILT_GENOME}
+	MPF_FILE_FUNC=$2 #${MPF_FILE}
+	match=$3
 
-#Get sequences that didn't align with mirBase
-MPF_FASTA=${MPF_FILE/_mirbase/_mirbase_srnas.fa}
-if [[ -e ${MPF_FASTA} ]]; then
-	#If empty this give an error.
-	grep -v ">" ${MPF_FASTA} > ${MPF_FILE_TEMP}
-	cp ${MPF_FASTA} ${OUT_CONS}
+	#Save miRProf files for backtracking
+	MPF_FASTA=${MPF_FILE_FUNC/_mirbase/_mirbase_srnas.fa}
+	MPF_CSV=${MPF_FILE_FUNC/_mirbase/_mirbase_profile.csv}
+
+
+	run="${xserv} ${JAVA_DIR}/java -jar ${WBENCH_DIR}/Workbench.jar -tool mirprof -srna_file_list ${sRNAfile} -mirbase_db ${MIRBASE} -out_file ${MPF_FILE_FUNC} -params ${CFG}"
+	printf $(date +"%y/%m/%d-%H:%M:%S")" - Ran miRProf with this command: \n\t${run}\n"
+	#Run miRProf
+	$run
+
+	
+	MPF_FASTA=${MPF_FILE_FUNC/_mirbase/_mirbase_srnas.fa}
+	if [[ -e ${MPF_FASTA} ]]; then
+		#Create a list of conserved sequences
+		grep -v ">" ${MPF_FASTA} > ${MPF_FILE_UNIQ}
+		if [[ match -eq 0 ]]; then
+			cat ${MPF_FASTA} > ${OUT_CONS}
+		else	
+			cat ${MPF_FASTA} >> ${OUT_CONS}
+		fi	
+	else
+		#if there are no results create an empty file to avoid errors. The program can still continue
+		#Can still be interesting (Should it warn that no cons sRNAs where found?)
+		#For example in fungi there are still few or none sRNA documented.
+		touch ${MPF_FILE_UNIQ}
+		touch ${OUT_CONS}
+	fi
+
+	#Create a file with the sequences that didn't align with miRProf
+	OUT_NONCONS_TMP=${OUT_NONCONS/.fa/.tmp}
+	grep -wvf ${MPF_FILE_UNIQ} ${sRNAfile} > ${OUT_NONCONS_TMP}
+	mv ${OUT_NONCONS_TMP} ${OUT_NONCONS}
+
+	if [[ -e ${MPF_FASTA} ]]; then
+		#If files already exist save them with the appropriate number of mismatches
+		mv ${MPF_FILE_UNIQ} ${MPF_FILE_UNIQ/_mirbase/_mismatch${match}_mirbase}
+		mv ${MPF_FASTA} ${MPF_FASTA/_mirbase_/_mismatch${match}_mirbase_}
+		mv ${MPF_CSV} ${MPF_CSV/_mirbase_/_mismatch${match}_mirbase_}
+	fi	
+
+}
+
+function combineMir {
+	# Function to aggregate miRNAs that were identified more than once due to mismatches
+	#
+	MPF_CONS=$1
+
+	#list of sequences that appear more then once in the list of conserved miR
+	duplicateSeqs=$(grep -v ">" ${MPF_CONS} | sort | uniq -c | sort | awk '{if($1 > 1){print $2}}' | tr -s "\r\n" " " )
+	for seq in $duplicateSeqs; do
+		#Removal of the sequences that repeat		
+		headers_del=$(grep -wB1 "${seq}" ${MPF_CONS} | sed /--/d | sed /$seq/d | awk '{print "\""$0"\""}')
+		headers_add=$(grep -wB1 "${seq}" ${MPF_CONS} | sed /--/d | sed /$seq/d | awk -F "mir" '{print $2}')
+		echo $headers_del
+		for header in $headers_del; do
+			sed -i /$header/d ${MPF_CONS}
+		done
+		sed -i /^$seq$/d ${MPF_CONS} 
+		#Reintroduction of combined header sequences
+		printf ">all combined-mir"$(echo ${headers_add} | sed -r "s:_Abundance\([0-9]+\) :|:g")"\n${seq}\n" >> ${MPF_CONS}
+		printf ">all combined-mir"$(echo ${headers_add} | sed -r "s:_Abundance\([0-9]+\) :|:g")"\n${seq}\n"
+	done
+}
+
+
+if [[ ${mismatches} -eq 0 ]]; then
+	runMiRProf ${OUT_FILT_GENOME} ${MPF_FILE} 0 
 else
-	#if there are no results create an empty file to avoid errors. The program can still continue
-	#Can still be interessing (Should it warn that no cons sRNAs where found?)
-	#For example in fugae there are still few or none sRNA documented.
-	touch ${MPF_FILE_TEMP}
-	touch ${OUT_CONS}
-fi
+	if [[ ${only_keep_best} == "true" ]]; then
+		#Run with mismatch 0	
+		i=0
+		sed -ri "s:^(mismatches=)[0-9]+:\1$i:g" ${CFG}
+		runMiRProf ${OUT_FILT_GENOME} ${MPF_FILE} ${i} 	
 
-grep -wvf ${MPF_FILE_TEMP} ${OUT_FILT_GENOME} > ${OUT_NONCONS}
+		max=0
+		if [[ ${mismatches} -gt 3 ]]; then
+			printf $(date +"%y/%m/%d-%H:%M:%S")" - Max mismatches is 3. Mismatches have been set to 3. \n"
+			max=3	
+		else
+			max=${mismatches}
+		fi	
+
+		for (( i=1; i<=${max}; i++ ));do
+
+			#Change the mismatch in config file
+			sed -ri "s:^(mismatches=)[0-9]+:\1$i:g" ${CFG}
+			
+			runMiRProf ${OUT_NONCONS} ${MPF_FILE} ${i}
+			#now deal with multiple families.
+			#1)- miR156/157 miR156 and miR157 
+			# Get the headers. 
+			# build and array 
+			# iterate the array 
+			# number merge var
+			# Extract the number of each item in the array
+			# Append it to numberMergeVar /\1
+			#
+			# Build a by family merger in something other then R. Bash or Python if simpler
+			#2)- Only miR156/157 but for that I would have to parse the hole thing to merge all that are of a single family
+		done
+		combineMir ${OUT_CONS}
+	else
+		runMiRProf ${OUT_FILT_GENOME} ${MPF_FILE} ${mismatches}
+	fi	
+fi	
 
 echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} mirbase filtered"
 
