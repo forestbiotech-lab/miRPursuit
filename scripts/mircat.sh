@@ -105,7 +105,7 @@ OUTPUT_TB=${OUT_DIR}${IN_ROOT}_output.csv
 OUTPUT_TBG=${OUT_DIR}${IN_ROOT}_output_grouped.csv
 #Rearrange table |Change parts subtracting 1 so its nicer looking
 awk 'BEGIN{RS="Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*";FS="\n";print"Part,Chromosome,Start,End,Orientation,Abundance,Sequence,sRNA length,# Genomic Hits,Hairpin Length,Hairpin % G/C content,Minimum Free Energy,Adjusted MFE,miRNA*"}{for(i=2; i<NF; i++ ){if( NR>1 ){print NR-1","$i;}} }' ${OUTPUT_TB} > ${OUTPUT_TBG}
-#echo "Ran to point 1"
+
 
 #read mircat config file adding it vars
 . ${CFG}
@@ -113,6 +113,7 @@ lines=$(($(echo $(wc -l ${OUTPUT_TBG}) | awk '{print $1}')-1))
 echo "max genome hits=${max_genome_hits}"
 #csv comes sorted by part (col1) so I sort if by seq (col7) to parse it through this algorithum
 #get all unique seq and see which have a combined total of more than (16) genomic hits  
+#Change -- Ignore first line NR>1
 tail -${lines} ${OUTPUT_TBG} | awk -F "," '{print $7}' | sort | uniq | xargs -n 1 -I pattern grep pattern ${OUTPUT_TBG} | awk -F "," -v max=${max_genome_hits} 'BEGIN{sum=0;seq="";part=""} { if($7==seq){
   if($1!=part){
    #print "Debug "seq" sum:"sum" $9:"$9" part:"part" $1:"$1
@@ -129,17 +130,18 @@ tail -${lines} ${OUTPUT_TBG} | awk -F "," '{print $7}' | sort | uniq | xargs -n 
  part=$1   
 }
 }' | awk '{print $1}' | uniq > ${OUT_DIR}uniq_res.txt
-#echo "Ran to point 2"
+
 #!Not finished!Now remove all line containing this these seqs from files. 
 miRNA_F=${OUT_DIR}${IN_ROOT}_miRNA_filtered.fa
 grep -wvf ${OUT_DIR}uniq_res.txt ${OUTPUT_TBG} > ${OUTPUT_TBG/_grouped.csv/_filtered.csv}
 grep -wvf ${OUT_DIR}uniq_res.txt ${OUT_DIR}${IN_ROOT}_miRNA.fa > ${miRNA_F}
 grep -wvf ${OUT_DIR}uniq_res.txt ${OUT_DIR}${IN_ROOT}_miRNA_hairpins.txt > ${OUT_DIR}${IN_ROOT}_miRNA_hairpins_filtered.txt
 tmpFileSED=$(mktemp -t sedTempMircatCor.XXXXXX)
+#ri no intermediary
 sed -r "s:[.][0-9][)]:):g" ${miRNA_F} > $tmpFileSED
 mv $tmpFileSED ${miRNA_F}
 
-#echo "Ran to point 3"
+
 #cleanUp
 #rm $tmpfileUn
 duration=$(date -u -d @${SECONDS} +"%T")
