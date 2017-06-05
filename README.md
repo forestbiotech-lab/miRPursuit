@@ -217,40 +217,43 @@ files. %y%m%d:%h%m%s-type.log or *.log.ok if it ran till the end. *.
 ------
 
 ## References:
-<ul>1 - **Borges F & Martienssen RA** (2015) The expanding world of small RNAs in plants. Nat Rev Mol Cell Biol 16, 727–741.</ul>
-<ul>2 - **Sunkar R** (2010) MicroRNAs with macro-effects on plant stress responses. Semin Cell Dev Biol 21, 805–811.</ul>
-<ul>3 - **Liu J & Vance CP** (2010) Crucial roles of sucrose and miRNA399 in systemic signaling of P deficiency - A tale of two team players? Plant Signaling and</ul>
-Behaviour 5, 1–5.
-<ul>4 - **Bartel DP** (2004) MicroRNAs: genomics, biogenesis, mechanism, and function. Cell 116, 281–297.</ul>
-<ul>5 - **Allen E, Xie Z, Gustafson AM & Carrington JC** (2005) microRNA-directed phasing during trans-acting siRNA biogenesis in plants. Cell 121, 207–221.</ul>
-<ul>6 - **Conesa A, Madrigal P, Tarazona S, Gomez-Cabrero D, Cervera A, McPherson A, Szcześniak MW, Gaffney DJ, Elo LL, Zhang X & Mortazavi A** (2016) A survey of</ul>
-best practices for RNA-seq data analysis. Genome Biol 17, 13.Page 11 of 399 FEBS Letters
-<ul>7 - **Kozomara A & Griffiths-Jones S** (2011) miRBase: integrating microRNA annotation and deep-sequencing data. Nucleic Acids Res 39, D152–7.</ul>
-<ul>8 - **Chaves I, Lin Y-C, Pinto-Ricardo C, Van de Peer Y & Miguel C** (2014) miRNA profiling in leaf and cork tissues of Quercus suber reveals novel miRNAs and</ul>
-tissue-specific expression patterns. Tree Genet. Genomes 10, 721–737.
-<ul>9 - **Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Schwach F, Dalmay T & Moulton V** (2012) The UEA sRNA workbench: a suite of tools for</ul> analysing and visualizing next generation sequencing microRNA and small RNA datasets. Bioinformatics 28, 2059–2061.
-<ul>10 - **BabrahamBioinformatics** (2016) A quality control tool for high throughput sequence data http://www.bioinformatics.babraham.ac.uk/projects/fastqc/.</ul>
-<ul>11 - **HannonLab** (2010) FASTX-Toolkit http://hannonlab.cshl.edu/fastx_toolkit/index.html.</ul>
-<ul>12 - **Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, Floden EW, Gardner PP, Jones TA, Tate J & Finn RD** (2015) Rfam 12.0: updates to the RNA</ul> families database. Nucleic Acids Res 43, D130–7.
-<ul>13 - **Prüfer K, Stenzel U, Dannemann M, Green RE, Lachmann M & Kelso J** (2008) PatMaN: rapid alignment of short sequences to large databases. Bioinformatics 24, 1530–1531.</ul>
-<ul>14 - **Chen H-M, Li Y-H & Wu S-H** (2007) Bioinformatic prediction and experimental validation of a microRNA-directed tandem trans-acting siRNA cascade in Arabidopsis.</ul> Proc Natl Acad Sci U S A 104, 3318–3323.
-<ul>15 - **Griffiths-Jones S** (2006) miRBase: the microRNA sequence database. Methods Mol Biol 342, 129–138.</ul>
-<ul>16 - **Griffiths-Jones S**, Saini HK, van Dongen S & Enright AJ (2008) miRBase: tools for microRNA genomics. Nucleic Acids Res 36, D154–8.</ul>
-<ul>17 - **Taylor RS, Tarver JE, Foroozani A & Donoghue PCJ** (2017) MicroRNA annotation of plant genomes - Do it right or not at all. Bioessays 39.</ul>
-<ul>18 - **Meyers BC, Axtell MJ, Bartel B, Bartel DP, Baulcombe D, Bowman JL, Cao X, Carrington JC, Chen X, Green PJ, Griffiths-Jones S, Jacobsen SE, Mallory AC, Martienssen RA, Poethig RS, Qi Y, Vaucheret H, Voinnet O, Watanabe Y, Weigel D & Zhu J-K** (2008) Criteria for annotation of plant MicroRNAs. Plant Cell 20, 3186–3190.</ul>
-<ul>19 **Goodstein DM, Shu S, Howson R, Neupane R, Hayes RD, Fazo J, Mitros T, Dirks W, Hellsten U, Putnam N & Rokhsar DS** (2012) Phytozome: a comparative platform for green plant genomics. Nucleic Acids Res 40, D1178–86.
-<ul>20 **Kersey PJ, Allen JE, Armean I, Boddu S, Bolt BJ, Carvalho-Silva D, Christensen M, Davis P, Falin LJ, Grabmueller C, Humphrey J, Kerhornou A, Khobova J, Aranganathan NK, Langridge N, Lowy E, McDowall MD, Maheswari U, Nuhn M, Ong CK & Staines DM (2016)** Ensembl Genomes 2016: more genomes, more complexity. Nucleic Acids Res 44, D574–80.</ul>
+1 - **Borges F & Martienssen RA** (2015) The expanding world of small RNAs in plants. Nat Rev Mol Cell Biol 16, 727–741.
 
+2 - **Sunkar R** (2010) MicroRNAs with macro-effects on plant stress responses. Semin Cell Dev Biol 21, 805–811.
 
+3 - **Liu J & Vance CP** (2010) Crucial roles of sucrose and miRNA399 in systemic signaling of P deficiency - A tale of two team players? Plant Signaling and Behaviour 5, 1–5.
 
+4 - **Bartel DP** (2004) MicroRNAs: genomics, biogenesis, mechanism, and function. Cell 116, 281–297.
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+5 - **Allen E, Xie Z, Gustafson AM & Carrington JC** (2005) microRNA-directed phasing during trans-acting siRNA biogenesis in plants. Cell 121, 207–221.
 
-  ga('create', 'UA-47286927-5', 'auto');
-  ga('send', 'pageview');
+6 - **Conesa A, Madrigal P, Tarazona S, Gomez-Cabrero D, Cervera A, McPherson A, Szcześniak MW, Gaffney DJ, Elo LL, Zhang X & Mortazavi A** (2016) A survey of best practices for RNA-seq data analysis. Genome Biol 17, 13.Page 11 of 399 FEBS Letters.
 
-</script>
+7 - **Kozomara A & Griffiths-Jones S** (2011) miRBase: integrating microRNA annotation and deep-sequencing data. Nucleic Acids Res 39, D152–7.
+
+8 - **Chaves I, Lin Y-C, Pinto-Ricardo C, Van de Peer Y & Miguel C** (2014) miRNA profiling in leaf and cork tissues of Quercus suber reveals novel miRNAs and tissue-specific expression patterns. Tree Genet. Genomes 10, 721–737.
+
+9 - **Stocks MB, Moxon S, Mapleson D, Woolfenden HC, Mohorianu I, Folkes L, Schwach F, Dalmay T & Moulton V** (2012) The UEA sRNA workbench: a suite of tools for analysing and visualizing next generation sequencing microRNA and small RNA datasets. Bioinformatics 28, 2059–2061.
+
+10 - **BabrahamBioinformatics** (2016) A quality control tool for high throughput sequence data http://www.bioinformatics.babraham.ac.uk/projects/fastqc/.
+
+11 - **HannonLab** (2010) FASTX-Toolkit http://hannonlab.cshl.edu/fastx_toolkit/index.html.
+
+12 - **Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, Floden EW, Gardner PP, Jones TA, Tate J & Finn RD** (2015) Rfam 12.0: updates to the RNA families database. Nucleic Acids Res 43, D130–7.
+
+13 - **Prüfer K, Stenzel U, Dannemann M, Green RE, Lachmann M & Kelso J** (2008) PatMaN: rapid alignment of short sequences to large databases. Bioinformatics 24, 1530–1531.
+
+14 - **Chen H-M, Li Y-H & Wu S-H** (2007) Bioinformatic prediction and experimental validation of a microRNA-directed tandem trans-acting siRNA cascade in Arabidopsis. Proc Natl Acad Sci U S A 104, 3318–3323.
+
+15 - **Griffiths-Jones S** (2006) miRBase: the microRNA sequence database. Methods Mol Biol 342, 129–138.
+
+16 - **Griffiths-Jones S**, Saini HK, van Dongen S & Enright AJ (2008) miRBase: tools for microRNA genomics. Nucleic Acids Res 36, D154–8.
+
+17 - **Taylor RS, Tarver JE, Foroozani A & Donoghue PCJ** (2017) MicroRNA annotation of plant genomes - Do it right or not at all. Bioessays 39.
+
+18 - **Meyers BC, Axtell MJ, Bartel B, Bartel DP, Baulcombe D, Bowman JL, Cao X, Carrington JC, Chen X, Green PJ, Griffiths-Jones S, Jacobsen SE, Mallory AC, Martienssen RA, Poethig RS, Qi Y, Vaucheret H, Voinnet O, Watanabe Y, Weigel D & Zhu J-K** (2008) Criteria for annotation of plant MicroRNAs. Plant Cell 20, 3186–3190.
+
+19 **Goodstein DM, Shu S, Howson R, Neupane R, Hayes RD, Fazo J, Mitros T, Dirks W, Hellsten U, Putnam N & Rokhsar DS** (2012) Phytozome: a comparative platform for green plant genomics. Nucleic Acids Res 40, D1178–86.
+
+20 **Kersey PJ, Allen JE, Armean I, Boddu S, Bolt BJ, Carvalho-Silva D, Christensen M, Davis P, Falin LJ, Grabmueller C, Humphrey J, Kerhornou A, Khobova J, Aranganathan NK, Langridge N, Lowy E, McDowall MD, Maheswari U, Nuhn M, Ong CK & Staines DM (2016)** Ensembl Genomes 2016: more genomes, more complexity. Nucleic Acids Res 44, D574–80.
+

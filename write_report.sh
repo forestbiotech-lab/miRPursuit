@@ -67,7 +67,7 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\usepackage{graphicx}
 \\\usepackage{longtable}
 \\\usepackage{caption}
-\\\captionsetup[h!]{justification=justified,singlelinecheck=false,indention=0cm}
+\\\captionsetup[h!]{justification=justified,singlelinecheck=false,indention=0cm,format=hang}
 \\\captionsetup[longtable]{justification=justified,singlelinecheck=false,indention=0cm}
 \\\graphicspath{ {${graphicspath}} }
 \\\begin{document}
