@@ -40,14 +40,9 @@ IN_FILE=$(basename $FILE)
 IN_DIR=$(dirname $FILE)
 IN_ROOT=${IN_FILE%.*}
 
-#tmpfile=$(mktemp -t sedCollapsedMircatInput.XXXXXX)
-#tmpfileUn=$(mktemp -t mircatInput.XXXXXX)
-#uncollapse to feed to mircat
-#sed -r "s:([(])([0-9]*)([)]):-\2:g" $FILE  >$tmpfile
-#fastx_uncollapser -i $tmpfile -o $tmpfileUn
-#rm $tmpfile
 
-#Automatically ajust number of cores to those specified in the wordirs.cfg
+
+#Automatically adjust number of cores to those specified in the wordirs.cfg
 sed -ri "s:(Thread_Count=)(.*):\1${THREADS}:" ${CFG}
 
 #Check if that is more than one part.
