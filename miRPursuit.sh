@@ -223,7 +223,7 @@ if [[ -n $1 ]]; then
 fi
 if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
   unset $booleanYorN
-  >&2 echo -e "${red}Attention!${NC}\nworkdir - $workdir \nData already exists data in this folder might be overwritten." 
+  >&2 echo -e "${red}Attention!${NC}\nworkdir - $workdir \nData already exists in this folder might be overwritten." 
   while [[ "$booleanYorN" != [yYnN] ]]
   do        
     read -n1 -p "Continue? (Y/N)" booleanYorN
