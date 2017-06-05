@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # fastq_xtract.sh
 # 
@@ -9,14 +9,22 @@
 # extract / untar original insert tar files
 # call fastq_xtract.sh [lib_no] [Inserts_dir] [workdir] [report_file]
 
+set -e
+
 #rename input vars
 lib_n=$1
 insertsdir=$2
 workdir=$3
 report_file=$4
 
-echo "workdir is: "$workdir
-echo "inserts dir is:"$insertsdir
+err_report(){
+ echo " Error on line $1 caused a code $2 exit"
+ echo " $3"
+}
+trap 'err_report $LINENO $?' ERR
+
+printf "workdir is: $workdir/n"
+printf "Inserts dir is: $insertsdir/n"
 
 # define input directory and get input filename(s)
 tar_files=${insertsdir}"/"*"GZT-"${lib_n}"_"*".tar.gz"
