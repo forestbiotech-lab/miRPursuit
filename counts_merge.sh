@@ -32,6 +32,7 @@ tasiSeq=`mktemp /tmp/tasiSeq.XXXXXX`
 tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
 #Get count matrix save to counts
 $SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons
+$SCRIPTS_DIR/merge_conserved.py -i $cons
 $SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel
 $SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/Lib*-tasi.fa" "tasi" $THREADS > $tasi
 
