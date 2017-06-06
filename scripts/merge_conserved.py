@@ -49,7 +49,7 @@ for line in tsv[1:]:
         
 keys=list(d.keys())
 keys.sort()
-writer.write("\t\t"+header+"\n")
+writer.write("\t"+header+"\n")
 for key in keys:
     counts=''.join(str(i)+"\t" for i in d[key]) 
     writer.write(key+"\t"+counts+"\n")
