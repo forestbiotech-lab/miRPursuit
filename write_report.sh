@@ -67,8 +67,8 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\usepackage{graphicx}
 \\\usepackage{longtable}
 \\\usepackage{caption}
-%https://pt.sharelatex.com/learn/Page_size_and_margins
-%210mmx297mm A4 euro
+%%https://pt.sharelatex.com/learn/Page_size_and_margins
+%%210mmx297mm A4 euro
 \\\usepackage[a4paper,left=15mm, total={170mm, 257mm}]{geometry}
 \\\usepackage[section]{placeins}
 \\\captionsetup[h!]{justification=justified,singlelinecheck=false,indention=0cm,format=hang}
@@ -78,6 +78,7 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\title{miRPursuit - REPORT}
 \\\author{miRPursuit - Forest-BiotechLab}
 \\\maketitle
+\\\centering
 Analysis of ${libs} sRNA libraries 
 \\\pagebreak
 \\\tableofcontents
@@ -215,11 +216,11 @@ fi
 if [[ "${TYPE}" == "conserved" ]]; then
 	printf "\\\section{Conserved miRNAs}\n\\\begin{flushleft}\nThis section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv.\n\\\end{flushleft}\n" >> ${OUTPUT_FILE}
 	COUNTS=${workdir}count
-	conservedMat=${COUNTS}/all_seq_counts_cons.tsv
+	conservedMat=${COUNTS}/all_seq_counts_cons_merged.tsv
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
     cycles=$(( $libs / 6 + 1 ))
     
-	columnStructure="| l l |"
+	columnStructure="| l |" ## ll
 	declare -a allCols=(r r r r r r)
 	declare -a allLibs=($(eval echo Lib{$LIB_FIRST..$LIB_LAST}))
 
@@ -236,19 +237,19 @@ if [[ "${TYPE}" == "conserved" ]]; then
 				columns=6	
 			fi
 
-			tColumns=$(( ${columns} + 2 ))
+            tColumns=$(( ${columns} + 1 )) ##Changes this for double first col (2)
             arrStart=$(( ( ( $i - 1 ) * 6 ) ))
             arrStop=$(( ${arrStart} + ${columns} ))
 
     		cellStructure=${columnStructure}${allCols[@]:0:${columns}}"|"
-    		tHeader="Sequence & miR & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
+    		tHeader="miR & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
     		#fastqLine="Fastq & "$(echo ${fastq[@]:$arrStart:${columns}} | tr -t " " "&")
     		
     		##Not finished here. Might be done
 
     		firstCol=$(( $arrStart + 3 ))
-    		lastCol=$(( $arrStop + 3 ))
-    		table=$(awk -F "\t" -v s=$firstCol -v e=${lastCol} '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\\\ \\n"}}' ${conservedMat} )
+            lastCol=$(( $arrStop + 2 )) ## (3)
+    		table=$(awk -F "\t" -v s=$firstCol -v e=${lastCol} '{if(NR>1){printf $1" & "$2" &  ";for (i=s;i<(e-1); i+=1){printf $i" & "}; print $(e-1)" \\\\\\ \\n"}}' ${conservedMat} | sed -r "s:([$%#_]):\\\\\1:g" )
     	
     		captionText="Conserved reads matrix raw values.\label{long}"
     		
