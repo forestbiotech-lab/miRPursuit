@@ -330,6 +330,7 @@ if [[ "$step" -eq 5 ]]; then
   >&2 echo -ne "${blue} Step 5${NC} - Running report                            \t[######################## ] 95%\r"
   printf "95\tReporting\t5" >$progress
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
+  ${DIR}/write_report.sh $LIB_FIRST $LIB_LAST complete
 fi
 
   >&2 echo -e "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
