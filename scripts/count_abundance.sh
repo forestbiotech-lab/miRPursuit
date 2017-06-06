@@ -1,16 +1,26 @@
-  #!/usr/bin/env bash                
-  ###################################################
-  # count_abunance.sh                               #
-  # Created by: Bruno Costa on 12/10/2015           #
-  # Copyright 2015 ITQB / unL. All rights reserved. #
-  #                                                 #
-  #  call:                                          #
-  #  count_abundance.sh ["pattern"] [type ] [nproc] #
-  ###################################################
-  #Class={none,cons,tasi,novel} 
-  class=$2
+#!/usr/bin/env bash                
 
+  ####################################################
+  #             count_abunance.sh                    #
+  #                                                  #
+  # Created by: Bruno Costa on 12/10/2015            #
+  # Copyright 2015 ITQB / UNL. All rights reserved.  #
+  #                                                  #
+  #  call:                                           #
+  #  count_abundance.sh ["pattern"] [type ] [nproc]  #
+  #                                                  #
+  #  Pattern: is a dir with wildcard to get specific #
+  #           files	                             #
+  #                                                  #
+  #  Class/type: {none,cons,tasi,novel}              # 
+  #                                                  #
+  ####################################################
+
+
+  pattern=$1 
+  class=$2
   threads=$3
+
   if [[ -z $threads ]]; then
     threads=$(( $(nproc) - 1 ))           
   fi
@@ -72,7 +82,7 @@
       #Parse files to be read by grep
       files=$(echo $listFiles | awk 'BEGIN{RS=" "}{print $1}')
       #Get mir name from first match in list of conserved
-      temp=$(cat $files | grep -w -m1 $lineFunc | awk -F [-_] '{print $3}' )
+      temp=$(cat $files | grep -w -m1 $lineFunc | sed -r "s:^.*((mir|let).*)_Abundance\([0-9]+\):\1:g" )
       ##Construction of output line for cons sequences 
       res="${lineFunc}\t${temp}\t"
     elif [[ "${class}" == "novel"  ]]; then
