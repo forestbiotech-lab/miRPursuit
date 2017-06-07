@@ -79,9 +79,9 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\title{miRPursuit - REPORT}
 \\\author{miRPursuit - Forest-BiotechLab}
 \\\maketitle
-{\\\centering
+\\\begin{center}
 Analysis of ${libs} sRNA libraries 
-}
+\\\end{center}
 \\\pagebreak
 \\\tableofcontents
 \\\pagebreak\n" > $OUTPUT_FILE
