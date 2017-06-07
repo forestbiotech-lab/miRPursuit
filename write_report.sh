@@ -159,17 +159,21 @@ This section depicts the sRNA profiles of the various libraries using barplots. 
 	  $SCRIPT_DIR/graph_sizedistr.R ${workdir}count/Lib${LIB}-filtered-profile.tsv ${workdir}count/images/
       
       #Remove all underscores  
-      for i in ${workdir}count/images/Lib*_filt.${FILTER_SUF}-size-distr.png;
+      for i in ${workdir}count/images/Barplot-Lib*_filt.${FILTER_SUF}-size-distr.png;
       do
         #This is to ensure that only the file name is changed.  
         y=$(echo $i | awk -F "count/images/" '{print $2}')    
-        mv $i ${workdir}count/images/${y//_/-}  
+        #Replace all underscores
+        z=${y//_/-}  
+        mv $i ${workdir}count/images/$z  
+        #Replace first period
+        mv ${workdir}count/images/$z ${workdir}count/images/${z/./-}  
       done
 	  #convert image Add image
 	printf "
 \\\begin{figure}[h!]
 \\\centering
-\\\includegraphics[width=8cm, height=8cm]{Barplot-Lib${LIB}-filt.${FILT_SUF//_/-}-size-distr}
+\\\includegraphics[width=8cm, height=8cm]{Barplot-Lib${LIB}-filt-${FILTER_SUF//_/-}-size-distr}
 \\\caption{Lib${LIB} barplot of sequence length distribution}
 \\\label{fig:profile${LIB}}
 \\\end{figure}\n" >> ${OUTPUT_FILE}
