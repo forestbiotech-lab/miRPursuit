@@ -40,7 +40,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #Get config settings
 . $DIR/"config/workdirs.cfg"
 
-mkdir -p ${workdir}"count/images"
+mkdir -p ${workdir}"count/images/.temp"
 log_file=$workdir"log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:write_report:$1-$2.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file}) 
 exec 2>&1 >> ${log_file}
@@ -54,6 +54,7 @@ graphicspath=$(echo ${workdir}count/images/ | sed -r "s:_:\_:g")
 if [[ "${TYPE}" == "complete" ]]; then
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST header
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST fasta
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST filter
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST stats
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST conserved
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST logs
@@ -78,8 +79,9 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\title{miRPursuit - REPORT}
 \\\author{miRPursuit - Forest-BiotechLab}
 \\\maketitle
-\\\centering
+{\\\centering
 Analysis of ${libs} sRNA libraries 
+}
 \\\pagebreak
 \\\tableofcontents
 \\\pagebreak\n" > $OUTPUT_FILE
@@ -103,9 +105,9 @@ fi
 
 if [[ "${TYPE}" == "fasta" ]]; then
 	printf "\\\section{Characterization of sRNA libraries}
-\\\subsection{sRNA Profile}
+\\\subsection{sRNA Profile Fasta}
 \\\begin{flushleft}
-This section depicts the sRNA profiles of the various libraries using barplots.
+This section depicts the sRNA profiles of the various libraries using barplots. These bar plots were generated from fasta data, and thus before most filtering steps. Possible filtering steps that may have been applied are quality cutoff of fastq reads (phred 33 for illumina) and adaptor trimming. The decrease in the number of reads can be viewed in Table \\\ref{table}, the basic statisctic section. 
 \\\end{flushleft}\n" >> $OUTPUT_FILE
 
 
@@ -135,6 +137,53 @@ This section depicts the sRNA profiles of the various libraries using barplots.
 	##Write to tex
 
 fi
+
+
+##I think this should have the figures side by side for barplots with two series. But this is a quick fix to start viewing filtered barplots.
+if [[ "${TYPE}" == "filter" ]]; then
+	printf "\\\section{Characterization of sRNA libraries}
+\\\subsection{sRNA Profile Filtered}
+\\\begin{flushleft}
+This section depicts the sRNA profiles of the various libraries using barplots. These bar plots were generated from filtered data, just before the genome filtering step. The decrease in the number of reads can be viewed in Table \\\ref{table}, the basic statisctic section. 
+\\\end{flushleft}\n" >> $OUTPUT_FILE
+
+
+	#Choses run mode based on input arguments
+	cycle=$(eval echo {${LIB_FIRST}..${LIB_LAST}})
+	printf $(date +"%y/%m/%d-%H:%M:%S")" - Copying all filtered files to workdir\n"
+	for i in $cycle
+	do
+	  LIB_NOW=$i
+	  LIB=$(printf "%02d\n"  $LIB_NOW)  
+	  $SCRIPT_DIR/size_fasta.py --input ${workdir}data/filter_overview/Lib${LIB}_filt-${FILTER_SUF}.fa --output ${workdir}count/Lib${LIB}-filtered-profile.tsv
+	  $SCRIPT_DIR/graph_sizedistr.R ${workdir}count/Lib${LIB}-filtered-profile.tsv ${workdir}count/images/
+      
+      #Remove all underscores  
+      for i in ${workdir}count/images/Lib*_filt.${FILTER_SUF}-size-distr.png;
+      do
+        #This is to ensure that only the file name is changed.  
+        y=$(echo $i | awk -F "count/images/" '{print $2}')    
+        mv $i ${workdir}count/images/${y//_/-}  
+      done
+	  #convert image Add image
+	printf "
+\\\begin{figure}[h!]
+\\\centering
+\\\includegraphics[width=8cm, height=8cm]{Barplot-Lib${LIB}-filt.${FILT_SUF//_/-}-size-distr}
+\\\caption{Lib${LIB} barplot of sequence length distribution}
+\\\label{fig:profile${LIB}}
+\\\end{figure}\n" >> ${OUTPUT_FILE}
+
+
+
+	done
+	printf "\\\newpage\\\newpage\n\n" >> ${OUTPUT_FILE}		
+
+	##Write to tex
+
+fi
+
+
 
 #This might not be the right section for this
 if [[ "${TYPE}" == "stats" ]]; then
