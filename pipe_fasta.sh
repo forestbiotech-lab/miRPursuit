@@ -43,13 +43,14 @@ for i in $cycle
 do
   LIB_NOW=$i
   LIB=$(printf "%02d\n"  $LIB_NOW)  
-  EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}.*\.(fa|fasta)+$")
+  #Issues here are if it searches for 1 it might get 11 likewise if it searched for 11 it might get 111 need te strikeout the possibility of a numeral.
+  EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}.*\.(fa|fasta)+$")
 
 
   ##Add gzip extraction
   if [[ -z "$EXTRACT_LIB" ]]; then
       #Test if .fastq/fq.gz exists      
-      EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}[0]*${LIB_NOW}*\.(fa|fasta)+\.gz$")
+      EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$")
       if [[ -e "${INSERTS_DIR}/${EXTRACT_LIB}" ]]; then
         NPROC=$(( $NPROC + 1 ))
         gunzip -c ${INSERTS_DIR}/${EXTRACT_LIB} > ${workdir}data/fasta/Lib${LIB}.fa &       
