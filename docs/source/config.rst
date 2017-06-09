@@ -54,6 +54,7 @@ These two config files should be properly configured, to ensure the program runs
       #The suffix of the filter to be used. Check /config/workbench_filter_*.cfg
       FILTER_SUF=18_26_5
       #Adaptor trimming
+      #You must set the --trim flag
       ADAPTOR="TGGAATTCTCGGGTGCCAAGG"
       #Deprecated - Soon removed
       LCSCIENCE_LIB=
