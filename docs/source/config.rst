@@ -44,9 +44,10 @@ These two config files should be properly configured, to ensure the program runs
       #Set this to the max number of processed that can be used
       THREADS=2
       #Path to the directory where input data is located
-      #Test directory in miRPursuit/Test_dataset 
+      #Test directory in [pathToMiRPursuit]/testDataset 
       INSERTS_DIR=${SOURCE_DATA}/sRNA/
       #Path to the genome to be used
+      #Test genome can be found here [pathToMiRPursuit]/testDataset/Genome/Arabidopsis_thaliana.TAIR10.dna_rm.chromosome.4.fa
       GENOME=${SOURCE_DATA}/genomes/my_genome.fa
       #Path to the genome to be used by mircat. Leave this, as ${GENOME} if no memory resctrictions apply to your case. Check manual on using parts
       GENOME_MIRCAT=${GENOME/.fa/part-1.fa}
