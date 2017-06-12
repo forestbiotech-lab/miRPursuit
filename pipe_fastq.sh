@@ -16,7 +16,7 @@
 #Important if this script fails do not continue.
 set -e
 
-rr_report() {
+err_report() {
    >&2 echo -e "Error -  on line $1 caused a code $2 exit"
    echo -e "Error -  on line $1 caused a code $2 exit"
 }
@@ -63,9 +63,9 @@ else
     LIB=$(printf "%02d\n"  $LIB_NOW)
 
     #Test if "fq exists"
-    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_NOW}.*\.(fq|fastq)+$") ]]; then
+    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]]; then
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_NOW}.*\.(fq|fastq)+\.gz$")
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
       archive="${INSERTS_DIR}/${CONVERT_LIB}"
       if [[ -e "${archive}" ]]; then
         NPROC=$(( $NPROC + 1 ))
@@ -75,7 +75,7 @@ else
         exit 1
       fi
     else      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_NOW}.*\.(fq|fastq)+$")
+      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
       NPROC=$(( $NPROC+1 ))
       cp ${INSERTS_DIR}/${CONVERT_LIB} ${workdir}data/fastq/Lib${LIB}.fq &
     fi
