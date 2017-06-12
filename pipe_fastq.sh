@@ -16,6 +16,15 @@
 #Important if this script fails do not continue.
 set -e
 
+rr_report() {
+   >&2 echo -e "Error -  on line $1 caused a code $2 exit"
+   echo -e "Error -  on line $1 caused a code $2 exit"
+}
+trap 'err_report $LINENO $?' ERR
+
+
+
+
 #Name inputs
 LIB_FIRST=$1
 LIB_LAST=$2
@@ -26,7 +35,6 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #Get config settings
 . $DIR/"config/workdirs.cfg"
-
 
 #Setting up log dir
 mkdir -p $workdir"log/"
