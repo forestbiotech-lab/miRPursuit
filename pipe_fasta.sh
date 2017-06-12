@@ -13,6 +13,15 @@
 #Important if this script fails do not continue.
 set -e
 
+err_report() {
+    >&2 echo "Error -  on line $1 caused a code $2 exit - $3"
+    echo "Error -  on line $1 caused a code $2 exit - $3"
+}
+trap 'err_report $LINENO $?' ERR
+
+
+
+
 LIB_FIRST=$1
 LIB_LAST=$2
 TEMPLATE=$3
@@ -44,29 +53,41 @@ do
   LIB_NOW=$i
   LIB=$(printf "%02d\n"  $LIB_NOW)  
   #Issues here are if it searches for 1 it might get 11 likewise if it searched for 11 it might get 111 need te strikeout the possibility of a numeral.
-  EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}.*\.(fa|fasta)+$")
-
-
-  ##Add gzip extraction
-  if [[ -z "$EXTRACT_LIB" ]]; then
+  
+  #Do fa fasta files exist?
+  if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
       #Test if .fastq/fq.gz exists      
-      EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$")
-      if [[ -e "${INSERTS_DIR}/${EXTRACT_LIB}" ]]; then
-        NPROC=$(( $NPROC + 1 ))
-        gunzip -c ${INSERTS_DIR}/${EXTRACT_LIB} > ${workdir}data/fasta/Lib${LIB}.fa &       
+      if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$") ]];then
+          EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$")
+          archive="${INSERTS_DIR}/${EXTRACT_LIB}"
+          if [[ -e "${archive}" ]]; then
+              NPROC=$(( $NPROC + 1 ))
+              gunzip -c ${archive} > ${workdir}data/fasta/Lib${LIB}.fa &       
+          else
+              >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}." 
+              exit 1
+          fi
       else
-        >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}." 
-        exit 1
+          >&2 echo "Terminating. No files using template: ${TEMPLATE},in: ${INSERTS_DIR}." 
+          exit 1  
       fi
   else
-    NPROC=$(($NPROC+1))
-    #Change this to set for dynamic threading.
-    cp ${INSERTS_DIR}/$EXTRACT_LIB ${workdir}data/fasta/Lib${LIB}.fa &
-    if [ "$NPROC" -ge "$THREADS" ]; then
+      #Confirm fasta files exist
+      if [[ -e $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
+          fasta=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$")
+          NPROC=$(($NPROC+1))
+          #Change this to set for dynamic threading.
+          cp ${fasta} ${workdir}data/fasta/Lib${LIB}.fa &
+      else
+          >&2 echo "Terminating. ;Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}." 
+          exit 1
+      fi
+  fi
+  if [ "$NPROC" -ge "$THREADS" ]; then
       wait
       NPROC=0
-    fi
   fi
+
 done
 wait  
 printf $(date +"%y/%m/%d-%H:%M:%S")" - Copied all fasta files\n"

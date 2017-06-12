@@ -79,12 +79,16 @@ else
         >&2 echo -ne "${red}Terminated${NC}- No files found in: ${INSERTS_DIR}.\n"
         exit 1   
       fi
-    else      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
-      NPROC=$(( $NPROC+1 ))
-      cp ${INSERTS_DIR}/${CONVERT_LIB} ${workdir}data/fastq/Lib${LIB}.fq &
+    else
+        if [[ -e $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]];then      
+            fastq=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
+            NPROC=$(( $NPROC+1 ))
+            cp ${fastq} ${workdir}data/fastq/Lib${LIB}.fq &
+        else
+            >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}." 
+            exit 1
+        fi
     fi
-
     if [ "$NPROC" -ge "$THREADS" ]; then 
       wait
       NPROC=0
