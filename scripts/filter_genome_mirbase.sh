@@ -181,10 +181,10 @@ function combineMir {
 
 	#needed to parse the headers, spaces all split of strings into diff vars.
         sed -ri "s:>all combined:>all_combined:g" ${MPF_CONS}
-	#list of sequences that appear more then once in the list of conserved miR
-	duplicateSeqs=$(grep -v ">" ${MPF_CONS} | sort | uniq -c | sort | awk '{if($1 > 1){print $2}}' | tr -s "\r\n" " " )
-	for seq in $duplicateSeqs; do
-		#Removal of the sequences that repeat		
+        #list of sequences that appear more then once in the list of conserved miR
+        duplicateSeqs=$(grep -v ">" ${MPF_CONS} | sort | uniq -c | sort | awk '{if($1 > 1){print $2}}' | tr -s "\r\n" " " )
+        for seq in $duplicateSeqs; do
+                #Removal of the sequences that repeat
 		headers_del=$(grep -wB1 "${seq}" ${MPF_CONS} | sed /--/d | sed /$seq/d)
 		headers_add=$(grep -wB1 "${seq}" ${MPF_CONS} | sed /--/d | sed /$seq/d | awk -F "mir" '{print $2}')
 		echo $headers_del
