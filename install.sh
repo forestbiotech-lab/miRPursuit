@@ -159,8 +159,7 @@ if [[ -z "$JAVA_DIR" ]]; then
   wget -c $java_url
   tar -xzvf "AutoDL?BundleId=109700"
   echo "Added Java to software.cfg" 
-  sed -r "s:(JAVA_DIR=)(.*):\1${SOFTWARE}/jre1.8.0_60/bin:" ${CFG}  > temp_12345678987654321
-  mv temp_12345678987654321 ${CFG}
+  sed -ri "s:(JAVA_DIR=)(.*):\1${SOFTWARE}/jre1.8.0_60/bin:" ${CFG}
   #preform test to ensure installed successfully
   echo -e "${green}Java installed$NC - Java added to software_dirs.cfg"
   sleep 1
@@ -281,33 +280,51 @@ echo -ne "${blue}Configuring the workdir parameters. . . .${NC}"
 sleep 1
 echo ""
 
+unset testingmode
+testingMode="FALSE"
+while [[ "$testingmode" != [yYnN] ]]
+do
+	read -n1 -p "Whould you like to configure miRPursuit to run the test dataset [Y]es [N]o?" testingmode
+	case $testingmode in
+		y|Y)     echo -ne "\e[2K\rInstallation will configure for test dataset\n";testingMode="TRUE";;
+	  	n|N)     echo -ne "\e[2K\rInstallation Will setup based on your input\n";;
+		[^yYnN]) echo -ne "\e[2K\rInvalid input please type either (Y/N)\n";;
+	esac
+	
+done
+
 while [[ "$booleanYorN" != [yYnN] ]]
 do        
-	read -n1 -p "Create source data folder (Where genomic resources, such as genomes, miRBase, etc...) in: ${SOURCE_DATA} ? (Y/N)" booleanYorN
-	case $boolreanYorN in
-	  y|Y) echo "Creating folder";mkdir -p ${SOURCE_DATA};;
-	  n|N) echo "Alternative path";;
-    *) echo "Invalid input please type either (Y/N)";;
+	read -n1 -p "Create source data folder (Where genomic resources, such as genomes, miRBase, etc...) in: ${SOURCE_DATA}? [Y]es [N]o" booleanYorN
+	case $booleanYorN in
+	  y|Y) echo -ne "\nCreating folder\n";mkdir -p ${SOURCE_DATA};;
+	  n|N) echo -ne "\nUsing alternative path for source_data\n";;
+	  [^yYnN]) echo -ne "\e[2K\rInvalid input please type either (Y/N)\n";;
 	esac
 done
 
 if [[ $booleanYorN == [nN]  ]]; then
-read -p "Please enter the full path where source_data should be created " SOURCE_DATA
- mkdir -p $SOURCE_DATA"/source_data"
- echo "Directory source_data was created in: $SOURCE_DATA" 
+  read -p "Please enter the full path where source_data should be created" SOURCE_DATA
+  read -n1 -p "Creating the path $SOURCE_DATA, are you sure? [Y]es [N]o" booleanYorN
+  if [[ "$booleanYorN" == [Yy] ]];then
+    mkdir -p $SOURCE_DATA"/source_data" && echo -ne "\nFolder created with sucess\n"
+  else
+    echo -ne "\nSkiping folder not created\n"
+  fi      
 fi
 unset booleanYorN 
 
 
 while [[ "$booleanYorN" != [yYnN] ]]
 do        
-  read -n1 -p  "Do you wish to download the latest version of miRBase? (Y/N)" booleanYorN
+  read -n1 -p  "Do you wish to download the latest version of miRBase? [Y]es [N]o)" booleanYorN
   case $booleanYorN in 
-    y|Y) echo -e "\nDownloading miRBase";;
-    n|N) echo "Skipped miRBase installation please set up this value in configuration file";;
-    *)  echo -e"\nInvalid Input please type either (Y/N) ";;
+    y|Y) echo -ne "\nDownloading miRBase\n";;
+    n|N) echo -ne "\nSkipped miRBase installation please set up this value in configuration file\n";;
+    [^yYnN])  echo -ne "\e[2K\rInvalid Input please type either (Y/N)\n";;
   esac  
 done
+
 if [[ "$booleanYorN" == [yY] ]]; then 
   mirbase=${SOURCE_DATA}/mirbase      
   mkdir -p $mirbase
@@ -318,31 +335,38 @@ if [[ "$booleanYorN" == [yY] ]]; then
   wget -c $mirbase_mature -O $mirbase_filename
   wget -c $mirbase_readme -O README
   if [[ -e $mirbase_filename ]]; then 
-    gunzip $mirbase_filename
+    gunzip -c $mirbase_filename > ${mirbase_filename/.gz}
     sed -ri "s:(MIRBASE=)(.*):\1${SOURCE_DATA}/mirbase/${mirbase_filename/.gz/}:" ${CFG_WD} 
   else
     echo -e "${red}Warning - Failed to download miRBase but script will continue.${NC}"
   fi
 else
+  ##This should read the atuall value stored	 
   read -n1 -p "The current miRBase directory in configuration file is $MIRBASE do you want to change it? (Y/N)" mirYorN
   case $mirYorN in
-    y|Y) echo -e "\n Setting miRBase var.\n";;
-    n|N) echo "Value not altered";;
-    *)  echo -e"\nInvalid Input please type either (Y/N) Sorry skipped change value in configuration.";;
+    y|Y)      echo -ne "\n Setting miRBase var.\n";;
+    n|N)      echo -ne "\nValue not altered\n";;
+    [^yYNn])  echo -ne"\nInvalid Input please type either (Y/N).\n";;
   esac
   if [[ "$mirYorN" == [yY] ]]; then
     read -p "Type new path for miRBase:" MIRBASE
     sed -ri "s:(MIRBASE=)(.*):\1${MIRBASE}:" ${CFG_WD} 
   fi
 fi
+
 unset booleanYorN
 
+if [[ "$testingMode" == "TRUE" ]]; then
+	TestGenome="Arabidopsis_thaliana.TAIR10.dna_rm.chromosome.4.fa"
+	mkdir -p ${SOURCE_DATA}/Genome
+	ln -s ${DIR}/testDataset/Genome/${TestGenome} ${SOURCE_DATA}/Genome/${TestGenome} 
+	sed -ri "s:(GENOME=)(.*):\1${SOURCE_DATA}/Genome/${TestGenome}:" ${CFG_WD}
+else
+	echo "Please insert the full path to the genome file (To maintain stuff organized we suggest:"
+	read -p "	<<souce_data-dir>>/Genome/<<genome_name>>.fa) " GENOME
+	sed -ri "s:(GENOME=)(.*):\1${GENOME}:" ${CFG_WD}
 
-echo "Please insert the full path to the genome file (To maintain stuff organized we suggest:"
-read -p "	<<souce_data-dir>>/genome/<<genome_name>>.fa) " GENOME
-sed -ri "s:(GENOME=)(.*):\1${GENOME}:" ${CFG_WD}
-
-
+fi
 SET_PROC=$(( $(nproc) - 1 ))
 
 while [[ "$booleanYorN" != [yYnN] ]]
