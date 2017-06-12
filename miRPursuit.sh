@@ -22,7 +22,8 @@ noPrompt=FALSE
 
 err_report() {
    >&2 echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
-   echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
+   >&2 echo $(tail -1 ${log_file})
+   echo "Error -  on line $1 caused a code $2 exit"
           
           
 }

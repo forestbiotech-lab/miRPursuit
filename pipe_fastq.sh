@@ -17,8 +17,8 @@
 set -e
 
 err_report() {
-   >&2 echo -e "Error -  on line $1 caused a code $2 exit"
-   echo -e "Error -  on line $1 caused a code $2 exit"
+   >&2 echo "Error -  on line $1 caused a code $2 exit - $3"
+   echo "Error -  on line $1 caused a code $2 exit - $3"
 }
 trap 'err_report $LINENO $?' ERR
 
@@ -65,14 +65,19 @@ else
     #Test if "fq exists"
     if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]]; then
       #Test if .fastq/fq.gz exists      
-      CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
-      archive="${INSERTS_DIR}/${CONVERT_LIB}"
-      if [[ -e "${archive}" ]]; then
-        NPROC=$(( $NPROC + 1 ))
-        gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
+      if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$") ]]; then
+        CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
+        archive="${INSERTS_DIR}/${CONVERT_LIB}"
+         if [[ -e "${archive}" ]]; then
+           NPROC=$(( $NPROC + 1 ))
+           gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
+         else
+           >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}.\n The current files are: ${archive}" 
+           exit 1
+         fi
       else
-        >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}.\n The current files are: ${archive}" 
-        exit 1
+        >&2 echo -ne "${red}Terminated${NC}- No files found in: ${INSERTS_DIR}.\n"
+        exit 1   
       fi
     else      
       CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
