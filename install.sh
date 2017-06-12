@@ -341,7 +341,7 @@ if [[ "$booleanYorN" == [yY] ]]; then
     echo -e "${red}Warning - Failed to download miRBase but script will continue.${NC}"
   fi
 else
-  ##This should read the atuall value stored	 
+  ## !!!!!!This should read the actual value stored	 
   read -n1 -p "The current miRBase directory in configuration file is $MIRBASE do you want to change it? (Y/N)" mirYorN
   case $mirYorN in
     y|Y)      echo -ne "\n Setting miRBase var.\n";;
@@ -358,9 +358,21 @@ unset booleanYorN
 
 if [[ "$testingMode" == "TRUE" ]]; then
 	TestGenome="Arabidopsis_thaliana.TAIR10.dna_rm.chromosome.4.fa"
+	echo -ne "\n${green}Installing in test ready mode${NC}: Will setup for the test Genome: ${TestGenome}\n"
 	mkdir -p ${SOURCE_DATA}/Genome
 	ln -s ${DIR}/testDataset/Genome/${TestGenome} ${SOURCE_DATA}/Genome/${TestGenome} 
 	sed -ri "s:(GENOME=)(.*):\1${SOURCE_DATA}/Genome/${TestGenome}:" ${CFG_WD}
+	sed -ri "s:(GENOME_MIRCAT=)(.*):\1${SOURCE_DATA}/Genome/${TestGenome}:" ${CFG_WD}
+	##Some more dramatic flare
+	sleep 1
+	echo -ne "${blue}Configuring the workdir parameters. .${NC}\r"
+	sleep 1
+	echo -ne "${blue}Configuring the workdir parameters. . .${NC}\r"
+	sleep 1
+	echo -ne "${blue}Configuring the workdir parameters. . . .${NC}"
+	sleep 1
+	echo ""
+	
 else
 	echo "Please insert the full path to the genome file (To maintain stuff organized we suggest:"
 	read -p "	<<souce_data-dir>>/Genome/<<genome_name>>.fa) " GENOME
