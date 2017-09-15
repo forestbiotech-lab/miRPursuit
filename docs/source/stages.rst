@@ -21,21 +21,24 @@ _`Pre-preprocessing`
 --------------------
 There are multiple entry points depending on the form of the raw data.
 Some NGS sequencing service providers might ship your data already trimmed for adaptors, or you might want to use the raw data provided directly by the sequencing equipment, or you might want to use fasta files compiled from another source. 
-..[needs flag for trimming] 
 
 By using miRPursuit you can specify the type of input file you will use. 
-The most simple is the **- -fasta** flag that searches the inserts_dir path ( see config files `workdir.cfg <config.html#workdirs>`_ ) for the target .fa/.fasta libraries and makes a copy to the project folder. 
-..[ Well as uncompressing ]
-In case the libraries are still in the fastq format the **- -fastq** flag should be given. This method does a quality control (fastqc not yet but soon) and then converts the fastq libraries to fasta. 
-..[ even if they do not pass the quality control, should check and send warnings for this either cmd or email]
+The most simple is the **- -fasta** flag that searches the inserts_dir path ( see config files `workdir.cfg <config.html#workdirs>`_ ) for the target .fa/.fasta libraries and makes a copy to the project folder. In case no .fa/.fasta files are found the program will also search for compressed .fa.gz/.fasta.gz files and proceed to uncompress them.
+
+
+In case the libraries are still in the fastq format the **- -fastq** flag should be given. This method does a quality control (fastqc not yet but soon) and then converts the fastq libraries to .fasta, analogously to what is done with "fasta" files, compressed fq.gz/fastq.gz files will be uncompressed if no .fq/.fastq file is found. 
+
+
 Additionally, the **- -trim** flag can be set to remove adaptor sequences. This requires the adaptor sequence to be stored in the adaptor var (see config files `workdir.cfg <config.html#workdirs>`_ ).
+
+
 
 ------------
 _`Filtering`
 ------------
 **Filtering Databases**
  The fasta sequences are filtered based on their length, abundance, low complexity and t/r RNA are removed. These parameters can be set in the `wbench_filter.cfg <config.html#wbench-filter>`_ configuration file.
- ..Fix this they should be seperated
+
 
 **Genome and miRBase** 
  The reads are further filtered by mapping them to the setup genome file with '0' mismatches using patman. These parameters can be set in the `patman_genome.cfg <config.html#patman-genome>`_ configuration file.
