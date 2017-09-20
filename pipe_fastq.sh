@@ -72,11 +72,11 @@ else
            NPROC=$(( $NPROC + 1 ))
            gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
          else
-           >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}.\n The current files are: ${archive}" 
+           >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}\n The current files are: ${archive}" 
            exit 1
          fi
       else
-        >&2 echo -ne "${red}Terminated${NC}- No files found in: ${INSERTS_DIR}.\n"
+        >&2 echo -ne "${red}Terminated${NC} - No files for lib ${LIB} found in: ${INSERTS_DIR}\nTry using a different sequence of libraries or try a new pattern to select libraries."
         exit 1   
       fi
     else
@@ -85,7 +85,7 @@ else
             NPROC=$(( $NPROC+1 ))
             cp ${fastq} ${workdir}data/fastq/Lib${LIB}.fq &
         else
-            >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}." 
+            >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}" 
             exit 1
         fi
     fi
