@@ -5,7 +5,7 @@
 #
 # Created by Bruno Costa on 25/05/2015.
 # Copyright 2015 ITQB / UNL. All rights reserved.
-# Executes the complete pipline
+# Executes the complete pipeline
 # Call: sRNAworkFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [STEP]
 
 set -e
@@ -193,7 +193,7 @@ fi
 if [[ -e "${MIRBASE}" ]]; then        
   echo "miRBase                     = "${MIRBASE}
 else
-  echo -e "${red}Error${NC} - The given mirbase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
+  echo -e "${red}Error${NC} - The given miRBase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
   exit 127
 fi
 if [[ -z "${workdir}" ]]; then
@@ -206,7 +206,25 @@ if [[ -d "${INSERTS_DIR}" ]]; then
   echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
-  testLib=$(echo ${INSERTS_DIR}/*${fasta}${fastq}${LC}${LIB_FIRST}*)
+  
+  if [[ ! -z "$fasta" ]]; then  
+    if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fa|fasta)+\.gz$") ]]; then
+      testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fa|fasta)+\.gz$")    
+    else
+      testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fa|fasta)+$")  
+    fi
+  fi
+  if [[ ! -z "$fastq" ]]; then
+    if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fq|fastq)+\.gz$") ]];then
+      testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fq|fastq)+\.gz$")    
+    else
+      testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fq|fastq)+$")  
+    fi
+  fi
+  ###DEPRECATED WILL SOON BE REMOVED  
+  if [[ ! -z "$LC" ]]; then  
+    testLib=$(echo ${INSERTS_DIR}/*${fasta}${fastq}${LC}${LIB_FIRST}*)
+  fi
   if [[ ! -z "$testLib" ]]; then
     echo "First lib to be processed   = "${testLib}
   else
