@@ -235,9 +235,13 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
     >&2 echo -e "${red}Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
     exit 127
   fi      
-else        
-  echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
-  exit 127
+else
+  if [[ -d "${INSERTS_DIR}" ]]; then
+    echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
+  else        
+    echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
+    exit 127
+  fi  
 fi        
 #nonempty string bigger than 0 (Can't remember purpose of this!)
 if [[ -n $1 ]]; then 
