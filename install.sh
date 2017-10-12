@@ -83,6 +83,7 @@ touch $profile
 
 ##get software dirs
 . $CFG
+. $CFG_WD
 
 if [[ -z "$SOFTWARE" ]]; then
   SOFTWARE="${HOME}/.Software"
@@ -356,7 +357,6 @@ if [[ "$booleanYorN" == [yY] ]]; then
     echo -e "${red}Warning - Failed to download miRBase but script will continue.${NC}"
   fi
 else
-  ## !!!!!!This should read the actual value stored	 
   read -n1 -p "The current miRBase directory in configuration file is $MIRBASE do you want to change it? (Y/N)" mirYorN
   case $mirYorN in
     y|Y)      echo -ne "\n Setting miRBase var.\n";;
@@ -392,6 +392,7 @@ else
 	echo "Please insert the full path to the genome file (To maintain stuff organized we suggest:"
 	read -p "	<<souce_data-dir>>/Genome/<<genome_name>>.fa) " GENOME
 	sed -ri "s:(GENOME=)(.*):\1${GENOME}:" ${CFG_WD}
+  sed -ri "s:(GENOME_MIRCAT=)(.*):\1${SOURCE_DATA}/Genome/${GENOME}:" ${CFG_WD}
 
 fi
 SET_PROC=$(( $(nproc) - 1 ))
