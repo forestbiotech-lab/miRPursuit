@@ -431,15 +431,24 @@ do
 	esac
 done
 if [[ "$booleanYorN"  == [nN] ]]; then
-  read -p "Please specify the amount of maximum RAM to be used by pipeline in Gigabytes (Numbers only) " memory
-  sed -ri "s:(MEMORY=)(.*):\1\"${memory}g\":" ${CFG_WD}
+  unset $SET_MEM
+  read -p "Please specify the amount of maximum RAM to be used by pipeline in Gigabytes (Numbers only) " SET_MEM
 fi
-if [[ "$booleanYorN" == [yY] ]]; then
-  sed -ri "s:(MEMORY=)(.*):\1\"${SET_MEM}g\":" ${CFG_WD}
+sed -ri "s:(MEMORY=)(.*):\1\"${SET_MEM}g\":" ${CFG_WD}
+
+
+##Configuring the sRNA library dir
+if [[ "$testingMode" == "TRUE" ]]; then
+  testDatasetDir="${DIR}/testDataset"
+  inserts_dir=${SOURCE_DATA}/Inserts_dir
+  echo -ne "\n${green}Installing in test ready mode${NC}: Will setup the test dataset sRNA directory (inserts_dir) as: ${inserts_dir}\n"
+  mkdir -p ${inserts_dir}
+  ln -s "${testDatasetDir}/"*".fa" "${inserts_dir}/" 
+else
+  echo "What is the full path to the directory where your sRNA libraries are inserts_dir"
+  read -p "	(Please work with backed files) " inserts_dir
 fi
-echo "What is the full path to the directory where your sRNA libraries are inserts_dir"
-read -p "	(Please work with backed files) " inserts_dir
-  sed -ri "s:(INSERTS_DIR=)(.*):\1${inserts_dir}:" ${CFG_WD}
+sed -ri "s:(INSERTS_DIR=)(.*):\1${inserts_dir}:" ${CFG_WD}
 
 echo -e "\nYour current settings are:"
 echo $(cat ${CFG_WD})

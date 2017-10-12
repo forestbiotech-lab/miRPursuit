@@ -6,7 +6,7 @@
 # Created by Bruno Costa on 25/05/2015.
 # Copyright 2015 ITQB / UNL. All rights reserved.
 # Executes the complete pipeline
-# Call: sRNAworkFlow.sh [inserts_dir] [LIB_FIRST] [LIB_LAST] [STEP]
+# Call: miRPursuit.sh [LIB_FIRST] [LIB_LAST] [STEP]
 
 set -e
 
@@ -99,10 +99,6 @@ done
 
 
 
-#Test if the var step exists
-if [[ -z "$step" ]]; then 
-  step=0
-fi
 if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
   echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
   echo -e "use ${blue}-h|--help${NC} for list of commands"
@@ -128,6 +124,10 @@ if [[ ! -z "$step" ]]; then
      exit 127
   fi
 fi
+#Test if the var step exists
+if [[ -z "$step" ]]; then 
+  step=0
+fi
 
 
 #Gets the script directory
@@ -138,11 +138,11 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 . $SOFT_CFG
 
 ##Check for updates
-if [[ $GIT == 1 ]]; then
-  echo "using git"
+if [[ "${GIT}" == "1" ]]; then
+  echo "This is a git install"
 else
   echo "not git"
-  if [[ $GIT == 0]]; then
+  if [[ "${GIT}" == "0" ]]; then
     echo "Update check disabled"
   else
     echo "Install commit hash is ${GIT}"
@@ -151,7 +151,7 @@ else
     echo "Choose location and run command:"
     echo "  git clone https://github.com/forestbiotech-lab/miRPursuit.git"
     echo "To get rid of this message change the value of GIT var in [miRPursuit_dir]/conifg/software_dirs.ctg to 0 instead of the current hash there."
-    
+
   fi
 fi
 
