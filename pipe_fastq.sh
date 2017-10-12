@@ -68,7 +68,7 @@ else
       if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$") ]]; then
         convert_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
         archive="${INSERTS_DIR}/${convert_lib}"
-         if [[ -e "${archive}" ]]; then
+         if [[ -f "${archive}" ]]; then
            NPROC=$(( $NPROC + 1 ))
            gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
          else
