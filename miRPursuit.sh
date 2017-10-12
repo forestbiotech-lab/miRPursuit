@@ -87,8 +87,8 @@ case $key in
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
  ${blue}--trim${NC}  Set this flag to perform adaptor trimming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
  ${blue}--headless${NC}  Set this flag to run on headless server. Requires Xvfb be installed on your system. Along with libswt-gtk-3-java and gkt3.
-		sudo apt-get update
-		sudo apt-get install xvfb libswt-gtk-java gkt3
+    sudo apt-get update
+    sudo apt-get install xvfb libswt-gtk-java gkt3
  ${blue}--no-prompt${NC}  Set this flag to skip all prompts.
 
   "
@@ -100,6 +100,10 @@ done
 
 
 
+#Test if the var step exists
+if [[ -z "$step" ]]; then 
+  step=0
+fi
 if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
   echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
   echo -e "use ${blue}-h|--help${NC} for list of commands"
@@ -202,7 +206,7 @@ if [[ -z "${workdir}" ]]; then
 else
   echo "Working directory (workdir) =  ${workdir}"      
 fi        
-if [[ -d "${INSERTS_DIR}" ]]; then
+if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
@@ -271,10 +275,6 @@ printf "\n\n"
 
 SCRIPTS_DIR=$DIR"/scripts"
 
-#Test if the var step exists
-if [[ -z "$step" ]]; then 
-  step=0
-fi
 if [[ ! -z "$LC" ]]; then
   >&2 echo -e "${blue}Running in LC mode.${NC}"
   ${DIR}/extract_lcscience_inserts.sh $LIB_FIRST $LIB_LAST $LC

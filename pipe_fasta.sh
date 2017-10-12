@@ -58,28 +58,28 @@ do
   if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
       #Test if .fastq/fq.gz exists      
       if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$") ]];then
-          EXTRACT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$")
-          archive="${INSERTS_DIR}/${EXTRACT_LIB}"
-          if [[ -e "${archive}" ]]; then
+          extract_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$")
+          archive="${INSERTS_DIR}/${extract_lib}"
+          if [[ -f "${archive}" ]]; then
               NPROC=$(( $NPROC + 1 ))
               gunzip -c ${archive} > ${workdir}data/fasta/Lib${LIB}.fa &       
           else
-              >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}." 
+              >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}" 
               exit 1
           fi
       else
-          >&2 echo "Terminating. No files using template: ${TEMPLATE},in: ${INSERTS_DIR}." 
+          >&2 echo "Terminating. No files using template: ${TEMPLATE},in: ${INSERTS_DIR}" 
           exit 1  
       fi
   else
       #Confirm fasta files exist
-      if [[ -e $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
+      if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
           fasta=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$")
           NPROC=$(($NPROC+1))
           #Change this to set for dynamic threading.
           cp ${fasta} ${workdir}data/fasta/Lib${LIB}.fa &
       else
-          >&2 echo "Terminating. ;Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}." 
+          >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}." 
           exit 1
       fi
   fi

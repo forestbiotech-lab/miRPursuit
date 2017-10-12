@@ -49,9 +49,9 @@ SCRIPT_DIR=$DIR"/scripts/"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - Extracting / Copying fastq files to workdir." 
 if [[ -z $2 || -z $3 ]]; then
   #Only one argument was given
-  CONVERT_LIB=$LCSCIENCE_LIB  #From config file?
+  convert_lib=$LCSCIENCE_LIB  #From config file?
   LIB=$LIB_FIRST   
-  cp $CONVERT_LIB ${workdir}data/fastq/Lib${LIB}.fq &
+  cp $convert_lib ${workdir}data/fastq/Lib${LIB}.fq &
   ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB}
 else
   #Running various threads      
@@ -66,8 +66,8 @@ else
     if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]]; then
       #Test if .fastq/fq.gz exists      
       if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$") ]]; then
-        CONVERT_LIB=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
-        archive="${INSERTS_DIR}/${CONVERT_LIB}"
+        convert_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
+        archive="${INSERTS_DIR}/${convert_lib}"
          if [[ -e "${archive}" ]]; then
            NPROC=$(( $NPROC + 1 ))
            gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
@@ -80,7 +80,7 @@ else
         exit 1   
       fi
     else
-        if [[ -e $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]];then      
+        if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]];then      
             fastq=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
             NPROC=$(( $NPROC+1 ))
             cp ${fastq} ${workdir}data/fastq/Lib${LIB}.fq &
