@@ -140,6 +140,10 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 ##Check for updates
 if [[ "${GIT}" == "1" ]]; then
   echo "This is a git install"
+  cd DIR
+  current_commit=$(git rev-list --max-count=1 HEAD)
+  echo $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
+  cd -
 else
   echo "not git"
   if [[ "${GIT}" == "0" ]]; then
