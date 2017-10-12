@@ -282,6 +282,8 @@ if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
     echo $(date +"%y|%m|%d-%H:%M:%S")" - Terminated prematurely due to possibility of workdir being overwritten."
     >&2 printf "\nTerminating prematurely"
     exit 1
+  else
+    >&2 echo -e " "
   fi
 fi
 mkdir -p $workdir"log/"
