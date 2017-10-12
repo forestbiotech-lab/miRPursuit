@@ -100,7 +100,7 @@ else
   echo "   git clone https://github.com/forestbiotech-lab/miRPrusuit"
   installJSON=".install_time_stateOFart.json"
   curl https://api.github.com/repos/forestbiotech-lab/miRPursuit/commits > $installJSON
-  commit_SHA=grep -m1 sha $installJSON | sed -r "s:[\" ,]::g" | awk -F ":" '{print $2}'
+  commit_SHA=$(grep -m1 sha $installJSON | sed -r "s:[\" ,]::g" | awk -F ":" '{print $2}')
   sed -ri "s:(GIT=)(.*):\1${commit_sha}:" ${CFG}
   sleep 5
 fi

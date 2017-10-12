@@ -17,20 +17,22 @@ Download program
 - If you have git installed on you machine. 
    Simply navigate to your chosen directory::
 	
-		#Clone project with git 
+		#Clone project with git
+    #This might prompt you for your github credentials. If authentication fails
+    #try again and it should run without any prompts. 
 		git clone https://github.com/forestbiotech-lab/miRPrusuit 
-		cd miRPrusuit
+		cd miRPursuit
 
-- Without git installed on your system. 
+- Without git installed on your system. Installing using git clone is preferred since it allows updating to remove bugs or get new features. 
    Simply visit `github project <https://github.com/forestbiotech-lab/miRPursuit>`_ and download `.zip <https://github.com/forestbiotech-lab/miRPursuit/archive/master.zip>`_ file. ::
    
 		#Download through command line
-		wget https://github.com/forestbiotech-lab/miRPursuit/archive/master.zip
+		wget https://github.com/forestbiotech-lab/miRPursuit/archive/master.zip -O miRPursuit.zip
 
    Extract contents to chosen directory ::
 
    	#Extract contents of archive
-		unzip miRPrusuit 
+		unzip miRPursuit.zip 
 
 
 Install Script
