@@ -90,6 +90,22 @@ if [[ -z "$SOFTWARE" ]]; then
   mv temp_12345678987654321 ${CFG}
 fi
 
+##Git installation?
+cd $DIR 
+if [[ $(git rev-parse --verify HEAD) ]]; then 
+  sed -ri "s:(GIT=)(.*):\11:" ${CFG}
+else 
+  echo -e "${red} Warning!${NC} - This is not git clone installation updating will be difficult."
+  echo "Installation will continue but consider installing with:"
+  echo "   git clone https://github.com/forestbiotech-lab/miRPrusuit"
+  installJSON=".install_time_stateOFart.json"
+  curl https://api.github.com/repos/forestbiotech-lab/miRPursuit/commits > $installJSON
+  commit_SHA=grep -m1 sha $installJSON | sed -r "s:[\" ,]::g" | awk -F ":" '{print $2}'
+  sed -ri "s:(GIT=)(.*):\1${commit_sha}:" ${CFG}
+  sleep 5
+fi
+
+cd -
 ##Source_data directory
 SOURCE_DATA=${HOME}/source_data
 
@@ -261,7 +277,6 @@ if [[ -z "$WBENCH_DIR" ]]; then
   echo ""
   cd -
 fi
-
 
 
 ##activate new .profile
