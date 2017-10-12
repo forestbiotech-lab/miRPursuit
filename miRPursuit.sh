@@ -283,7 +283,7 @@ if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
     >&2 printf "\nTerminating prematurely"
     exit 1
   else
-    >&2 echo -e " "
+    >&2 echo -ne "\r                "
   fi
 fi
 mkdir -p $workdir"log/"
