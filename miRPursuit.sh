@@ -99,7 +99,6 @@ done
 
 
 
-
 #Test if the var step exists
 if [[ -z "$step" ]]; then 
   step=0
@@ -137,6 +136,24 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . $DIR/"config/workdirs.cfg"
 SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 . $SOFT_CFG
+
+##Check for updates
+if [[ $GIT == 1 ]]; then
+  echo "using git"
+else
+  echo "not git"
+  if [[ $GIT == 0]]; then
+    echo "Update check disabled"
+  else
+    echo "Install commit hash is ${GIT}"
+    echo "Currently not listing pending updates for non-git installations."
+    echo "Consider changing this installation to a git clone repository."
+    echo "Choose location and run command:"
+    echo "  git clone https://github.com/forestbiotech-lab/miRPursuit.git"
+    echo "To get rid of this message change the value of GIT var in [miRPursuit_dir]/conifg/software_dirs.ctg to 0 instead of the current hash there."
+    
+  fi
+fi
 
 ##Progress report starting and declaring variable
 progress=${workdir}PROGRESS

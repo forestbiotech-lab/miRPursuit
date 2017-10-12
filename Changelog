@@ -23,6 +23,8 @@ CHANGELOG v1.2
   Check if exists and install fastqc. In fastq or fasta depending on the input. If not installed it's not ran.
 +(19/01/2017) Adding java to path if not installed
   If java isn't on the system the downloaded version will be added to the path.
++(12/10/2017) Store current commit hash
+  Grab the current commit hash if git isn't available
 -(TODO) Check if R exists
   Must install it if doesn't exist. Any version should do. At least for building the graphs. "Not feasible to install it. Either bring it along or "
 -(TODO) Report build in LaTeX texlive-core and possibly bin have to be installed 400mb and 40mb respectively. Must se how to do this seams big to generate a pdf. But some stripping might be possible. Another possiblility would be setting up a push server to produce PDFs. But might be over the top. Besides people wouldn't like it that much.
@@ -37,6 +39,8 @@ CHANGELOG v1.2
   https://github.com/forestbiotech-lab/miRPursuit/projects/1#card-843979
 +(12/10/2017) show first file to be processed
   shows the first file that will be processed without the path. Long path just clutter the display. The directory path can be seen in the inserts dir.  
+-(TODO) Check for updates
+  Compare commit hashes and show main differences between commits
 
 [Filter] (Done)
 +(20/09/2016)If filtering leaves you with no sRNA should not continue for this library. No there's nothing to process.
