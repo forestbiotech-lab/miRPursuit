@@ -14,14 +14,29 @@ set -e
 red='\e[0;31m'
 blue='\e[0;34m'
 green='\e[0;32m'
+white='\e[1;37m'
+black='\e[0;30m'
+light_blue='\e[1;34m'
+light_green='\e[1;32m'
+cyan='\e[0;36m'
+light_cyan='\e[1;36m'
+red='\e[0;31m'
+light_red='\e[1;31m'
+purple='\e[0;35m'
+light_purple='\e[1;35m'
+brown='\e[0;33m'
+yellow='\e[1;33m'
+gray='\e[0;30m'
+light_gray='\e[0;37m'
 blink='\e[5m'
 unblink='\e[25m'
 invert='\e[7m'
 NC='\e[0m' # No Color
 noPrompt=FALSE
+specificFiles=FALSE
 
 err_report() {
-   >&2 echo -e "${red}Error${NC} -  on line $1 caused a code $2 exit"
+   >&2 echo -e "${red}==> Error${NC} on line $1 caused a code $2 exit"
    >&2 echo $(tail -1 ${log_file})
    echo "Error -  on line $1 caused a code $2 exit"
           
@@ -98,29 +113,33 @@ shift # past argument or value
 done
 
 
-
-if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
-  echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
-  echo -e "use ${blue}-h|--help${NC} for list of commands"
-  exit 127
+if [[ -z $LIB_FIRST && -z $LIB_LAST ]]; then
+  echo -e "${blue}:: Specific files${NC} - Running with listed files "
+  specificFiles=TRUE
 else
-  if [[ ! $LIB_FIRST =~ ^[0-9]+$ ]]; then
-    echo -e "${red}Invalid input${NC} - Missing mandatory parameters for -f|--first"
+  if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
+    echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
     echo -e "use ${blue}-h|--help${NC} for list of commands"
     exit 127
+  else
+    if [[ ! $LIB_FIRST =~ ^[0-9]+$ ]]; then
+      echo -e "${red}Invalid input${NC} - Missing mandatory parameters for -f|--first"
+      echo -e "use ${blue}-h|--help${NC} for list of commands"
+      exit 127
+    fi
+    if [[ ! $LIB_LAST =~ ^[0-9]+$ ]]; then  
+      echo -e "${red}Invalid input${NC} - Missing mandatory parameters for -l|--last"
+      echo -e "use ${blue}-h|--help${NC} for list of commands"
+      exit 127
+    fi  
   fi
-  if [[ ! $LIB_LAST =~ ^[0-9]+$ ]]; then  
-    echo -e "${red}Invalid input${NC} - Missing mandatory parameters for -l|--last"
-    echo -e "use ${blue}-h|--help${NC} for list of commands"
-    exit 127
-  fi  
 fi
 ##Should check if libraries exit
 
 
 if [[ ! -z "$step" ]]; then
   if [[ "$step" -gt 5 || "$step" -lt 1 ]]; then
-     >&2 echo -e "${red}Terminating${NC} - That step doen't exist please specify a lower step"         
+     >&2 echo -e "${red}==> Terminating${NC} - That step doen't exist please specify a lower step"         
      exit 127
   fi
 fi
@@ -171,75 +190,83 @@ fi
 
 #Check programs are set up and can run (Java and Wbench).
 if [[ -z "$JAVA_DIR"  ]]; then
-  echo -e "${red}Not set${NC}: Please set java var in ${blue}software_dirs.cfg${NC} config file or run install script"
+  echo -e "${red}==> Not set${NC}: Please set java var in ${blue}software_dirs.cfg${NC} config file or run install script"
   exit 127
 else
   if [[ -x "$JAVA_DIR" && -e "${JAVA_DIR}" ]]; then
     echo -e "Java set up: ${green}OK${NC}"
   else
-    echo -e "${red}Failed${NC}: Java can't be run or invalid path"
+    echo -e "${red}==> Failed${NC}: Java can't be run or invalid path"
     exit 127
   fi        
 fi
+
 if [[ -z "$WBENCH_DIR" ]]; then
-  echo -e "${red}Not set${NC}: Please set workbench var in ${blue}software_dirs.cfg${NC} config file or run install script"
+  echo -e "${red}==> Not set${NC}: Please set workbench var in ${blue}software_dirs.cfg${NC} config file or run install script"
   exit 127        
 else        
   if [[ -x "$WBENCH_DIR" && -e "$WBENCH_DIR" ]]; then
     echo -e "Workbench set up ${green}OK${NC}"   
   else
-    echo -e "${red}Failed${NC}: Workbench can't be run or invalid path. Please check the workbench var in the ${blue}software_dirs.cfg${NC} config file."
+    echo -e "${red}==> Failed${NC}: Workbench can't be run or invalid path. Please check the workbench var in the ${blue}software_dirs.cfg${NC} config file."
     exit 127
   fi
 fi
 
-echo "Running pipeline with the following arguments:"
-printf "FIRST Library\t\t\t= ${LIB_FIRST}\n"
-printf "Last Library\t\t\t= ${LIB_LAST}\n"
-printf "Number of threads\t\t= ${THREADS}\n"
-
+echo -e "${blue}:: Running pipeline with the following arguments:${NC}"
+#Only print if running in lib number mode
+if [[ $specificFiles == "FALSE" ]]; then
+  printf "First Library\t\t\t= ${LIB_FIRST}\n"
+  printf "Last Library\t\t\t= ${LIB_LAST}\n"
+  printf "Number of threads\t\t= ${THREADS}\n"
+fi
 
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
   echo "Filter suffix                 = ${FILTER_SUF}"
   cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
-  >&2 echo -e "${red}Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
+  >&2 echo -e "${red}==> Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
   exit 127
 fi
 if [[ -e "${GENOME}" ]]; then        
   echo "Genome                      = "${GENOME}
 else
-  >&2 echo -e "${red}Error${NC} - The given genome file doesn't exist please check the file exists. Correct the GENOME var in ${blue}workdirs.cfg${NC} config file."
+  >&2 echo -e "${red}==> Error${NC} - The given genome file doesn't exist please check the file exists. Correct the GENOME var in ${blue}workdirs.cfg${NC} config file."
   exit 127
 fi
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
   echo "Genome mircat               = "${GENOME_MIRCAT}
 else
-  echo -e "${red}Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the GENOME_MIRCAT var in ${blue}workdirs.cfg${NC} config file."
+  echo -e "${red}==> Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the GENOME_MIRCAT var in ${blue}workdirs.cfg${NC} config file."
 fi
 if [[ -e "${MIRBASE}" ]]; then        
   echo "miRBase                     = "${MIRBASE}
 else
-  echo -e "${red}Error${NC} - The given miRBase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
+  echo -e "${red}==> Error${NC} - The given miRBase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
   exit 127
 fi
 if [[ -z "${workdir}" ]]; then
-  echo -e "${red}Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
+  echo -e "${red}==> Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
   exit 127
 else
-  echo "Working directory (workdir) =  ${workdir}"      
-fi        
+  echo "Working directory (workdir) = ${workdir}"      
+fi
+
+##############STEP 0 ##############################################################
 if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
-  echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
+  echo "sRNA directory (INSERTS_DIR)= ${INSERTS_DIR}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   
-  if [[ ! -z "$fasta" ]]; then  
+  if [[ ! -z "$fasta" && $specificFiles == "FALSE" ]]; then  
     if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fa|fasta)+\.gz$") ]]; then
       testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fa|fasta)+\.gz$")    
     else
       testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fa|fasta)+$")  
     fi
+  fi
+  if [[ ! -z "$fasta" && $specificFiles == "TRUE" ]]; then
+      testLib=$(basename $fasta)
   fi
   if [[ ! -z "$fastq" ]]; then
     if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fq|fastq)+\.gz$") ]];then
@@ -255,17 +282,18 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   if [[ ! -z "$testLib" ]]; then
     echo "First lib to be processed   = "${testLib}
   else
-    >&2 echo -e "${red}Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
+    >&2 echo -e "${red}==> Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
     exit 127
   fi      
 else
   if [[ -d "${INSERTS_DIR}" ]]; then
-    echo "sRNA directory (INSERTS_DIR)=  ${INSERTS_DIR}"
+    echo "sRNA directory (INSERTS_DIR)= ${INSERTS_DIR}"
   else        
-    echo -e "${red}Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
+    echo -e "${red}==> Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
     exit 127
   fi  
-fi        
+fi
+
 #nonempty string bigger than 0 (Can't remember purpose of this!)
 if [[ -n $1 ]]; then 
   echo "Last line of file specified as non-opt/last argument:"
@@ -273,7 +301,7 @@ if [[ -n $1 ]]; then
 fi
 if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
   unset $booleanYorN
-  >&2 echo -e "${red}Attention!${NC}\nworkdir - $workdir \nData already exists in this folder might be overwritten." 
+  >&2 echo -e "${red}==> Attention!${NC}\nworkdir - $workdir \nData already that exists in this folder might be overwritten." 
   while [[ "$booleanYorN" != [yYnN] ]]
   do        
     read -n1 -p "Continue? (Y/N)" booleanYorN
@@ -305,25 +333,30 @@ printf "\n\n"
 SCRIPTS_DIR=$DIR"/scripts"
 
 if [[ ! -z "$LC" ]]; then
-  >&2 echo -e "${blue}Running in LC mode.${NC}"
+  >&2 echo -e "${purple}==> Running in LC mode.${NC}"
   ${DIR}/extract_lcscience_inserts.sh $LIB_FIRST $LIB_LAST $LC
   step=1
 fi
 if [[ ! -z "$fastq" ]]; then
-  >&2 echo -e "${blue}Running in fastq mode.${NC}"
+  >&2 echo -e "${purple}==> Running in fastq mode.${NC} - Copying fastq files..."
   ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
   step=1
 fi
 if [[ ! -z "$fasta" ]]; then
-  >&2 echo -e "${blue}Running in fasta mode.${NC}"
-  ${DIR}/pipe_fasta.sh $LIB_FIRST $LIB_LAST $fasta
+  >&2 echo -e "${purple}==> Running in fasta mode.${NC} - Copying fasta files..."
+  if [[ $specificFiles == "TRUE" ]]; then
+    ########## Convert to absolute path #################
+    ${DIR}/pipe_fasta.sh $fasta 23
+  else
+    ${DIR}/pipe_fasta.sh $LIB_FIRST $LIB_LAST $fasta
+  fi  
   ##Make profile
   step=1
 fi
 
 if [[ "$step" -eq 0 ]]; then        
   #Concatenate and convert to fasta
-  >&2 echo -ne "${blue} Step 0${NC} - Concatenating libs and converting to fasta\t[                         ]  0%\r"
+  >&2 echo -ne "${blue}:::: Step 0${NC} - Concatenating libs and converting to fasta\t[                         ]  0%\r"
   printf "0\tConverting\t0" > $progress
   ${DIR}/extract_fasteris_inserts.sh $LIB_FIRST $LIB_LAST
   step=1
@@ -335,14 +368,14 @@ if [[ "$step" -eq 1 ]]; then
       exit 127
     else
       >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
-      >&2 echo -ne "${blue} Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
+      >&2 echo -ne "${blue}:::: Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
       printf "10\tAdaptor\t1" >$progress
 
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
   fi
   #Filter size, t/rRNA, abundance.
-  >&2 echo -ne "${blue} Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
+  >&2 echo -ne "${blue}:::: Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
   printf "20\tFiltering\t1" >$progress
 
   ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST
@@ -350,7 +383,7 @@ if [[ "$step" -eq 1 ]]; then
 fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
-  >&2 echo -ne "${blue}Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
+  >&2 echo -ne "${blue}:::: Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
   printf "40\tGenome miRBase\t2" >$progress
 
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
@@ -358,14 +391,14 @@ if [[ "$step" -eq 2 ]]; then
 fi
 if [[ "$step" -eq 3 ]]; then 
   #tasi
-  >&2 echo -ne "${blue} Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
+  >&2 echo -ne "${blue}:::: Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
   printf "60\tTasi\t3" >$progress
   ${DIR}/pipe_tasi.sh $LIB_FIRST $LIB_LAST 
   step=4
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
-  >&2 echo -ne "${blue} Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
+  >&2 echo -ne "${blue}:::: Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
   printf "80\tmiRCat\t4" >$progress
 
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
@@ -375,13 +408,13 @@ if [[ "$step" -eq 5 ]]; then
   >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix     \t[######################   ] 90%\r"
   printf "90\tCounting\t5" >$progress
   ${DIR}/counts_merge.sh 
-  >&2 echo -ne "${blue} Step 5${NC} - Running report                            \t[######################## ] 95%\r"
+  >&2 echo -ne "${blue}:::: Step 5${NC} - Running report                            \t[######################## ] 95%\r"
   printf "95\tReporting\t5" >$progress
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
   ${DIR}/write_report.sh $LIB_FIRST $LIB_LAST complete
 fi
 
-  >&2 echo -e "${blue} Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
+  >&2 echo -e "${blue}:::: Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
   printf "100\tFinished\t5" >$progress
   sleep 4
   >&2 echo "    "
@@ -408,4 +441,3 @@ RUN=$(( $RUN + 1 ))
 sed -ri "s:(RUN=)(.*):\1${RUN}:" ${SOFT_CFG}
 
 exit 0
-
