@@ -50,7 +50,7 @@ if [[ -z $2 || -z $3 ]]; then
     #Only one argument was given
     convert_lib=$LCSCIENCE_LIB  #From config file?
     LIB=$LIB_FIRST   
-    cp $convert_lib ${workdir}/data/fastq/Lib${LIB}.fa &
+    cp $convert_lib ${workdir}/data/fasta/Lib${LIB}.fa &
   else
     #Two arguments were given
     LIB=$1
@@ -63,7 +63,7 @@ if [[ -z $2 || -z $3 ]]; then
 
     ##Needs dealing with gz files
     >&2 echo "Copying ${FILE}..." 
-    cp $FILE ${workdir}/data/fastq/Lib${LIB}.fa  
+    cp $FILE ${workdir}/data/fasta/Lib${LIB}.fa  
 
 
   fi

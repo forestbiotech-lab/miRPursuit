@@ -70,6 +70,10 @@ case $key in
   fasta="$2"
   shift #past argument
   ;;
+  --lib)
+  SPECIFIC_LIB="$2"
+  shift #past argument
+  ;;
   --trim)
   TRIM=TRUE #Don't shift one argument
   ;;
@@ -97,9 +101,10 @@ case $key in
       ${green}Step 3${NC}: Tasi
       ${green}Step 4${NC}: Mircat
       ${green}Step 5${NC}: Report   
- ${blue}--lib${NC} Step is an optional argument used to specify the number to be attributed to the specified file.  
+ ${blue}--lib${NC} lib is an optional argument used to specify the number to be attributed to the specified file.  
  ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceding substring from the lib num. (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
  ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
+ ${blue}--fasta${NC} Set the program to start using fasta files. Can also be used to run for specific file. If running with specific file as argument (I.E. no -f & -l flags)
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
  ${blue}--trim${NC}  Set this flag to perform adaptor trimming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
  ${blue}--headless${NC}  Set this flag to run on headless server. Requires Xvfb be installed on your system. Along with libswt-gtk-3-java and gkt3.
@@ -117,8 +122,14 @@ done
 if [[ -z $LIB_FIRST && -z $LIB_LAST ]]; then
   echo -e "${blue}:: Specific files${NC} - Running with listed files "
   specificFiles=TRUE
-  LIB_FIRST=01
-  LIB_LAST=01
+  if [[ -z $SPECIFIC_LIB ]]; then
+    LIB_FIRST=$SPECIFIC_LIB
+    LIB_LAST=$SPECIFIC_LIB
+  else
+    #Else will set to 1
+    LIB_FIRST=1
+    LIB_LAST=1
+  fi
 else
   if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
     echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
