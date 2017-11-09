@@ -12,7 +12,7 @@
 # define input directory and get input filename(s)
 ext=$2
 workdir=$3
-fastq_dir=${workdir}data/fastq/
+fastq_dir=${workdir}/data/fastq/
 
 lib=$(printf "%02d\n" ${1})
 files=$(ls ${fastq_dir}"lib"${lib}"_"*"."$ext | awk -F "/" '{print $NF}')

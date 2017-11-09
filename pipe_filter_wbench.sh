@@ -20,7 +20,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 # define log file
-log_file="${workdir}log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:filters:${1}-${2}.log"
+log_file="${workdir}/log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:filters:${1}-${2}.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec >&1 > ${log_file}
 printf "Ran with these vars:\n###################\n#wbench_filter.cfg#\n###################\n"
@@ -29,7 +29,7 @@ printf "\n\n"
 
 
 SCRIPT_DIR=${DIR}"/scripts/"
-FASTA_DIR=${workdir}"data/fasta/"
+FASTA_DIR=${workdir}"/data/fasta/"
 
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do

@@ -40,7 +40,7 @@ GENOME_DIR=$(dirname $GENOME)
 echo "The genome used was "${GENOME_BASENAME}
 
 # create output file
-OUT_DIR=${workdir}"data/tasi"
+OUT_DIR=${workdir}"/data/tasi"
 mkdir -p $OUT_DIR
 OUT_FILE=${OUT_DIR}"/"${IN_ROOT}_tasi
 

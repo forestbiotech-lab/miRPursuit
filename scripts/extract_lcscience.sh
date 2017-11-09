@@ -18,7 +18,7 @@ EXTRACT_LIB=$3
 . ${SOURCE}/config/workdirs.cfg
 
 # define and create output directory if necessary
-out_dir=${workdir}"data/fastq"
+out_dir=${workdir}"/data/fastq"
 mkdir -p $out_dir 
 
 # loop if more than 1 one file per library 

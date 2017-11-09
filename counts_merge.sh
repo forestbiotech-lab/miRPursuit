@@ -20,28 +20,28 @@ SCRIPTS_DIR=$DIR"/scripts"
 
 
 mkdir -p ${workdir}/count
-novel=${workdir}count/all_seq_counts_novel.tsv
-novelNonCons=${workdir}count/all_seq_counts_nonCons.tsv
-tasi=${workdir}count/all_seq_counts_tasi.tsv
-novelTasi=${workdir}count/all_seq_counts_novelTasi.tsv
-cons=${workdir}count/all_seq_counts_cons.tsv
-consSeq=${workdir}count/all_seq_cons.seq
-star=${workdir}count/all_seq_star.seq
-reunion=${workdir}count/all_seq.tsv
+novel=${workdir}/count/all_seq_counts_novel.tsv
+novelNonCons=${workdir}/count/all_seq_counts_nonCons.tsv
+tasi=${workdir}/count/all_seq_counts_tasi.tsv
+novelTasi=${workdir}/count/all_seq_counts_novelTasi.tsv
+cons=${workdir}/count/all_seq_counts_cons.tsv
+consSeq=${workdir}/count/all_seq_cons.seq
+star=${workdir}/count/all_seq_star.seq
+reunion=${workdir}/count/all_seq.tsv
 tasiSeq=`mktemp /tmp/tasiSeq.XXXXXX`
 tasiNovel=`mktemp /tmp/tasiNovel.XXXXXX`
 #Get count matrix save to counts
-$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa" "cons" $THREADS > $cons
+$SCRIPTS_DIR/count_abundance.sh "${workdir}/data/*_cons.fa" "cons" $THREADS > $cons
 $SCRIPTS_DIR/merge_conserved.py -i $cons
-$SCRIPTS_DIR/count_abundance.sh "${workdir}data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel
-$SCRIPTS_DIR/count_abundance.sh "${workdir}data/tasi/Lib*-tasi.fa" "tasi" $THREADS > $tasi
+$SCRIPTS_DIR/count_abundance.sh "${workdir}/data/mircat/*noncons_miRNA_filtered.fa" "novel" $THREADS > $novel
+$SCRIPTS_DIR/count_abundance.sh "${workdir}/data/tasi/Lib*-tasi.fa" "tasi" $THREADS > $tasi
 
-#$SCRIPTS_DIR/count_abundance.sh "${workdir}data/*_cons.fa ${workdir}data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}count/all_seq_counts.tsv
+#$SCRIPTS_DIR/count_abundance.sh "${workdir}/data/*_cons.fa ${workdir}/data/mircat/*noncons_miRNA_filtered.fa" "none" $THREADS > ${workdir}/count/all_seq_counts.tsv
 
 #This has a script why the snippet instead directly here?
 
 ##Get the list of seqs with star 
-cat ${workdir}data/mircat/*output_filtered.csv | awk -F ',' '{if($14!="NO"){if($7!="Sequence"){print $7}}}' | sort | uniq > $star
+cat ${workdir}/data/mircat/*output_filtered.csv | awk -F ',' '{if($14!="NO"){if($7!="Sequence"){print $7}}}' | sort | uniq > $star
 
 ###Merging classifications
 awk '{if(NR>1){print $1}}' $tasi > $tasiSeq

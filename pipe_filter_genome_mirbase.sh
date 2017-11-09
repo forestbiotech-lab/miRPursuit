@@ -22,12 +22,12 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 MAXPROC=$THREADS
 
 # define log file
-log_file="${workdir}log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID$PPID:filter_genome_&_mirbase:${1}-${2}.log"
+log_file="${workdir}/log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID$PPID:filter_genome_&_mirbase:${1}-${2}.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 
 exec >&1 > ${log_file}
 SCRIPT_DIR=${DIR}"/scripts/"
-DATA_DIR=${workdir}"data/"
+DATA_DIR=${workdir}/"data/"
 
 echo "Runnning with ${MAXPROC} threads"
 
@@ -45,7 +45,7 @@ echo $(date +"%y/%m/%d-%H:%M:%S")" - Finished identifying conserved miRNAs."
 
 ##Deprecated code? Redundant code report calculates this.
 #Count reads
-#       COUNT_DIR=${workdir}count
+#       COUNT_DIR=${workdir}/count
 #       mkdir -p ${COUNT_DIR}
 #       HEADER="lib\stotal\sdistinct"
 #       REPORT_OUTPUT="${COUNT_DIR}/"$(date +"%y%m%d:%H%M%S")"-cGenome-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"

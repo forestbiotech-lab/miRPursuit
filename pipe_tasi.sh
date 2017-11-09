@@ -19,12 +19,12 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 #Define log file
-log_file=${workdir}"log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:tasi:$1-$2.log"
+log_file=${workdir}"/log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:tasi:$1-$2.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec >&1 > ${log_file}
 
 SCRIPTS_DIR=${DIR}"/scripts"
-DATA_DIR=${workdir}"data"
+DATA_DIR=${workdir}"/data"
 
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do

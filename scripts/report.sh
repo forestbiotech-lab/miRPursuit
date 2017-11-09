@@ -42,16 +42,16 @@ fi
 
 
 #FASTQ
-if [[ -d "${workdir}data/fastq" ]]; then
+if [[ -d "${workdir}/data/fastq" ]]; then
 
   files=""
-  output="${workdir}count/Fastq-$label.tsv"
+  output="${workdir}/count/Fastq-$label.tsv"
   echo $output
   printf "Lib\tTotal\tDistinct\n" > $output
   for lib in $CYCLE
     do
     lib_now=$(printf "%02d\n" $lib)
-    file=${workdir}data/fastq/Lib${lib_now}.fq
+    file=${workdir}/data/fastq/Lib${lib_now}.fq
     if [[ -e "$file" ]]; then  
       distinct=$(grep "^[ATCG]*$" $file | sort | uniq | wc -l)
       total=$(( $(wc -l $file | awk '{print $1}') / 4 ))
@@ -77,13 +77,13 @@ fi
 #FASTA
 #Check if file has already been collapsed
 files=""
-output="${workdir}count/Fasta-$label.tsv"
+output="${workdir}/count/Fasta-$label.tsv"
 echo $output
 printf "Lib\tTotal\tDistinct\n" > $output
 for lib in $CYCLE
   do
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/fasta/Lib${lib_now}.fa
+  file=${workdir}/data/fasta/Lib${lib_now}.fa
   distinct=$(grep -v ">" $file | sort | uniq | wc -l)
   total=$(grep -c ">" $file)
   files=$files" "$file 
@@ -100,7 +100,7 @@ files=""
 for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/filter_overview/Lib${lib_now}*.fa
+  file=${workdir}/data/filter_overview/Lib${lib_now}*.fa
   distinct=$(grep -v ">" $file | sort | uniq | wc -l)
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 
@@ -119,7 +119,7 @@ files=""
 for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/filter_genome/Lib${lib_now}*.fa
+  file=${workdir}/data/filter_genome/Lib${lib_now}*.fa
   distinct=$(grep -v ">" $file | sort | uniq | wc -l)
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 
@@ -138,7 +138,7 @@ files=""
 for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/Lib${lib_now}*_cons.fa
+  file=${workdir}/data/Lib${lib_now}*_cons.fa
   distinct=$(grep -v ">" $file | sort | uniq | wc -l)
   total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   files=$files" "$file 
@@ -156,7 +156,7 @@ files=""
 for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}data/mircat/Lib${lib_now}*_noncons_miRNA_filtered.fa
+  file=${workdir}/data/mircat/Lib${lib_now}*_noncons_miRNA_filtered.fa
   testNOVEL=$( wc -l ${file} | awk '{print $1}' )
   total=0
   distinct=0
@@ -183,11 +183,11 @@ for lib in $CYCLE
   do
   #reset var  
   lib_now=$(printf "%02d\n" $lib)
-  testTASI=$( wc -l ${workdir}"data/tasi/Lib${lib_now}-tasi.fa" | awk '{print $1}' )
+  testTASI=$( wc -l ${workdir}/"data/tasi/Lib${lib_now}-tasi.fa" | awk '{print $1}' )
   total=0
   distinct=0
   if [[ "$testTASI" -gt 1 ]]; then
-    file=${workdir}"data/tasi/Lib"${lib_now}*"_noncons_tasi_srnas.txt"
+    file=${workdir}/"data/tasi/Lib"${lib_now}*"_noncons_tasi_srnas.txt"
     distinct=$(awk -F "[(]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1}}' $file | sort | uniq | wc -l)
     total=$(awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' $file | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
     files=$files" "$file

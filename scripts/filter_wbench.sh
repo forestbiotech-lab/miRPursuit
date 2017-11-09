@@ -32,7 +32,7 @@ IN_DIR=$(dirname ${file})
 IN_ROOT=${IN_FILE%.*}
 
 # create output dir for csv if not existent
-CSV_DIR=${workdir}"data/filter_overview/"
+CSV_DIR=${workdir}/"data/filter_overview/"
 mkdir -p $CSV_DIR
 OUT_CSV=${CSV_DIR}${IN_ROOT}"_filt-"${FILTER_SUF}".csv"
 # create output file

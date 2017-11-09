@@ -17,9 +17,9 @@ LIB=$2
 . ${SOURCE}/config/workdirs.cfg
 
 lib=$(printf "%02d\n" $LIB)
-input=${workdir}data/fasta/lib${lib}.fa
-output=${workdir}data/fasta/lib${lib}_trimmed.fa
-report=${workdir}data/fasta/lib${lib}_report.txt
+input=${workdir}/data/fasta/lib${lib}.fa
+output=${workdir}/data/fasta/lib${lib}_trimmed.fa
+report=${workdir}/data/fasta/lib${lib}_report.txt
 
 #Fix for error with illumina data
 #fastx_clipper -Q33 -a $ADAPTOR -l 0 -c -v -i $input -o $output > $report  && mv  $output $input

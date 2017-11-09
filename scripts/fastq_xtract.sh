@@ -30,7 +30,7 @@ printf "Inserts dir is: $insertsdir/n"
 tar_files=${insertsdir}"/"*"GZT-"${lib_n}"_"*".tar.gz"
 
 # define and create output directory if necessary
-out_dir=${workdir}"data/fastq"
+out_dir=${workdir}"/data/fastq"
 echo "out dir is: "$out_dir
 mkdir -p $out_dir 
 

@@ -23,8 +23,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . $DIR/"config/workdirs.cfg"
 
 #Setting up log dir
-mkdir -p $workdir"log/"
-log_file="${workdir}log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:fastq_to_fasta:$1-$2.log"
+mkdir -p $workdir"/log/"
+log_file="${workdir}/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:fastq_to_fasta:$1-$2.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec 2>&1 > ${log_file}
 
@@ -41,15 +41,15 @@ echo "alignment finished in "${DIFF}" secs"
 echo "Workdir is: "$workdir"\nInserts dir is: "$INSERTS_DIR"\nfastq_xtract.sh ran in s\nlib_cat.sh ran in s\n" > $log_file
 
 #Create count dir
-mkdir -p ${workdir}count/
-cFq=${workdir}count/$(date +"%y%m%d:%H%M%S")"-cFq-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"
+mkdir -p ${workdir}/count/
+cFq=${workdir}/count/$(date +"%y%m%d:%H%M%S")"-cFq-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"
 cFq_n=0
 
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 
   #Create name for read count report
-  report_file=${workdir}count/$(date +"%y%m%d:%H%M%S")"-count-fastq-reads_lib"$LIB_NOW".tsv"
+  report_file=${workdir}/count/$(date +"%y%m%d:%H%M%S")"-count-fastq-reads_lib"$LIB_NOW".tsv"
   ((cFq_n++))
   cFq_ln[$cFq_n]=$(echo $report_file)
   echo ${cFq_ln[1]}" fist line of array"
@@ -124,13 +124,13 @@ echo " fq_to_fa_exe.sh ran in ${DIFF} seconds" >> $log_file
 
 
 #Count fasta seqs
-cFa=${workdir}count/$(date +"%y%m%d:%H%M%S")"-cFa-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"
+cFa=${workdir}/count/$(date +"%y%m%d:%H%M%S")"-cFa-lib"${LIB_FIRST}"-"${LIB_LAST}".tsv"
 echo "lib total distinct" > $cFa   
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
         
   LIB_NOW_NUM=$(printf "%02d\n" $LIB_NOW)      
-  FA_FILE=${workdir}data/fasta/lib${LIB_NOW_NUM}.fa
+  FA_FILE=${workdir}/data/fasta/lib${LIB_NOW_NUM}.fa
   FA_COLL=${wokdir}data/fasta/lib${LIB_NOW_NUM}.faC
   fastx_collapser -i $FA_FILE  -o $FA_COLL 
   echo "Count:"$(grep -c ">" $FA_COLL)

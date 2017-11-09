@@ -37,9 +37,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . $DIR/"config/workdirs.cfg"
 
 #Setting up log dir
-mkdir -p $workdir"log/"
-mkdir -p $workdir"data/fastq"
-log_file="${workdir}log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_fastq:${2}-${3}.log"
+mkdir -p $workdir"/log/"
+mkdir -p $workdir"/data/fastq"
+log_file="${workdir}/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_fastq:${2}-${3}.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec 2>&1 > ${log_file}
 
@@ -51,7 +51,7 @@ if [[ -z $2 || -z $3 ]]; then
   #Only one argument was given
   convert_lib=$LCSCIENCE_LIB  #From config file?
   LIB=$LIB_FIRST   
-  cp $convert_lib ${workdir}data/fastq/Lib${LIB}.fq &
+  cp $convert_lib ${workdir}/data/fastq/Lib${LIB}.fq &
   ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB}
 else
   #Running various threads      
@@ -70,7 +70,7 @@ else
         archive="${INSERTS_DIR}/${convert_lib}"
          if [[ -f "${archive}" ]]; then
            NPROC=$(( $NPROC + 1 ))
-           gunzip -c ${archive} > ${workdir}data/fastq/Lib${LIB}.fq &       
+           gunzip -c ${archive} > ${workdir}/data/fastq/Lib${LIB}.fq &       
          else
            >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}\n The current files are: ${archive}" 
            exit 1
@@ -83,7 +83,7 @@ else
         if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]];then      
             fastq=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
             NPROC=$(( $NPROC+1 ))
-            cp ${fastq} ${workdir}data/fastq/Lib${LIB}.fq &
+            cp ${fastq} ${workdir}/data/fastq/Lib${LIB}.fq &
         else
             >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}" 
             exit 1
@@ -109,8 +109,8 @@ else
       LIB_NOW=$i
       LIB=$(printf "%02d\n"  $LIB_NOW)
       #Not running in parallel should it? Needs testing
-      mkdir -p ${workdir}data/quality
-      fastqc -o ${workdir}data/quality ${workdir}data/fastq/Lib${LIB}.fq   
+      mkdir -p ${workdir}/data/quality
+      fastqc -o ${workdir}/data/quality ${workdir}/data/fastq/Lib${LIB}.fq   
     done 
   else
     printf $(date +"%y/%m/%d-%H:%M:%S")" -FastQC isn't installed will continue without quality control \n" 

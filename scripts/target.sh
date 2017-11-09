@@ -33,12 +33,12 @@ do
   tmpfile=$(mktemp -t pairsnip.XXXXXX)
   #Rises error if more than one file (due to different genomes)
   #concatenate. No filtering is being done because they come from different files that  have been split in previous steps
-  cat ${workdir}data/lib${LIB_N}_filt-${FILTER_SUF}_*_cons.fa > $tmpfile
-  cat ${workdir}data/mircat/lib${LIB_N}_filt-${FILTER_SUF}_*_noncons_miRNA_filtered.fa  >> $tmpfile
+  cat ${workdir}/data/lib${LIB_N}_filt-${FILTER_SUF}_*_cons.fa > $tmpfile
+  cat ${workdir}/data/mircat/lib${LIB_N}_filt-${FILTER_SUF}_*_noncons_miRNA_filtered.fa  >> $tmpfile
   ###########################################################
 
   # create output dir for fasta if not existant
-  RESULTS_DIR="${workdir}data/target"
+  RESULTS_DIR="${workdir}/data/target"
   mkdir -p ${RESULTS_DIR}
   DEG_NAME=$(basename $DEGRADOME)
   OUT_FILE=${RESULTS_DIR}"/lib${LIB_N}_${DEG_NAME}-targets.txt"
@@ -55,7 +55,7 @@ do
   #################              
 
   ##
-  cat ${workdir}count/all_seq.fa  > $tmpfile
+  cat ${workdir}/count/all_seq.fa  > $tmpfile
 
   # run target #add -verbose for verbose mode.....
   runPAREsnip="${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool paresnip -f -srna_file ${tmpfile} -deg_file ${DEGRADOME} -tran_file ${TRANSCRIPTOME} -out_file ${OUT_FILE} -params ${CONFIG}"

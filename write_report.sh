@@ -40,15 +40,15 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #Get config settings
 . $DIR/"config/workdirs.cfg"
 
-mkdir -p ${workdir}"count/images/.temp"
-log_file=$workdir"log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:write_report:$1-$2.log"
+mkdir -p ${workdir}"/count/images/.temp"
+log_file=$workdir"/log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:write_report:$1-$2.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file}) 
 exec 2>&1 >> ${log_file}
 
 SCRIPT_DIR=$DIR"/scripts"
-OUTPUT_FILE=${workdir}count/miRPursuit_REPORT-Run${PPID}.tex
+OUTPUT_FILE=${workdir}/count/miRPursuit_REPORT-Run${PPID}.tex
 
-graphicspath=$(echo ${workdir}count/images/ | sed -r "s:_:\_:g")
+graphicspath=$(echo ${workdir}/count/images/ | sed -r "s:_:\_:g")
 
 
 if [[ "${TYPE}" == "complete" ]]; then
@@ -118,8 +118,8 @@ This section depicts the sRNA profiles of the various libraries using barplots. 
 	do
 	  LIB_NOW=$i
 	  LIB=$(printf "%02d\n"  $LIB_NOW)  
-	  $SCRIPT_DIR/size_fasta.py --input ${workdir}data/fasta/Lib${LIB}.fa --output ${workdir}count/Lib${LIB}-profile.tsv
-	  $SCRIPT_DIR/graph_sizedistr.R ${workdir}count/Lib${LIB}-profile.tsv ${workdir}count/images/
+	  $SCRIPT_DIR/size_fasta.py --input ${workdir}/data/fasta/Lib${LIB}.fa --output ${workdir}/count/Lib${LIB}-profile.tsv
+	  $SCRIPT_DIR/graph_sizedistr.R ${workdir}/count/Lib${LIB}-profile.tsv ${workdir}/count/images/
 	  #convert image Add image
 	printf "
 \\\begin{figure}[h!]
@@ -155,19 +155,19 @@ This section depicts the sRNA profiles of the various libraries using barplots. 
 	do
 	  LIB_NOW=$i
 	  LIB=$(printf "%02d\n"  $LIB_NOW)  
-	  $SCRIPT_DIR/size_fasta.py --input ${workdir}data/filter_overview/Lib${LIB}_filt-${FILTER_SUF}.fa --output ${workdir}count/Lib${LIB}-filtered-profile.tsv
-	  $SCRIPT_DIR/graph_sizedistr.R ${workdir}count/Lib${LIB}-filtered-profile.tsv ${workdir}count/images/
+	  $SCRIPT_DIR/size_fasta.py --input ${workdir}/data/filter_overview/Lib${LIB}_filt-${FILTER_SUF}.fa --output ${workdir}/count/Lib${LIB}-filtered-profile.tsv
+	  $SCRIPT_DIR/graph_sizedistr.R ${workdir}/count/Lib${LIB}-filtered-profile.tsv ${workdir}/count/images/
       
       #Remove all underscores  
-      for i in ${workdir}count/images/Barplot-Lib*_filt.${FILTER_SUF}-size-distr.png;
+      for i in ${workdir}/count/images/Barplot-Lib*_filt.${FILTER_SUF}-size-distr.png;
       do
         #This is to ensure that only the file name is changed.  
         y=$(echo $i | awk -F "count/images/" '{print $2}')    
         #Replace all underscores
         z=${y//_/-}  
-        mv $i ${workdir}count/images/$z  
+        mv $i ${workdir}/count/images/$z  
         #Replace first period
-        mv ${workdir}count/images/$z ${workdir}count/images/${z/./-}  
+        mv ${workdir}/count/images/$z ${workdir}/count/images/${z/./-}  
       done
 	  #convert image Add image
 	printf "
@@ -193,7 +193,7 @@ fi
 if [[ "${TYPE}" == "stats" ]]; then
 			printf "\section{Basic Statistics}\n" >> ${OUTPUT_FILE}
 
-	COUNT=${workdir}count
+	COUNT=${workdir}/count
     
     libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
     cycles=$(( $libs / 6 + 1 ))
@@ -268,7 +268,7 @@ fi
 
 if [[ "${TYPE}" == "conserved" ]]; then
 	printf "\\\section{Conserved miRNAs}\n\\\begin{flushleft}\nThis section contains a table with the raw read counts of the conserved reads for each of the libraries. A \".tsv\" file can be found in the workdir/count/ directory. File: all\_seq\_counts\_cons.tsv.\n\\\end{flushleft}\n" >> ${OUTPUT_FILE}
-	COUNTS=${workdir}count
+	COUNTS=${workdir}/count
 	conservedMat=${COUNTS}/all_seq_counts_cons_merged.tsv
 	libs=$(( $LIB_LAST - $LIB_FIRST + 1 ))
     cycles=$(( $libs / 6 + 1 ))
@@ -345,7 +345,7 @@ fi
 
 if [[ "${TYPE}" == "logs" ]]; then
 	printf "\\\section{Logs}\n" >> ${OUTPUT_FILE}
-	LOGS=${workdir}log
+	LOGS=${workdir}/log
 	#Choose last dir. 
 	lastlog=$(ls -d ${LOGS}/*/ | tail -1)
 	if [[ -e $(ls "${LOGS}"/*Global*  | tail -1) ]]; then

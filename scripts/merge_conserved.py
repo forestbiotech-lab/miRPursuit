@@ -18,7 +18,7 @@
 
 import argparse
 
-parser = argparse.ArgumentParser(description='This is used to merge read counts of conserved miRNAs, given a readcount table of conserved reads.i.e. the one in ${workdir}/count/all_counts_cons.tsv .')
+parser = argparse.ArgumentParser(description='This is used to merge read counts of conserved miRNAs, given a read count table of conserved reads.i.e. the one in ${workdir}/count/all_counts_cons.tsv .')
 
 
 #parser.add_argument('--flag', type=str, nargs=1, metavar='', dest='', required=True, help='')
