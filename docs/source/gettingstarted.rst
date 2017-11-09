@@ -81,7 +81,9 @@ The full listing of the options available
  *  **-h|--help** See the list of options.
 
  Optional arguments
+  * **--lib** Set the library number that should be assigned to the specified file. (Only relevant if using specific files)
   * **--fasta** Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
+  * **--fasta** Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific file. 
   * **--fastq** Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
   * **--trim** Set this flag to perform adaptor triming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
   * **-s|--step** Step is an optional argument used to jump steps to start the analysis from a different point
