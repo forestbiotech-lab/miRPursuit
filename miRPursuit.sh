@@ -97,6 +97,7 @@ case $key in
       ${green}Step 3${NC}: Tasi
       ${green}Step 4${NC}: Mircat
       ${green}Step 5${NC}: Report   
+ ${blue}--lib${NC} Step is an optional argument used to specify the number to be attributed to the specified file.  
  ${blue}--lc${NC} Set the program to begin in lcmode instead of fs mode. The preceding substring from the lib num. (Pattern) Template + Lib num, but identify only one file in the inserts_dir    
  ${blue}--fasta${NC} Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
  ${blue}--fastq${NC} Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
@@ -116,6 +117,8 @@ done
 if [[ -z $LIB_FIRST && -z $LIB_LAST ]]; then
   echo -e "${blue}:: Specific files${NC} - Running with listed files "
   specificFiles=TRUE
+  LIB_FIRST=01
+  LIB_LAST=01
 else
   if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
     echo -e "${red}Invalid input${NC} - Missing mandatory parameters"
