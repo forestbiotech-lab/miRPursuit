@@ -1,3 +1,5 @@
 *~
 testing/*
 .*.swp
+log4j.log
+rna.ps
