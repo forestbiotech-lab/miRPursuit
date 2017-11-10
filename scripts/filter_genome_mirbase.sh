@@ -56,20 +56,20 @@ GENOME_ROOT=${GENOME_BASENAME%.*}
 echo $(date +"%y/%m/%d-%H:%M:%S")" -Using ${GENOME_BASENAME} as the reference genome"
 
 # create patman dir and file
-FILTER_GENOME=${WORKDIR}data/"filter_genome/"
+FILTER_GENOME=${WORKDIR}/data/"filter_genome/"
 mkdir -p ${FILTER_GENOME}
 
 
 # create output file
 OUT_FILT_GENOME=${FILTER_GENOME}${IN_ROOT}"_"${GENOME_ROOT}".fa"
-OUT_CONS=${WORKDIR}data/${IN_ROOT}"_"${GENOME_ROOT}"_mirbase_cons.fa"
-OUT_NONCONS=${WORKDIR}data/${IN_ROOT}"_"${GENOME_ROOT}"_mirbase_noncons.fa"
+OUT_CONS=${WORKDIR}/data/${IN_ROOT}"_"${GENOME_ROOT}"_mirbase_cons.fa"
+OUT_NONCONS=${WORKDIR}/data/${IN_ROOT}"_"${GENOME_ROOT}"_mirbase_noncons.fa"
 OUT_REPORT=${FILTER_GENOME}${IN_ROOT}"_${GENOME_ROOT}_REPORT.csv"
 
 
 
 
-MPF_DIR=${WORKDIR}"data/mirprof/"
+MPF_DIR=${WORKDIR}"/data/mirprof/"
 mkdir -p ${MPF_DIR}
 MPF_FILE=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase"
 MPF_FILE_UNIQ=${MPF_DIR}${IN_ROOT}"_"${GENOME_ROOT}"_mirbase.uniq"
