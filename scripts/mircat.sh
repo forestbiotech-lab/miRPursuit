@@ -53,12 +53,12 @@ parts=$( echo "$GENOME_BASENAME" | awk -F "part" '{print NF}' )
 
 echo ${IN_ROOT}
 # create output file
-OUT_FASTA=${WORKDIR}"data/mircat/"${IN_ROOT}"_mircat.fasta"
+OUT_FASTA=${WORKDIR}"/data/mircat/"${IN_ROOT}"_mircat.fasta"
 
 # create output dir for fasta if not existant
 RESULTS_DIR=${WBENCH_DIR}"/output/"
 mkdir -p ${RESULTS_DIR}
-OUT_DIR=${WORKDIR}"data/mircat/"
+OUT_DIR=${WORKDIR}"/data/mircat/"
 mkdir -p ${OUT_DIR}
 
 OUT_HAIRPINS=${OUT_DIR}${IN_ROOT}"_hairpins.txt"
