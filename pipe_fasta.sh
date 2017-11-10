@@ -53,8 +53,10 @@ if [[ -z $2 || -z $3 ]]; then
     cp $convert_lib ${workdir}/data/fasta/Lib${LIB}.fa &
   else
     #Two arguments were given
-    LIB=$1
+    LIB_NOW=$1
     FILE=$2
+    LIB=$(printf "%02d\n"  $LIB_NOW)  
+
 
     #Log uses input so has to go here.
     log_file=$workdir"/log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:pipe_fasta-$(basename $FILE).log"
