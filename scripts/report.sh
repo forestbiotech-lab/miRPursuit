@@ -15,7 +15,7 @@ if [[ "$1" == "array" ]]; then
   ARRAY=TRUE
   CYCLE=$2 
 elif [[ -z "$3" ]]; then
-  >&2echo "Error: Missing arguments, cowardly refused to continue. $0:::Line:$LINENO"
+  >&2 echo "Error: Missing arguments, cowardly refused to continue. $0:::Line:$LINENO"
   exit 1        
 else        
   LIB_FIRST=$1
