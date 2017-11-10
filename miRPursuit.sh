@@ -123,12 +123,13 @@ if [[ -z $LIB_FIRST && -z $LIB_LAST ]]; then
   echo -e "${blue}:: Specific files${NC} - Running with listed files "
   specificFiles=TRUE
   if [[ -z $SPECIFIC_LIB ]]; then
-    LIB_FIRST=$SPECIFIC_LIB
-    LIB_LAST=$SPECIFIC_LIB
-  else
-    #Else will set to 1
+    #Default lib used
     LIB_FIRST=1
     LIB_LAST=1
+  else
+    #Provided lib used
+    LIB_FIRST=$SPECIFIC_LIB
+    LIB_LAST=$SPECIFIC_LIB
   fi
 else
   if [[ -z $LIB_FIRST || -z $LIB_LAST ]]; then
@@ -236,7 +237,7 @@ if [[ $specificFiles == "FALSE" ]]; then
 fi
 
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
-  echo "Filter suffix                 = ${FILTER_SUF}"
+  echo "Filter suffix               = ${FILTER_SUF}"
   cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
   >&2 echo -e "${red}==> Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
@@ -360,7 +361,7 @@ if [[ ! -z "$fasta" ]]; then
   >&2 echo -e "${purple}==> Running in fasta mode.${NC} - Copying fasta files..."
   if [[ $specificFiles == "TRUE" ]]; then
     ########## Convert to absolute path? #################
-    ${DIR}/pipe_fasta.sh 23 $fasta
+    ${DIR}/pipe_fasta.sh $LIB_FIRST $fasta
   else
     ${DIR}/pipe_fasta.sh $LIB_FIRST $LIB_LAST $fasta
   fi  
@@ -370,7 +371,7 @@ fi
 
 if [[ "$step" -eq 0 ]]; then        
   #Concatenate and convert to fasta
-  >&2 echo -ne "${blue}:::: Step 0${NC} - Concatenating libs and converting to fasta\t[                         ]  0%\r"
+  >&2 echo -ne "${blue}:::: Step 0${NC} - Concatenating libs and converting to fasta [                         ]  0%\r"
   printf "0\tConverting\t0" > $progress
   ${DIR}/extract_fasteris_inserts.sh $LIB_FIRST $LIB_LAST
   step=1
@@ -382,14 +383,14 @@ if [[ "$step" -eq 1 ]]; then
       exit 127
     else
       >&2 printf "Adaptor sequence            = ${ADAPTOR} \n\n"
-      >&2 echo -ne "${blue}:::: Step 1${NC} - Adaptor removal                           \t[##                       ] 10%\r"  
+      >&2 echo -ne "${blue}:::: Step 1${NC} - Adaptor removal                            [##                       ] 10%\r"  
       printf "10\tAdaptor\t1" >$progress
 
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
   fi
   #Filter size, t/rRNA, abundance.
-  >&2 echo -ne "${blue}:::: Step 1${NC} - Filtering libs with workbench Filter      \t[#####                    ] 20%\r"
+  >&2 echo -ne "${blue}:::: Step 1${NC} - Filtering libs with workbench Filter      [#####                    ] 20%\r"
   printf "20\tFiltering\t1" >$progress
 
   ${DIR}/pipe_filter_wbench.sh $LIB_FIRST $LIB_LAST
@@ -397,38 +398,38 @@ if [[ "$step" -eq 1 ]]; then
 fi
 if [[ "$step" -eq 2 ]]; then 
   #Filter genome and mirbase
-  >&2 echo -ne "${blue}:::: Step 2${NC} - Filtering libs against genome and mirbase  \t[##########               ] 40%\r"
+  >&2 echo -ne "${blue}:::: Step 2${NC} - Filtering libs against genome and mirbase  [##########               ] 40%\r"
   printf "40\tGenome miRBase\t2" >$progress
 
   ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
   step=3
 fi
 if [[ "$step" -eq 3 ]]; then 
-  #tasi
-  >&2 echo -ne "${blue}:::: Step 3${NC} - Running tasi, searching for tasi reads    \t[###############          ] 60%\r"
+  #tasiRNA
+  >&2 echo -ne "${blue}:::: Step 3${NC} - Running tasi, searching for tasi reads     [###############          ] 60%\r"
   printf "60\tTasi\t3" >$progress
   ${DIR}/pipe_tasi.sh $LIB_FIRST $LIB_LAST 
   step=4
 fi
 if [[ "$step" -eq 4 ]]; then 
   #mircat
-  >&2 echo -ne "${blue}:::: Step 4${NC} - Running mircat (Be patient, slow step)    \t[####################     ] 80%\r"
+  >&2 echo -ne "${blue}:::: Step 4${NC} - Running mircat (Be patient, slow step)     [####################     ] 80%\r"
   printf "80\tmiRCat\t4" >$progress
 
   ${DIR}/pipe_mircat.sh $LIB_FIRST $LIB_LAST
   step=5
 fi  
 if [[ "$step" -eq 5 ]]; then
-  >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix     \t[######################   ] 90%\r"
+  >&2 echo -ne "${blue} Step 5${NC} - Counting sequences to produces matrix          [######################   ] 90%\r"
   printf "90\tCounting\t5" >$progress
   ${DIR}/counts_merge.sh 
-  >&2 echo -ne "${blue}:::: Step 5${NC} - Running report                            \t[######################## ] 95%\r"
+  >&2 echo -ne "${blue}:::: Step 5${NC} - Running report                             [######################## ] 95%\r"
   printf "95\tReporting\t5" >$progress
   $SCRIPTS_DIR/report.sh $LIB_FIRST $LIB_LAST ${DIR}
   ${DIR}/write_report.sh $LIB_FIRST $LIB_LAST complete
 fi
 
-  >&2 echo -e "${blue}:::: Step 5${NC} - Done, files are in workdir                \t[#########################]  100%"
+  >&2 echo -e "${blue}:::: Step 5${NC} - Done, files are in workdir                 [#########################] 100%"
   printf "100\tFinished\t5" >$progress
   sleep 4
   >&2 echo "    "
