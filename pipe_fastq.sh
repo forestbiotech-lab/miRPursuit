@@ -39,21 +39,45 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #Setting up log dir
 mkdir -p $workdir"/log/"
 mkdir -p $workdir"/data/fastq"
-log_file="${workdir}/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_fastq:${2}-${3}.log"
-echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
-exec 2>&1 > ${log_file}
 
 SCRIPT_DIR=$DIR"/scripts/"
 
 #Chooses run mode based on input arguments
 echo $(date +"%y/%m/%d-%H:%M:%S")" - Extracting / Copying fastq files to workdir." 
+#Choses run mode based on input arguments
 if [[ -z $2 || -z $3 ]]; then
-  #Only one argument was given
-  convert_lib=$LCSCIENCE_LIB  #From config file?
-  LIB=$LIB_FIRST   
-  cp $convert_lib ${workdir}/data/fastq/Lib${LIB}.fq &
-  ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB}
+  if [[ -z $2 ]]; then
+    #Only one argument was given
+
+    log_file="${workdir}/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_fastq:${1}.log"
+    echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
+
+    exec 2>&1 > ${log_file}
+    convert_lib=$LCSCIENCE_LIB  #From config file?
+    LIB=$LIB_FIRST   
+    cp $convert_lib ${workdir}/data/fastq/Lib${LIB}.fq &
+    ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB}
+  else  
+    #Two arguments were given
+    LIB_NOW=$1
+    FILE=$2
+    LIB=$(printf "%02d\n"  $LIB_NOW)  
+
+
+    #Log uses input so has to go here.
+    log_file=$workdir"/log/"$(date +"%y|%m|%d-%H:%M:%S")":PPID${PPID}:pipe_fastq-$(basename $FILE).log"
+    echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file}) 
+    exec 2>&1 > ${log_file}
+
+    ##Needs dealing with gz files
+    >&2 echo "Copying ${FILE}..." 
+    cp $FILE ${workdir}/data/fastq/Lib${LIB}.fq  
+  fi
 else
+  log_file="${workdir}/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_fastq:${2}-${3}.log"
+  echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
+  exec 2>&1 > ${log_file}
+
   #Running various threads      
   NPROC=0
   cycle=$(eval echo {${LIB_FIRST}..${LIB_LAST}})

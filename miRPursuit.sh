@@ -283,7 +283,7 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   if [[ ! -z "$fasta" && $specificFiles == "TRUE" ]]; then
       testLib=$(basename $fasta)
   fi
-  if [[ ! -z "$fastq" ]]; then
+  if [[ ! -z "$fastq" && $specificFiles == "FALSE" ]]; then
     if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fq|fastq)+\.gz$") ]];then
       testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB_FIRST}.*\.(fq|fastq)+\.gz$")    
     else
@@ -354,7 +354,12 @@ if [[ ! -z "$LC" ]]; then
 fi
 if [[ ! -z "$fastq" ]]; then
   >&2 echo -e "${purple}==> Running in fastq mode.${NC} - Copying fastq files..."
-  ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
+  if [[ $specificFiles == "TRUE" ]]; then
+    ########## Convert to absolute path? #################
+    ${DIR}/pipe_fasta.sh $LIB_FIRST $fastq
+  else
+    ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
+  fi
   step=1
 fi
 if [[ ! -z "$fasta" ]]; then
