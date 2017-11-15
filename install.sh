@@ -214,7 +214,7 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
     echo "appended to ${profile}"
     echo "Fastx_toolkit has been added to you path in ~/.profile if necessary add it to a more convenient location or change binaries to a directory in your path"
     echo "##Added Fastx_toolkit binaries to path" >> $profile
-    echo "PATH=\$PATH:${SOFTWARE}/bin/" >> $profile
+    echo "PATH=\$PATH:${SOFTWARE}/bin" >> $profile
     echo -e "${green} Fastx_toolkit installation finished $NC"
     echo ""
     sleep 1
@@ -222,11 +222,11 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
     echo -e "${red}Warning!${NC} - Could not add Fastx_toolkit to path."
     echo "File doesn't exist - $profile.  "
     echo "Add the following line to your startup shell file ex: .bashrc, .bash_profile, etc."
-    echo "PATH=\$PATH:${SOFTWARE}/bin/"
+    echo "PATH=\$PATH:${SOFTWARE}/bin"
     echo ""
     sleep 1
   fi
-  export PATH=${PATH}:${SOFTWARE}"/bin/"
+  export PATH=${PATH}:${SOFTWARE}"/bin"
   cd -
 fi
 
