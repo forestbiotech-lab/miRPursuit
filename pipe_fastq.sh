@@ -20,7 +20,7 @@ err_report() {
    >&2 echo "Error -  on line $1 caused a code $2 exit - $3"
    echo "Error -  on line $1 caused a code $2 exit - $3"
 }
-trap 'err_report $LINENO $?' ERR
+trap 'err_report $LINENO $? $(basename $0)' ERR
 
 
 
@@ -70,8 +70,10 @@ if [[ -z $2 || -z $3 ]]; then
     exec 2>&1 > ${log_file}
 
     ##Needs dealing with gz files
-    >&2 echo "Copying ${FILE}..." 
+    >&2 echo "Copying "$(basename $FILE)"..." 
     cp $FILE ${workdir}/data/fastq/Lib${LIB}.fq  
+    >&2 echo "Converting to fasta - "$(basename $FILE)"..."
+    ${SCRIPT_DIR}fq_to_fa_exe.sh ${workdir} ${LIB_NOW}
   fi
 else
   log_file="${workdir}/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_fastq:${2}-${3}.log"
