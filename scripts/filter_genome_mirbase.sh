@@ -15,6 +15,11 @@
 #Problem continuing if no result is found.
 set -e
 
+err_report() {
+   >&2 echo "Error -  on line $1 caused a code $2 exit - $3"
+   echo "Error -  on line $1 caused a code $2 exit - $3"
+}
+trap 'err_report $LINENO $? $(basename $0)' ERR
 
 FILE=$1
 SOURCE=$2
