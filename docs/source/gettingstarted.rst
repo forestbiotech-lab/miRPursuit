@@ -52,6 +52,7 @@ This is the simplest test case. Let's break down this command.
  * --fasta test_dataset- - Run in fasta mode, and use all libraries that have the string "test_dataset-" preceding the sequential numbering.
 
 .. Important:: MiRPursuit is designed to run an interval of libraries. So it will run all libraries starting with **test_dataset-1.fa** (-f first in this example 1), up to **test_dataset-1.fa** (-l last in this example 2). The files to be processed in your **INSERTS_DIR** should have a common string along with a sequential numbering.
+However you can also use it in **specific file mode**. That is specify the file you want to process for a single run. 
 
 
 .. image:: https://raw.githubusercontent.com/forestbiotech-lab/sRNA-workflow/master/images/MiRPursuit-full-run.png
@@ -83,7 +84,7 @@ The full listing of the options available
  Optional arguments
   * **--lib** Set the library number that should be assigned to the specified file. (Only relevant if using specific files)
   * **--fasta** Set the program to start using fasta files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fa, Lib_2.fa, .. --> argument should be Lib_
-  * **--fasta** Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific file. 
+  * **--fasta** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now). 
   * **--fastq** Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
   * **--trim** Set this flag to perform adaptor triming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
   * **-s|--step** Step is an optional argument used to jump steps to start the analysis from a different point
@@ -93,7 +94,11 @@ The full listing of the options available
    * Step 3: Tasi
    * Step 4: Mircat
    * Step 5: Reporting    
-
+ 
+ Specific file mode
+ * **--fasta${NC}** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now).
+ * **--fasta${NC}** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now).
+ * **--lib${NC}** (Optional) (In specific mode. i.e. no -f and -l) Set the library number to be attributed to the file. Should be coupled with --fasta or --fastq.
 
 Both fasta and fastq options work in the same manner they require the preceding string to the sequential numbering that all libraries have in common. 
 Ex:
