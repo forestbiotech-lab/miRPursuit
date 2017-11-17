@@ -69,7 +69,7 @@ if [ "$parts" == "1" ]; then
 
   # run mircat on filtered file
   runMircat="${xserv} ${JAVA_DIR}/java -Xmx${MEMORY} -jar ${WBENCH_DIR}/Workbench.jar -tool mircat -srna_file ${FILE} -out ${RESULTS_DIR} -genome ${GENOME_MIRCAT} -params ${CFG}"
-  printf "Running mircat with this command: \n\t $runMircat"
+  printf "Running miRCcat with this command: \n\t $runMircat"
   $runMircat
 
   # move produced resulting files into place
