@@ -156,21 +156,21 @@ files=""
 for lib in $CYCLE
   do       
   lib_now=$(printf "%02d\n" $lib)
-  file=${workdir}/data/mircat/Lib${lib_now}*_noncons_miRNA_filtered.fa
+  file=${workdir}/data/mircat/Lib${lib_now}*_noncons_miRNA_filtered_annotated.fa
   testNOVEL=$( wc -l ${file} | awk '{print $1}' )
   total=0
   distinct=0
   if [[ "$testNOVEL" -gt 1 ]]; then
-    distinct=$(grep -v ">" $file | sort | uniq | wc -l)
-    total=$(grep ">" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+    distinct=$(grep -A1 ">[ATGC]*_novel" $file | sed /^\>/d | sort | uniq | wc -l)
+    total=$(grep ">[ATGC]*_novel" $file | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
     files=$files" "$file 
     echo $files
   fi  
   printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
 done
 if [[ ! -z "$files" ]]; then
-  total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
-  total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+  total_d=$(cat $files | grep -A1 ">[ATGC]*_novel" | sed /^\>/d | sort | uniq | wc -l )
+  total=$(cat $files | grep ">[ATGC]*_novel" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   printf "Total\t$total\t$total_d\n" >> $output
 fi
 
