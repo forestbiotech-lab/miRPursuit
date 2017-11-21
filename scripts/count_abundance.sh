@@ -10,7 +10,7 @@
   #  count_abundance.sh ["pattern"] [type ] [nproc]  #
   #                                                  #
   #  Pattern: is a dir with wildcard to get specific #
-  #           files	                             #
+  #           files	                                 #
   #                                                  #
   #  Class/type: {none,cons,tasi,novel}              # 
   #                                                  #
@@ -34,7 +34,7 @@
   seq=$(mktemp -t seq.XXXXXX)
   uniqSeq=$(mktemp -t uniqSeq.XXXXXX)
 
-  #legacy code convert old cons files into compatible(This know aplies)
+  #legacy code convert old cons files into compatible(This know applies)
   testCons=$(cat $listFiles | grep -c ">all combined")
   if [[ "$testCons" > "0" ]]; then
     for i in $listFiles
@@ -51,7 +51,7 @@
 
 
   ##get counts for each
-  ## Since the files used are from the sRNA workflow ( ) is the major trend. Maybe don't worry with fastx colapsiing
+  ## Since the files used are from the sRNA workflow ( ) is the major trend. Maybe don't worry with fastx collapsing
   for i in $listFiles
   do 
     awk -F "\n" 'BEGIN{RS=">"}{if(NR>1){print $2}}' $i >> $seq
@@ -86,8 +86,8 @@
       ##Construction of output line for cons sequences 
       res="${lineFunc}\t${temp}\t"
     elif [[ "${class}" == "novel"  ]]; then
-      #Change path where expression is to retreived
-      #This is done because mircat sometimes detectes precursores in some libraries but not in others.
+      #Change path where expression is to retrieved
+      #This is done because miRCat sometimes detects precursors in some libraries but not in others.
       #remove _miRNA_filtered & remove /mircat/
       listFiles=$(echo ${listFiles} | sed -r "s:/mircat/:/:g" | sed -r "s:_miRNA_filtered::g")
       res="${lineFunc}\tnovel\t"
