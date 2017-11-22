@@ -30,21 +30,21 @@ SCRIPTS_DIR=$DIR"/scripts"
 
 
 mkdir -p ${workdir}/count
-novel=${workdir}/count/all_seq_counts_novel.tsv 			#Novel only
-noncons=${workdir}/count/all_seq_counts_nonCons.tsv 		#Make file for first batch of pseudo novel 
-novelSeq=${workdir}/count/all_seq_novel.seq 				#
-tasi=${workdir}/count/all_seq_counts_tasi.tsv 				#
-tasiSeq=${workdir}/count/all_seq_tasi.seq 					#
-novelTasi=${workdir}/count/all_seq_counts_novelTasi.tsv 	#
-novelTasiSeq=${workdir}/count/all_seq_novelTasi.seq 		#
-cons=${workdir}/count/all_seq_counts_cons.tsv 				#
-consSeq=${workdir}/count/all_seq_cons.seq 					#
-star=${workdir}/count/all_seq_star.seq 						#
-reunion=${workdir}/count/all_seq.tsv 						#
-novelTmpSeq=`mktemp /tmp/novelSeq.XXXXXX` 					#
-novelTmp=`mktemp /tmp/novel.XXXXXX`	 						#
-tasiTmpSeq=`mktemp /tmp/tasiSeq.XXXXXX` 					#
-tasiTmp=`mktemp /tmp/tasi.XXXXXX` 					#
+novel=${workdir}/count/all_seq_counts_novel.tsv 			#Counts of Novel sequences only
+noncons=${workdir}/count/all_seq_counts_nonCons.tsv 		#Counts of filtered reads
+novelSeq=${workdir}/count/all_seq_novel.seq 				#List of Novel sequences only
+tasi=${workdir}/count/all_seq_counts_tasi.tsv 				#Counts of Tasi sequences only
+tasiSeq=${workdir}/count/all_seq_tasi.seq 					#List of Tasi sequences only
+novelTasi=${workdir}/count/all_seq_counts_novelTasi.tsv 	#Counts of simultaneously Novel and Tasi sequences only
+novelTasiSeq=${workdir}/count/all_seq_novelTasi.seq 		#List of simultaneously Novel and Tasi sequences only 
+cons=${workdir}/count/all_seq_counts_cons.tsv 				#Counts of conserved sequences only
+consSeq=${workdir}/count/all_seq_cons.seq 					#List  of conserved sequences only
+star=${workdir}/count/all_seq_star.seq 						#List of sequences that have been identified as a star sequence
+reunion=${workdir}/count/all_seq.tsv 						#Merge of all counts together
+novelTmpSeq=`mktemp /tmp/novelSeq.XXXXXX` 					#Temp file to store novel sequences
+novelTmp=`mktemp /tmp/novel.XXXXXX`	 						#Temp file to store novel counts
+tasiTmpSeq=`mktemp /tmp/tasiSeq.XXXXXX` 					#Temp file to store tasi sequences
+tasiTmp=`mktemp /tmp/tasi.XXXXXX` 							#Temp file to store tasi counts
 #Get count matrix save to counts
 $SCRIPTS_DIR/count_abundance.sh "${workdir}/data/*_cons.fa" "cons" $THREADS > $cons
 $SCRIPTS_DIR/merge_conserved.py -i $cons
