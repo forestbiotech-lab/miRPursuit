@@ -21,8 +21,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 #Setting up log dir
-mkdir -p $workdir"log/"
-log_file=$workdir"log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_trim_adaptors:$1-$2.log"
+mkdir -p $workdir"/log/"
+log_file=$workdir"/log/"$(date +"%y%m%d:%H%M%S")":PPID$PPID:pipe_trim_adaptors:$1-$2.log"
 echo $(date +"%y/%m/%d-%H:%M:%S")" - "$(basename ${log_file})
 exec 2>&1 > ${log_file}
 
