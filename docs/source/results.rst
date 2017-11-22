@@ -57,4 +57,6 @@ The report is written in LaTeX and is ready to be converted to pdf. However to k
 The tex file is written to:
 	- ${workdir}/count/miRPursuit_REPORT-Run[PPID].tex
 
+To convert to pdf once Tex Live package is installed. Note that other dependencies might be needed::
+	texi2pdf ${texfile}
 
