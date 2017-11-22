@@ -25,6 +25,7 @@ Guide
    install
    config
    gettingstarted
+   results
    help 
 
 
