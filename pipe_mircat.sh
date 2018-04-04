@@ -39,10 +39,10 @@ DATA_DIR=${workdir}"/data"
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
-	NONCONS=${DATA_DIR}/Lib${LIB}_filt-${FILTER_SUF}_$(basename ${${genome%.fa}%.fasta})_mirbase_noncons.fa
+	NONCONS=${DATA_DIR}/Lib${LIB}_filt-${FILTER_SUF}_$(basename ${${GENOME%.fa}%.fasta})_mirbase_noncons.fa
 	
 	#Merge cons with non conserved
-	cat ${DATA_DIR}/Lib${LIB}_filt-${FILTER_SUF}_$(basename ${${genome%.fa}%.fasta})_mirbase_cons.fa >> $NONCONS
+	cat ${DATA_DIR}/Lib${LIB}_filt-${FILTER_SUF}_$(basename ${${GENOME%.fa}%.fasta})_mirbase_cons.fa >> $NONCONS
   	
   	echo $(date +"%y/%m/%d-%H:%M:%S")" - Starting to run miRCat on: LIB${LIB}"
   	run="${SCRIPTS_DIR}/mircat.sh $NONCONS ${DIR}"
