@@ -63,7 +63,7 @@ for header in d.keys():
 	#This extracts the number of times this header exists
 	qt=1
 	#Check if there is collapsed info (That is UEA type)
-	if(len(header.split("("))>1 and re.search("\([0-9]+\.*[0-9]+\)$",header) is not None):
+	if(len(header.split("("))>1 and re.search("\([0-9]+\.*[0-9]*\)$",header) is not None):
 		qt=int(header.split("(")[1].strip(")"))
 	#Length of the sequence
 	seq_len=len(d[header])
