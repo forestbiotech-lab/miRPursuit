@@ -179,7 +179,8 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 if [[ "${GIT}" == "1" ]]; then
   echo "This is a git install"
   cd ${DIR}
-  git update-server-info
+  #Perform a data based fetch
+  git fetch --tags
   current_commit=$(git rev-list --max-count=1 HEAD)
   echo "List of pending commits (None if empty):"
   echo $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
