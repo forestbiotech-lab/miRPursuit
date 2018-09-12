@@ -79,6 +79,9 @@ case $key in
   ;;
   --headless)
   HEADLESS_MODE=TRUE
+  ;;  
+  --test)
+  TEST=TRUE
   ;;
   --no-prompt)
   noPrompt=TRUE
@@ -364,9 +367,20 @@ if [[ ! -z "$fastq" ]]; then
   >&2 echo -e "${purple}==> Running in fastq mode.${NC} - Copying fastq files..."
   if [[ $specificFiles == "TRUE" ]]; then
     ########## Convert to absolute path? #################
-    ${DIR}/pipe_fastq.sh $LIB_FIRST $fastq
+    if [[ -z "$TEST" ]]; then
+      echo "TESTING"
+      ${DIR}/pipe_fastq.sh $LIB_FIRST $fastq
+    else 
+      echo "Test passed run test for pipe_fastq.sh"
+      exit 0
+    fi
   else
-    ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
+    if [[ -z "$TEST" ]]; then
+      ${DIR}/pipe_fastq.sh $LIB_FIRST $LIB_LAST $fastq
+    else
+      echo "Test passed run test for pipe_fastq.sh" 
+      exit 0
+    fi      
   fi
   step=1
 fi
