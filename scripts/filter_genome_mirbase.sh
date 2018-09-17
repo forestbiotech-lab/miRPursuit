@@ -85,10 +85,17 @@ echo $(date +"%y/%m/%d-%H:%M:%S")" - ${IN_ROOT} genome filtering"
 #bowtie ${GENOME} -f ${FILE} -v 0 --best --al ${OUT_FILT_GENOME} -p ${THREADS} > ${OUT_REPORT}
 
 #Testing if file exists and script has permissions to run it.
-testPatman=$(which patman)
-echo "testPatman: "$testPatman
 checkPatman="TRUE"
-command -v patman >/dev/null 2>&1 || { echo "PatMaN required.";checkPatman="FALSE"; }
+if [[ -z $(which patman) ]]; then
+        echo "Patman not found"
+        echo "Please make sure that Patman is in your path."
+        echo "Either add it to .bashrc or .profile"
+        exit 127
+else
+        testPatman=$(which patman)
+		command -v patman >/dev/null 2>&1 || { echo "PatMaN required.";checkPatman="FALSE"; }
+		echo "testPatman: "$testPatman
+fi
 if [[ -e "$testPatman" && -x "$testPatman" ]]; then
  #Patman command
  run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
