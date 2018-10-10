@@ -61,7 +61,7 @@ $SCRIPTS_DIR/count_abundance.sh "${workdir}/data/mircat/*noncons_miRNA_filtered.
 for LIB in $(ls ${workdir}/data/mircat/*noncons_miRNA_filtered.fa | sed -r "s:.*Lib([0-9]*)_.*:\1:g")
 do
 	#Stores all novel sequences to temp file
-	grep -A1 ">[ATGC]*_novel" ${workdir}/data/mircat/Lib${LIB}_*noncons_miRNA_filtered_annotated.fa | sed /^\>/d | sort | uniq >> $novelTmpSeq 
+	grep -A1 ">[ATGC]*_novel" ${workdir}/data/mircat/Lib${LIB}_*noncons_miRNA_filtered_annotated.fa | sed /^\>/d | sed /^--$/d | sort | uniq >> $novelTmpSeq 
 done
 #Save unique novel sequences
 sort $novelTmpSeq | uniq > $novelSeq
