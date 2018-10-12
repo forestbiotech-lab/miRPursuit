@@ -32,14 +32,17 @@ parser.add_argument('--output','-o',
 					type=argparse.FileType('w',encoding='UTF-8'), 
 					metavar='output',
 					dest='outputFile',
-					required=True,
-					help='This is the output file')
+					required=False,
+					help='This is the output file. If output is sent to stdout')
 
 args = parser.parse_args()
 
 sequences=args.sequences
 data=args.data 
-fw=args.outputFile
+if args.outputFile is None:
+	stdout=True
+else:
+	fw=args.outputFile
 
 d=dict()
 
@@ -54,22 +57,31 @@ for line in data:
 		if len(line)==2:
 			d[line[0]]=line[1]
 
-fw.write(header)
+if stdout:
+	print(header.rstrip())
+else:
+	fw.write(header)
+
 counter=0
 buffer=10000
 for sequence in sequences:
 	counter+=1
 	if counter==buffer:
 		counter=0
-		fw.flush()
+		if not stdout:
+			fw.flush()
 	sequence=sequence.strip()
 	try:
 		outputLine=sequence+"\t"+d[sequence]+"\n"
-		fw.write(outputLine)
+		if stdout:
+			print(outputLine.strip())
+		else:
+			fw.write(outputLine)
 	except KeyError:
 		pass
 
-fw.flush()
-fw.close()
-sequences.close()
-data.close()
+if not stdout:
+	fw.flush()
+	fw.close()
+	sequences.close()
+	data.close()
