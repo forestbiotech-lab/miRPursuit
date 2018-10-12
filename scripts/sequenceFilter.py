@@ -39,15 +39,19 @@ args = parser.parse_args()
 
 sequences=args.sequences
 data=args.data 
+stdout=False
+d=dict()
+header=""
+hasHeader=False
+
+
+
 if args.outputFile is None:
 	stdout=True
 else:
 	fw=args.outputFile
 
-d=dict()
 
-header=""
-hasHeader=False
 for line in data:
 	if not hasHeader:
 		hasHeader=True
