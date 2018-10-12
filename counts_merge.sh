@@ -66,7 +66,7 @@ done
 #Save unique novel sequences
 sort $novelTmpSeq | uniq > $novelSeq
 #Keep novel seq in noncons list | NO HEADER
-grep -wf $novelSeq $noncons > $novelTmp 
+${SCRIPTS_DIR}/sequenceFilter.py -s $novelSeq -d $noncons -o $novelTmp
 
 ####################TASI####################
 #Temporary general tasi counts and sequences
@@ -86,7 +86,7 @@ awk '{if(NR>1){print $1}}' $cons > $consSeq
 cat ${workdir}/data/mircat/*output_filtered.csv | awk -F ',' '{if($14!="NO"){if($7!="Sequence"){print $7}}}' | sort | uniq > $star
 
 ##Identify reads that are both tasi and novel only
-grep -wf $tasiTmpSeq $novelTmp | awk '{print $1}' | xargs -n 1 -I pattern sed -r "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novelTmp > $novelTasi
+${SCRIPTS_DIR}/sequenceFilter.py -s $tasiTmpSeq -d $novelTmp | awk '{print $1}' | xargs -n 1 -I pattern sed -r "s:pattern\tnovel\t:pattern\tnovel-tasi\t:g" $novelTmp > $novelTasi
 awk '{print $1}' $novelTasi > $novelTasiSeq
 
 ###Save novel only - No tasi
