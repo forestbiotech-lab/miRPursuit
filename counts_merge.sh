@@ -91,11 +91,11 @@ awk '{print $1}' $novelTasi > $novelTasiSeq
 
 ###Save novel only - No tasi
 head -1  $cons > $novel 
-grep -vwf $tasiTmpSeq $novelTmp | cat >> $novel
+${SCRIPTS_DIR}/sequenceFilter.py -v -s $tasiTmpSeq -d $novelTmp | cat >> $novel
 awk '{if(NR>1){print $1}}' $novel > $novelSeq
 
 ###Save tasi only - Remove novel and conserved reads
-grep -vwf $novelTasiSeq $tasiTmp | grep -vwf $consSeq | cat > $tasi
+${SCRIPTS_DIR}/sequenceFilter.py -v -s $novelTasiSeq -d $tasiTmp | grep -vwf $consSeq | cat > $tasi
 awk '{if(NR>1){print $1}}' $tasi > $tasiSeq
 
 
