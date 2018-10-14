@@ -34,8 +34,15 @@ parser.add_argument('--output','-o',
 					dest='outputFile',
 					required=False,
 					help='This is the output file. If output is sent to stdout')
+parser.add_argument('--invert','-v', 
+					action='store_true',
+					dest='invert',
+					required=False,
+					help='Invert match, does the inverse of the default action')
+
 
 args = parser.parse_args()
+
 
 sequences=args.sequences
 data=args.data 
@@ -46,6 +53,7 @@ hasHeader=False
 
 
 
+invert=args.invert
 if args.outputFile is None:
 	stdout=True
 else:
@@ -76,16 +84,31 @@ for sequence in sequences:
 			fw.flush()
 	sequence=sequence.strip()
 	try:
-		outputLine=sequence+"\t"+d[sequence]+"\n"
-		if stdout:
-			print(outputLine.strip())
+		if invert:
+			del d[sequence]
 		else:
-			fw.write(outputLine)
+			outputLine=sequence+"\t"+d[sequence]+"\n"
+			if stdout:
+				print(outputLine.strip())
+			else:
+				fw.write(outputLine)
 	except KeyError:
 		pass
 
-if not stdout:
-	fw.flush()
-	fw.close()
-	sequences.close()
-	data.close()
+if invert:
+	for key in d:
+		outputLine=key+'\t'+d[key]+'\n'
+		if stdout:
+			print(outputLine.strip())
+		else:
+			counter+=1
+			if counter== buffer:
+				couter=0
+				fw.flush()
+			fw.write(outputLine)
+else:
+	if not stdout:
+		fw.flush()
+		fw.close()
+		sequences.close()
+		data.close()
