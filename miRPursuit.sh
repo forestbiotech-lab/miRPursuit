@@ -83,6 +83,9 @@ case $key in
   --no-prompt)
   noPrompt=TRUE
   ;;
+  --no-genome-filter)
+  IGNORE_GENOME=TRUE
+  ;;
   --lc)
   LC="$2"
   shift # past argument
@@ -110,6 +113,7 @@ case $key in
     sudo apt-get update
     sudo apt-get install xvfb libswt-gtk-java gkt3
  ${blue}--no-prompt${NC}  Set this flag to skip all prompts.
+ ${blue}--no-genome-filter${NC}  Set this flag ignore genome filtering
  -------------------------
  Specific file mode
  -------------------------
@@ -155,6 +159,9 @@ else
 fi
 ##Should check if libraries exit
 
+if [[ -z "${IGNORE_GENOME}" ]]; then 
+  IGNORE_GENOME="FALSE"
+fi
 
 if [[ ! -z "$step" ]]; then
   if [[ "$step" -gt 5 || "$step" -lt 1 ]]; then
@@ -413,7 +420,7 @@ if [[ "$step" -eq 2 ]]; then
   >&2 echo -ne "${blue}:::: Step 2${NC} - Filtering libs against genome and mirbase  [##########               ] 40%\r"
   printf "40\tGenome miRBase\t2" >$progress
 
-  ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST
+  ${DIR}/pipe_filter_genome_mirbase.sh $LIB_FIRST $LIB_LAST ${IGNORE_GENOME}
   step=3
 fi
 if [[ "$step" -eq 3 ]]; then 

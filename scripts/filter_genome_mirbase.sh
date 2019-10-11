@@ -13,6 +13,7 @@
 
 #Important if this fail no point to continue
 #Problem continuing if no result is found.
+
 set -e
 
 err_report() {
@@ -24,6 +25,7 @@ trap 'err_report $LINENO $? $(basename $0)' ERR
 FILE=$1
 SOURCE=$2
 xserv=$3
+IGNORE_FILTER=$4
 
 # Loading cfg vars
 CFG_PATMAN=${SOURCE}"/config/patman_genome.cfg"
@@ -90,26 +92,34 @@ echo "testPatman: "$testPatman
 checkPatman="TRUE"
 command -v patman >/dev/null 2>&1 || { echo "PatMaN required.";checkPatman="FALSE"; }
 if [[ -e "$testPatman" && -x "$testPatman" ]]; then
- #Patman command
- run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
- if [[ ${SINGLESTRAND} == "TRUE" ]]; then
-	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command:\n\t${run} -s\n"
-	$run -s    
- else
- 	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command:\n\t${run}\n"
- 	$run
- fi
+
+################ADDD IF to skip Patman
+
+	if [[ "${IGNORE_FILTER}" == "TRUE" ]]; then 
+		##Copy files to genome filter as if they had been filtered
+		echo -e "Genome filtering was ignored\n\n" > ${OUT_REPORT}
+		cp ${FILE} ${OUT_FILT_GENOME}
+	else  
+		#######################################
+		 #Patman command
+		 run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
+		if [[ ${SINGLESTRAND} == "TRUE" ]]; then
+			printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command:\n\t${run} -s\n"
+			$run -s    
+		else
+		 	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command:\n\t${run}\n"
+		 	$run
+		fi
+		#Patman sorting
+		awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
+	fi
 else
- ##This is not printing out to user?? Fix this       
- >&2 echo -e "${red}Error${NC} - PatMaN is no properly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
- exit 127
+ 	##This is not printing out to user?? Fix this       
+ 	>&2 echo -e "${red}Error${NC} - PatMaN is no properly installed. Either it is not in path or this script doesn't have permission to run it. If you just installed sRNA-workflow with install script please restart terminal to update path. $0:::Line:$LINENO"
+ 	exit 127
 fi
+
 #Even if patman doesn't find anything this it still makes an empty file.
-
-#Patman sorting
-awk -F "\t" '{print $2}' ${OUT_REPORT}| sort | uniq | awk -F "[(]" '{ print ">"$0; newline; print $1}' > ${OUT_FILT_GENOME}
-
-
 output_size=$(wc -l ${OUT_REPORT} | awk '{print $1}')
 if [[ ${output_size} == 0 ]]; then
 	printf "###################\n##   ATTENTION ! ##\n###################\n###################\n"

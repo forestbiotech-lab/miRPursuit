@@ -12,6 +12,11 @@ set -e
 
 LIB_FIRST=$1
 LIB_LAST=$2
+IGNORE_FILTER=$3
+
+if [[ -z "${IGNORE_FILTER}" ]]; then
+	IGNORE_FILTER=FALSE
+fi
 
 #Get dir of this script
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -34,7 +39,7 @@ echo "Runnning with ${MAXPROC} threads"
 for ((LIB_NOW=${LIB_FIRST}; LIB_NOW<=${LIB_LAST}; LIB_NOW++))
 do
 	LIB=$(printf "%02d\n" ${LIB_NOW})
-    run="${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}filter_overview/Lib${LIB}_filt-${FILTER_SUF}.fa ${DIR}"
+    run="${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}filter_overview/Lib${LIB}_filt-${FILTER_SUF}.fa ${DIR} ${IGNORE_FILTER}"
     echo $run
     $run
 	#${SCRIPT_DIR}filter_genome_mirbase.sh ${DATA_DIR}"filter_overview/lib"$LIB"_filt-"${FILTER_SUF}".fa" ${DIR}
