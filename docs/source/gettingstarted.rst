@@ -87,6 +87,7 @@ The full listing of the options available
   * **--fasta** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now). 
   * **--fastq** Set the program to start using fastq files. As an argument supply the file name that identifies the series to be used. Ex: Lib_1.fq, Lib_2.fq, .. --> argument should be Lib_ , if no .fq file is present but instead a .fastq.gz file will additionally be extracted automatically.
   * **--trim** Set this flag to perform adaptor triming. No argument should be given. The adaptor is in the workdirs.cfg config file in the variable ADAPTOR.
+  * **--no-genome-filter**  Set this flag ignore genome filtering
   * **-s|--step** Step is an optional argument used to jump steps to start the analysis from a different point
     
    * Step 1: Adaptor trimming (If flagged) & Wbench Filter
