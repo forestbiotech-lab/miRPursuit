@@ -407,6 +407,10 @@ if [[ "$step" -eq 1 ]]; then
 
       ${DIR}/pipe_trim_adaptors.sh $LIB_FIRST $LIB_LAST
     fi
+  else
+    if [[ ! -z "$fastq" ]]; then
+      echo -e "${red}Attention!${NC}: - Not performing adaptor trimming"
+    fi
   fi
   #Filter size, t/rRNA, abundance.
   >&2 echo -ne "${blue}:::: Step 1${NC} - Filtering libs with workbench Filter      [#####                    ] 20%\r"
