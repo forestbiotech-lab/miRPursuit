@@ -24,8 +24,8 @@ trap 'err_report $LINENO $? $(basename $0)' ERR
 
 FILE=$1
 SOURCE=$2
-xserv=$3
-IGNORE_FILTER=$4
+IGNORE_FILTER=$3
+xserv=""
 
 # Loading cfg vars
 CFG_PATMAN=${SOURCE}"/config/patman_genome.cfg"
@@ -104,7 +104,7 @@ if [[ -e "$testPatman" && -x "$testPatman" ]]; then
 		 #Patman command
 		 run="patman -D ${GENOME} -e ${EDITS} -P ${FILE} -o ${OUT_REPORT} -g ${GAPS} -p ${PREFETCH}"
 		if [[ ${SINGLESTRAND} == "TRUE" ]]; then
-			printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command:\n\t${run} -s\n"
+			printf $(date +"%y/%m/%d-%H:%M:%S")" - Runnin:qg PatMaN with following command:\n\t${run} -s\n"
 			$run -s    
 		else
 		 	printf $(date +"%y/%m/%d-%H:%M:%S")" - Running PatMaN with following command:\n\t${run}\n"
