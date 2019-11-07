@@ -17,7 +17,7 @@
   ####################################################
 
 
-  pattern=$1 
+  PATTERN=$1 
   class=$2
   threads=$3
 
@@ -28,7 +28,7 @@
     
 
   #List of patterns to get files to open.
-  listFiles=$(ls $1)
+  listFiles=$(ls $PATTERN)
   #echo $listFiles
   seR=$(mktemp -t seqR.XXXXXX)
   seq=$(mktemp -t seq.XXXXXX)
