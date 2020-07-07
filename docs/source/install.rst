@@ -66,6 +66,18 @@ Dependencies
 - `FASTX-Toolkit <http://hannonlab.cshl.edu/fastx_toolkit/>`_
 - `UEA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_
 
+### For headless server (no x server running)
+- `xvfb <https://packages.ubuntu.com/xenial/xvfb>`_
+- `libswt-gtk-java <https://packages.ubuntu.com/bionic/libswt-gtk-3-java>`_
+- `gkt3 <https://packages.ubuntu.com/source/xenial/gtk+3.0>`_
+
+.. Important:: On Ubuntu these can be install with the following command: 
+``` bash   
+    sudo apt-get update
+    sudo apt-get install xvfb libswt-gtk-java gkt3
+```
+
+
 Path 
 ====
 To ensure persistence of `environmental variables (PATH) <https://en.wikipedia.org/wiki/PATH_(variable)>`_  throughout sessions, the paths to the dependencies are stored in shell scripts. 
