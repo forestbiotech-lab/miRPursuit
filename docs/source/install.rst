@@ -72,10 +72,10 @@ For headless server (no x server running)
 - `libswt-gtk-java <https://packages.ubuntu.com/bionic/libswt-gtk-3-java>`_
 - `gkt3 <https://packages.ubuntu.com/source/xenial/gtk+3.0>`_
 
-.. Important:: On Ubuntu these can be install with the following command:: 
-   
-   	sudo apt-get update
-	sudo apt-get install xvfb libswt-gtk-java gkt3
+.. Important:: On Ubuntu these can be install with the following command::
+	
+    sudo apt-get update
+    sudo apt-get install xvfb libswt-gtk-java gkt3
 
 
 
