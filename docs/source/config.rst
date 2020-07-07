@@ -29,7 +29,7 @@ These two config files should be properly configured, to ensure the program runs
       RUN=0
       GIT=0
       
-    .. Important:: If you are running miRPursuit on a headless server set HEADLESS=TRUE and make sure you installed the dependencies necessary for the running on a headless server. Check `install section <install.html#for-headless-server-no-x-server-running>`_ for more details on the dependencies necessary for headless mode. 
+    .. Important:: If you are running miRPursuit on a `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server set HEADLESS=TRUE and make sure you installed the dependencies necessary for the running on a `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server. Check `install section <install.html#for-headless-server-no-x-server-running>`_ for more details on the dependencies necessary for headless mode. 
 
 
 
