@@ -66,7 +66,7 @@ Dependencies
 - `FASTX-Toolkit <http://hannonlab.cshl.edu/fastx_toolkit/>`_
 - `UEA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_
 
-For headless server (no x server running)
+For `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server (no x server running)
 *****************************************
 - `xvfb <https://packages.ubuntu.com/xenial/xvfb>`_
 - `libswt-gtk-java <https://packages.ubuntu.com/bionic/libswt-gtk-3-java>`_
