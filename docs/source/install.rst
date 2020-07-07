@@ -67,7 +67,7 @@ Dependencies
 - `UEA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_
 
 For headless server (no x server running)
-=========================================
+*****************************************
 - `xvfb <https://packages.ubuntu.com/xenial/xvfb>`_
 - `libswt-gtk-java <https://packages.ubuntu.com/bionic/libswt-gtk-3-java>`_
 - `gkt3 <https://packages.ubuntu.com/source/xenial/gtk+3.0>`_
