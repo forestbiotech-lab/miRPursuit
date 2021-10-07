@@ -57,6 +57,7 @@ if [[ "${TYPE}" == "complete" ]]; then
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST filter
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST stats
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST conserved
+	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST file_overview
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST logs
 	bash $DIR/write_report.sh $LIB_FIRST $LIB_LAST end
 fi
@@ -68,6 +69,7 @@ if [[ "${TYPE}" == "header" ]]; then
 \\\usepackage{graphicx}
 \\\usepackage{longtable}
 \\\usepackage{caption}
+\\\usepackage{multirow}
 %%https://pt.sharelatex.com/learn/Page_size_and_margins
 %%210mmx297mm A4 euro
 \\\usepackage[a4paper,left=15mm, total={170mm, 257mm}]{geometry}
@@ -220,50 +222,109 @@ if [[ "${TYPE}" == "stats" ]]; then
 					columns=6	
 				fi
 
-	            arrStart=$(( ( ( $i - 1 ) * 6 ) ))
-	            arrStop=$(( ( ( $i - 1 ) * 6 ) + ${columns} ))
+        arrStart=$(( ( ( $i - 1 ) * 6 ) ))
+        arrStop=$(( ( ( $i - 1 ) * 6 ) + ${columns} ))
 
-	    		cellStructure=${columnStructure}${allCols[@]:0:${columns}}"|"
-	    		tHeader="Step & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		fastqLine="Fastq & "$(echo ${fastq[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		fastaLine="Fasta & "$(echo ${fasta[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		filterLine="Filter & "$(echo ${filter[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		genomeLine="Genome & "$(echo ${genome[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		consLine="Conserved & "$(echo ${cons[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		novelLine="Novel & "$(echo ${novel[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		tasiLine="TaSi & "$(echo ${tasi[@]:$arrStart:${columns}} | tr -t " " "&")
-	    		if [[ "$c"  == "2" ]];then
-	    			captionText="Total reads counts throughout the various steps.\label{table}"
-	    			newSection="\\\subsection{Total read counts}\nThis sections shows the total read count for each step.\n\n"
-	    		else
-	    			captionText="Number of distinct reads throughout the various steps.\label{table}"
-	    			newSection="\\\subsection{Distinct reads counts}\nThis section depicts the number of distinct reads throughout the various steps.\n\n"
+    		cellStructure=${columnStructure}${allCols[@]:0:${columns}}"|"
+    		tHeader="Step & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
+    		fastqLine="Fastq & "$(echo ${fastq[@]:$arrStart:${columns}} | tr -t " " "&")
+    		fastaLine="Fasta & "$(echo ${fasta[@]:$arrStart:${columns}} | tr -t " " "&")
+    		filterLine="Filter & "$(echo ${filter[@]:$arrStart:${columns}} | tr -t " " "&")
+    		genomeLine="Genome & "$(echo ${genome[@]:$arrStart:${columns}} | tr -t " " "&")
+    		consLine="Conserved & "$(echo ${cons[@]:$arrStart:${columns}} | tr -t " " "&")
+    		novelLine="Novel & "$(echo ${novel[@]:$arrStart:${columns}} | tr -t " " "&")
+    		tasiLine="TaSi & "$(echo ${tasi[@]:$arrStart:${columns}} | tr -t " " "&")
+
+    		if [[ "$c"  == "2" ]];then
+    			captionText="Total reads counts throughout the various steps.\label{table}"
+    			newSubSection="\\\subsection{Total read counts (isolated)}\nThis sections shows the total read count for each step. This count is based on the individual counts for each library. It might differ for novel miRNAs due to statistical cut-offs.\n\n"
+    		else
+    			captionText="Number of distinct reads throughout the various steps.\label{table}"
+    			newSubSection="\\\subsection{Distinct reads counts}\nThis section depicts the number of distinct reads throughout the various steps.\n\n"
 				fi
-				printf "${newSection}
-\\\begin{table}[h!]
-\\\centering
-\\\caption{${captionText}}
-\\\begin{tabular}{$cellStructure}
-\\\hline
-${tHeader} \\\\\\
-\\\hline
-${fastqLine} \\\\\\
-${fastaLine} \\\\\\
-${filterLine} \\\\\\
-${genomeLine} \\\\\\
-${consLine} \\\\\\
-${novelLine} \\\\\\
-${tasiLine} \\\\\\
-\\\hline
-\\\end{tabular}
-\\\end{table}\n" >> ${OUTPUT_FILE}
+
+				if [[ "${i}" -eq "1" ]];then 
+					printf "$newSubSection" >> ${OUTPUT_FILE}
+				fi
+
+				printf "
+					\\\begin{table}[h!]
+					\\\centering
+					\\\caption{${captionText}}
+					\\\begin{tabular}{$cellStructure}
+					\\\hline
+					${tHeader} \\\\\\
+					\\\hline
+					${fastqLine} \\\\\\
+					${fastaLine} \\\\\\
+					${filterLine} \\\\\\
+					${genomeLine} \\\\\\
+					${consLine} \\\\\\
+					${novelLine} \\\\\\
+					${tasiLine} \\\\\\
+					\\\hline
+					\\\end{tabular}
+					\\\end{table}\n" >> ${OUTPUT_FILE}
 
 			fi
 
 		done
 	done
-	printf "\\\newpage\\\newpage\n\n" >> ${OUTPUT_FILE}		
+
+	
+
+	cycle=$(eval echo {1..${cycles}})
+	declare -a novelTotal=($(awk -v c=2 '{if(NR>1){print $c}}' ${COUNT}/Novel-Global-Lib${LIB_FIRST}-${LIB_LAST}.tsv | tr -t "\n" " "))
+	declare -a novelDistinct=($(awk -v c=3 '{if(NR>1){print $c}}' ${COUNT}/Novel-Global-Lib${LIB_FIRST}-${LIB_LAST}.tsv | tr -t "\n" " "))
+	for i in $cycle ;do
+		columns=$(( $libs - ( $i - 1 ) * 6  ))
+		if [[ "${columns}" -gt "0" ]];then
+			#if columns = 0; don't print; if < 6 that is the number of columns
+			#if bigger use 6 and continue
+			if [[ "${columns}" -gt "6" ]];then
+				columns=6	
+			fi
+      
+      arrStart=$(( ( ( $i - 1 ) * 6 ) ))
+      arrStop=$(( ( ( $i - 1 ) * 6 ) + ${columns} ))
+
+			columnStructure="| r | r |"
+			declare -a allCols=(r r r r r r)
+			declare -a allLibs=($(eval echo Lib{$LIB_FIRST..$LIB_LAST}))
+			cellStructure=${columnStructure}${allCols[@]:0:${columns}}"|"
+			tHeader="\\\multicolumn{2}{|c|}{} & "$(echo ${allLibs[@]:$arrStart:${columns}} | tr -t " " "&")
+			
+		
+
+			captionText="Global read counts"
+			distinct_global_counts="\\\multirow{2}{1em}{\\\rotatebox{90}{ novel}} & Distinct & "$(echo ${novelDistinct[@]:$arrStart:${columns}} | tr -t " " "&")
+			total_global_counts=" & Total & "$(echo ${novelTotal[@]:$arrStart:${columns}} | tr -t " " "&")
+
+			#Set subsections
+			if [[ "${i}" -eq "1" ]];then 
+				printf "\\\subsection{Global counts (Novel miRNAs)}\n\\\begin{flushleft}\nThis section contains a table with the counts of the novel miRNAs, identified throughout all the sequenced libraries mentioned in this report.\n This might differ from the individual count, since miRCat might define some novel miRNAs out of bounds of the statistical threshold in some libraries. The expression for these novel miRNAs, is retreived from the previous stage for all the globally predicted novel miRNAs.\\\end{flushleft}\n\n">> ${OUTPUT_FILE}
+			fi
+			# Make a table with the count of novel miRNAs detected in all libraries.
+			printf "
+				\\\begin{table}[h!]
+				\\\centering
+				\\\caption{${captionText}}
+				\\\begin{tabular}{$cellStructure} 
+%%%%|r|r|r r r r r r|
+				\\\hline
+				${tHeader} \\\\\\
+				\\\hline
+				${distinct_global_counts} \\\\\\
+				${total_global_counts} \\\\\\
+				\\\hline
+				\\\end{tabular}
+				\\\end{table}\n" >> ${OUTPUT_FILE}	
+		fi
+	done
+
+	printf "\\\newpage\\\newpage\n\n" >> ${OUTPUT_FILE}
 fi
+
 
 
 if [[ "${TYPE}" == "conserved" ]]; then
@@ -341,6 +402,30 @@ ${tHeader} \\\\\\
 	done
 	printf "\\\newpage\n\n" >> ${OUTPUT_FILE}		
 
+fi
+
+
+
+if [[ ${TYPE} == "file_overview"  ]]; then
+	printf "\\\section{File overview} The following table (Table:\\\ref{tab:FileLocations}) contains a reference to locate all the relevant files for this run. The global matrix can be used to export counts into statistical software. It is generally used to perform differential expression analysis. Novel miRNAs folder lists all the miRNAs that were predicted by miRCat. TaSi miRNAs are listed in TaSi Folder. A fasta with the conserved sequences can be found in the main folder $(printf "${workdir}/data/" | sed -r "s:([$%#_&]):\\\\\1:g"), however the detailed description of how it was determined will be found in the folder in the table below (Table:\\\ref{tab:FileLocations}).  
+	\\\begin{table}[h]
+	    \\\centering
+	    \\\begin{tabular}{| p{0.35\linewidth} | p{0.6\linewidth}|}
+	         \\\hline
+	         Description & File Location \\\\\\
+	         \\\hline
+	         Global matrix & $(printf "${workdir}/counts/all\_seq.tsv" | sed -r "s:([$%#_&]):\\\\\1:g") \\\\\\
+	         \\\hline
+	         Novel sequences &  $(printf "${workdir}/data/mircat" | sed -r "s:([$%#_&]):\\\\\1:g") \\\\\\
+	         \\\hline
+	         TaSi sequences & $(printf "${workdir}/counts/tasi" | sed -r "s:([$%#_&]):\\\\\1:g")  \\\\\\
+	         \\\hline
+	         Conserved sequences & $(printf "${workdir}/data/mirprof" | sed -r "s:([$%#_&]):\\\\\1:g") \\\\\\
+	         \\\hline         
+	    \\\end{tabular}
+	    \\\caption{List of file locations}
+	    \\\label{tab:FileLocations}
+	\\\end{table}" >> ${OUTPUT_FILE}
 fi
 
 if [[ "${TYPE}" == "logs" ]]; then
