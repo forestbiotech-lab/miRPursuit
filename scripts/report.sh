@@ -194,9 +194,9 @@ for lib in $CYCLE
     #Not necessary already cycled
     #for column in $(eval echo {$(( 1 + $column_shift ))..$(( ${lib_count} + ${column_shift} ))} );do
     #Need to figure out a way to determine the correct column index 
-    total=$(awk -v c=$(( $column + $column_shift )) -F "\t" 'BEGIN{sum=0}{sum+=$c}END{print sum}' $file ) 
+    total=$(awk -v c=$(( $column + $column_shift )) -F "\t" 'BEGIN{sum=0}{if(NR>1){sum+=$c}}END{print sum}' $file ) 
     #count sequences with expression >0
-    distinct=$(awk -v c=$(( $column + $column_shift )) -F "\t" '{if($c>0){print $1}}' $file | sort | uniq | wc -l ) 
+    distinct=$(awk -v c=$(( $column + $column_shift )) -F "\t" '{if($c>0 && NR>1){print $1}}' $file | sort | uniq | wc -l ) 
     printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
   fi  
 done
