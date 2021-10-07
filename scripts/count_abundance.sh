@@ -34,7 +34,7 @@
   seq=$(mktemp -t seq.XXXXXX)
   uniqSeq=$(mktemp -t uniqSeq.XXXXXX)
 
-  #legacy code convert old cons files into compatible(This know aplies)
+  #legacy code convert old cons files into compatible(This now applies)
   testCons=$(cat $listFiles | grep -c ">all combined")
   if [[ "$testCons" > "0" ]]; then
     for i in $listFiles
