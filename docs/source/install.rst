@@ -20,7 +20,7 @@ Download program
     #Clone project with git
     #This might prompt you for your github credentials. If authentication fails
     #try again and it should run without any prompts. 
-    git clone https://github.com/forestbiotech-lab/miRPrusuit 
+    git clone https://github.com/forestbiotech-lab/miRPrusuit.git 
     cd miRPursuit
 
 - Without git installed on your system. Installing using git clone is preferred since it allows updating to remove bugs or get new features. 
@@ -65,6 +65,21 @@ Dependencies
 - `Java <https://www.java.com>`_
 - `FASTX-Toolkit <http://hannonlab.cshl.edu/fastx_toolkit/>`_
 - `UEA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_
+
+For `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server (no x server running)
+*****************************************
+- `xvfb <https://packages.ubuntu.com/xenial/xvfb>`_
+- `libswt-gtk-java <https://packages.ubuntu.com/bionic/libswt-gtk-3-java>`_
+- `gkt3 <https://packages.ubuntu.com/source/xenial/gtk+3.0>`_
+
+.. Important:: On Ubuntu these can be installed with apt 
+
+Run the following command::
+	
+    sudo apt-get update
+    sudo apt-get install xvfb libswt-gtk-java gkt3
+
+
 
 Path 
 ====

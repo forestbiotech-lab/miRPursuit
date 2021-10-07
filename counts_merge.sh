@@ -54,9 +54,9 @@ grep "tasi" $novelNonCons | awk '{print $1}' > $tasiNovel
 #Create new file for all conserved
 cp $cons $novelTasi
 #Add tasi that aren't novel
-grep -v 'lib' $tasi | grep -wvf $tasiNovel >> $novelTasi
+grep -v 'Lib' $tasi | grep -wvf $tasiNovel >> $novelTasi
 #Add novel and novel tasi
-grep -v "lib" $novelNonCons >> $novelTasi
+grep -v "Lib" $novelNonCons >> $novelTasi
 
 
 #Add header to new file with all classifications
@@ -64,7 +64,7 @@ head -1 $novelTasi > $reunion
 #Find seq that have star and add to new file
 grep -wf $star $novelTasi | awk '{printf $1"\t"$2" star";for(i=3;i<=NF;i++){printf "\t"$i};printf "\n"}' >> $reunion
 #Add the sequences that aren't star
-grep -v "lib" $novelTasi | grep -vwf $star >> $reunion
+grep -v "Lib" $novelTasi | grep -vwf $star >> $reunion
 
 #clean up
 rm $tasiNovel $tasiSeq

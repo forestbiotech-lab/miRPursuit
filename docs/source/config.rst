@@ -24,8 +24,14 @@ These two config files should be properly configured, to ensure the program runs
       WBENCH_DIR=
       #Path to java use 1.7 or greater
       JAVA_DIR=
+      HEADLESS=FALSE
       #Number of times program has been run
       RUN=0
+      GIT=0
+      
+    .. Important:: If you are running miRPursuit on a `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server set HEADLESS=TRUE and make sure you installed the dependencies necessary for the running on a `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server. Check `install section <install.html#for-headless-server-no-x-server-running>`_ for more details on the dependencies necessary for headless mode. 
+
+
 
     The **SOFTWARE** variable is the path to the directory were the install script will install all necessary dependancies.
     **WBENCH_DIR**   
