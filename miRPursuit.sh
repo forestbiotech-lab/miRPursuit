@@ -201,13 +201,14 @@ if [[ "${GIT}" == "1" ]]; then
       >&2 echo -e "${red}==> Attention!${NC}There are pending update to miRPursuit." 
       echo "List of pending commits (None if empty):"
       echo $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
+      echo -ne "\n\n\n"
       unset $booleanYorN
       while [[ "$booleanYorN" != [yYnN] ]]
       do        
-        read -n1 -p "Continue? (Y/N)" booleanYorN
+        read -n1 -p "Update? (Y/N)" booleanYorN
       done
       if [[ $booleanYorN == [nN] ]]; then
-        echo "Continuing without update"
+        echo -ne "\nContinuing without update"
       else
         >&2 echo -ne "\n\n\n\n\n\n\n\n\n\n${blue}Updating!${NC}"
         git pull origin master
