@@ -41,7 +41,7 @@ _`Bash variables` in table 3 and their values::
 How to run the program
 ======================
 
-.. Important:: If you are running on a server via ssh, or in some other manner that does not start an X server. Consider using the headless flag ( --headless ) consult `installation section <https://mirpursuit.readthedocs.io/en/latest/install.html#for-headless-server-no-x-server-running>` to see more detail
+.. Important:: If you are running on a server via ssh, or in some other manner that does not start an X server. Consider using the headless flag ( --headless ) consult `installation section <https://mirpursuit.readthedocs.io/en/latest/install.html#for-headless-server-no-x-server-running>`_ to see more detail
 
 Run the command::
 	
