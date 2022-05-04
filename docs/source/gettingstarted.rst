@@ -41,6 +41,8 @@ _`Bash variables` in table 3 and their values::
 How to run the program
 ======================
 
+.. Important:: If you are running on a server via ssh, or in some other manner that does not start an X server. Consider using the headless flag ( --headless ) consult `installation section <https://mirpursuit.readthedocs.io/en/latest/install.html#for-headless-server-no-x-server-running>` to see more detail
+
 Run the command::
 	
     ${miRPursuit}/./miRPursuit.sh -f 1 -l 2 --fasta test_dataset-
@@ -95,6 +97,12 @@ The full listing of the options available
    * Step 3: Tasi
    * Step 4: Mircat
    * Step 5: Reporting    
+  * **--headless$**  Set this flag to run on headless server. Requires Xvfb be installed on your system. Along with libswt-gtk-3-java and gkt3.
+    
+    * sudo apt-get update
+    * sudo apt-get install xvfb libswt-gtk-java gkt3
+  * **--no-prompt**  Set this flag to skip all prompts.
+  * **--no-genome-filter**  Set this flag ignore genome filtering
  
  Specific file mode
  * **--fasta${NC}** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now).
