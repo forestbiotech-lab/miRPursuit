@@ -345,8 +345,8 @@ if [[ "$booleanYorN" == [yY] ]]; then
   mirbase=${SOURCE_DATA}/mirbase      
   mkdir -p $mirbase
   cd $mirbase
-  mirbase_mature="ftp://mirbase.org/pub/mirbase/CURRENT/mature.fa.gz"
-  mirbase_readme="ftp://mirbase.org/pub/mirbase/CURRENT/README"
+  mirbase_mature="https://www.mirbase.org/ftp/CURRENT/mature.fa.gz"
+  mirbase_readme="https://www.mirbase.org/ftp/CURRENT/README"
   mirbase_filename=$(basename $mirbase_mature)
   wget -c $mirbase_mature -O $mirbase_filename
   wget -c $mirbase_readme -O README

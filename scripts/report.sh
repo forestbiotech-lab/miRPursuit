@@ -174,6 +174,38 @@ if [[ ! -z "$files" ]]; then
   printf "Total\t$total\t$total_d\n" >> $output
 fi
 
+#NovelGlobal
+output="${workdir}/count/Novel-Global-$label.tsv"
+printf "Lib\tTotal\tDistinct\n" > $output
+files=""
+column=0
+for lib in $CYCLE
+  do       
+  column=$(( column + 1 ))  
+  lib_now=$(printf "%02d\n" $lib)
+  file="${workdir}/count/all_seq_counts_novel.tsv"
+  testNOVEL=$( wc -l ${file} | awk '{print $1}' )
+  lib_count=$(head -1 $file | wc -w)
+  total=0
+  distinct=0
+  if [[ "$testNOVEL" -gt 1 ]]; then
+    ## first column is seq second is annoation
+    column_shift=2
+    #Not necessary already cycled
+    #for column in $(eval echo {$(( 1 + $column_shift ))..$(( ${lib_count} + ${column_shift} ))} );do
+    #Need to figure out a way to determine the correct column index 
+    total=$(awk -v c=$(( $column + $column_shift )) -F "\t" 'BEGIN{sum=0}{if(NR>1){sum+=$c}}END{print sum}' $file ) 
+    #count sequences with expression >0
+    distinct=$(awk -v c=$(( $column + $column_shift )) -F "\t" '{if($c>0 && NR>1){print $1}}' $file | sort | uniq | wc -l ) 
+    printf "Lib${lib_now}\t$total\t$distinct\n" >> $output
+  fi  
+done
+if [[ ! -z "$files" ]]; then
+  total_d=$(cat $files | grep -v ">" | sort | uniq | wc -l)
+  total=$(cat $files | grep ">" | awk -F "[()]" 'BEGIN{sum=0}{sum+=$2}END{print sum}')
+  printf "Total\t$total\t$total_d\n" >> $output
+fi
+
 #TASI
 output="${workdir}/count/TASI-$label.tsv"
 printf "Lib\tTotal\tDistinct\n" > $output
@@ -201,6 +233,7 @@ if [[ ! -z "$files" ]]; then
   total=$(cat $files | awk -F "[()]" '{match($0,"[0-9]*.[0-9]*)");if(RLENGTH>0){print $1" "$2}}' | sort | uniq | awk 'BEGIN{sum=0}{sum+=$2}END{print sum}')
   printf "Total\t$sumTotal\t$total_d\n" >> $output
 fi
+
 #Lib    Total Distinct    
 #Lib1   xxxx  d(xxx)    
 #Lib2   yyyy  d(yyy)    

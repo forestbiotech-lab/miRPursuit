@@ -20,7 +20,7 @@ Download program
     #Clone project with git
     #This might prompt you for your github credentials. If authentication fails
     #try again and it should run without any prompts. 
-    git clone https://github.com/forestbiotech-lab/miRPrusuit 
+    git clone https://github.com/forestbiotech-lab/miRPrusuit.git 
     cd miRPursuit
 
 - Without git installed on your system. Installing using git clone is preferred since it allows updating to remove bugs or get new features. 

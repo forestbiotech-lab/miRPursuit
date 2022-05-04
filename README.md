@@ -15,7 +15,7 @@ M. Miguel <sup>a,b,c</sup></ul>
 <ul><sup>φ</sup><strong> These authors contributed equally to this work. </strong></ul>
 </ul>
 
-<img src="http://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
+<img src="https://www.itqb.unl.pt/labs/forest-biotech/forest-biotechnology" height="200px"/>
 
 ## Table of Contents
 - [Abstract](#abstract)

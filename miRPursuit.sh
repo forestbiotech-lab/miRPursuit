@@ -196,13 +196,39 @@ fi
 
 ##Check for updates
 if [[ "${GIT}" == "1" ]]; then
-  echo "This is a git install"
-  cd ${DIR}
-  git update-server-info
-  current_commit=$(git rev-list --max-count=1 HEAD)
-  echo "List of pending commits (None if empty):"
-  echo $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
-  cd -
+  if [[ "$(which git | wc -w)" -gt "1" ]];then
+    ## "git not found" other then /usr/bin/git 
+    $GIT == 0
+    ##TODO set permanent
+  else  
+    echo "This is a git install"
+    cd ${DIR}
+    currentBranch=$(git branch --show-current)
+    git remote update
+    if [[ $(git status -u no | head -2 | tail -1) == "Your branch is up to date with 'origin/master'." ]];then
+      echo -ne "Git repository up to date!\n\n\n"
+    else
+      git update-server-info
+      current_commit=$(git rev-list --max-count=1 HEAD)
+      >&2 echo -e "${red}==> Attention!${NC}There are pending update to miRPursuit." 
+      echo "List of pending commits (None if empty):"
+      echo $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
+      echo -ne "\n\n\n"
+      unset $booleanYorN
+      while [[ "$booleanYorN" != [yYnN] ]]
+      do        
+        read -n1 -p "Update? (Y/N)" booleanYorN
+      done
+      if [[ $booleanYorN == [nN] ]]; then
+        echo -ne "\nContinuing without update"
+      else
+        >&2 echo -ne "\n\n\n\n\n\n\n\n\n\n${blue}Updating!${NC}"
+        git pull origin master
+        >&2 echo -ne "\n\n\r"
+      fi      
+    fi  
+    cd -
+  fi
 else
   echo "not git"
   if [[ "${GIT}" == "0" ]]; then
