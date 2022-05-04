@@ -66,7 +66,7 @@ Dependencies
 - `FASTX-Toolkit <http://hannonlab.cshl.edu/fastx_toolkit/>`_
 - `UEA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_
 
-For `headless <https://en.wikipedia.org/wiki/Headless_software>`_ server (no x server running)
+For `headless (Server/Computer with no screen) <https://en.wikipedia.org/wiki/Headless_software>`_ server (no X server running)
 *****************************************
 - `xvfb <https://packages.ubuntu.com/xenial/xvfb>`_
 - `libswt-gtk-java <https://packages.ubuntu.com/bionic/libswt-gtk-3-java>`_
@@ -79,7 +79,7 @@ Run the following command::
     sudo apt-get update
     sudo apt-get install xvfb libswt-gtk-java gkt3
 
-
+Then do not forget to add the HEADLESS flag on the first run or manually set the var HEADLESS to TRUE in the `Software config <https://mirpursuit.readthedocs.io/en/latest/config.html#general-use>`_ . 
 
 Path 
 ====
