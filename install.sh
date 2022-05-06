@@ -207,7 +207,7 @@ if [[ "$fastq_to_fasta" == "TRUE"  ]]; then
   echo "Starting to download fastx_toolkit"
   wget -c $fastx_toolkit_url
   echo "Extracting data..."
-  tar -jxvf "fastx_toolkit_0.0.13_binaries_Linux_2.6_amd64.tar.bz2"
+  tar -jxvf "fastx_toolkit-0.0.14.tar.bz2"
   #Check if file exists to append to it
   if [[ -e $profile ]]; then
     echo "appended to ${profile}"
