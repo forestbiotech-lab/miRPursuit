@@ -47,9 +47,8 @@ fastQC_url="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.1
 patman_url="https://bioinf.eva.mpg.de/patman/patman-1.2.2.tar.gz"
 java_url="http://javadl.sun.com/webapps/download/AutoDL?BundleId=109700"
 workbench_url="http://downloads.sourceforge.net/project/srnaworkbench/Version4/srna-workbenchV4.0Alpha.zip?r=http%3A%2F%2Fsrna-workbench.cmp.uea.ac.uk%2Fdownloadspage%2F&ts=1454556621&use_mirror=netcologne"
-fastx_toolkit_url="http://hannonlab.cshl.edu/fastx_toolkit/fastx_toolkit_0.0.13_binaries_Linux_2.6_amd64.tar.bz2"
-
-
+fastx_toolkit_url="https://github.com/agordon/fastx_toolkit/releases/download/0.0.14/fastx_toolkit-0.0.14.tar.bz2"
+                   
 ##Snippet for getting current shell startup file
 ##Working for bash an zsh, not tested for the others
 shell=$(basename $SHELL)
