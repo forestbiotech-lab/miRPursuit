@@ -323,7 +323,7 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   
   if [[ ! -z "$fasta" && $specificFiles == "FALSE" ]]; then  
-    if [[ -f $(ls ${INSERTS_DIR} | grep -E ".*${fasta}0*${LIB_FIRST}[^0-9].*(fa|fasta)+(\.gz)*$")  ]]; then
+    if [[ -f ${INSERTS_DIR}$(ls ${INSERTS_DIR} | grep -E ".*${fasta}0*${LIB_FIRST}[^0-9].*(fa|fasta)+(\.gz)*$")  ]]; then
       testLib=$(ls ${INSERTS_DIR} | grep -E ".*${fasta}0*${LIB_FIRST}[^0-9].*(fa|fasta)+(\.gz)*$")     
     else
       testLib="${red}NOT FOUND${NC}"
@@ -333,7 +333,7 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
       testLib=$(basename $fasta)
   fi
   if [[ ! -z "$fastq" && $specificFiles == "FALSE" ]]; then
-    if [[ -f $(ls ${INSERTS_DIR} | grep -E ".*${fastq}0*${LIB_FIRST}[^0-9].*(fq|fastq)+(\.gz)*$") ]];then
+    if [[ -f ${INSERTS_DIR}$(ls ${INSERTS_DIR} | grep -E ".*${fastq}0*${LIB_FIRST}[^0-9].*(fq|fastq)+(\.gz)*$") ]];then
       testLib=$(ls ${INSERTS_DIR} | grep -E ".*${fastq}0*${LIB_FIRST}[^0-9].*(fq|fastq)+(\.gz)*$")    
     else
       testLib="${red}NOT FOUND${NC}"
@@ -355,7 +355,7 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
 else
   if [[ -d "${INSERTS_DIR}" ]]; then
     echo -e "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
-    if [[ ${INSERTS_DIR} == "${red}NOT FOUND${NC}" ]];then 
+    if [[ ${INSERTS_DIR} == "\e[0;31mNOT FOUND\e[0m" ]];then 
       echo -e "${red}==> Common string${NC}: The string used to group the sRNAs hasn't produced a proper result, see ${blue}https://mirpursuit.readthedocs.io/en/latest/gettingstarted.html#how-to-run-the-program${NC} ."
       exit 127
     fi
