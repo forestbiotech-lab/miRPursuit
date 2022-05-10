@@ -234,6 +234,7 @@ if [[ "${GIT}" == "1" ]]; then
       fi 
     fi  
     cd -
+    echo -ne "\r                                    \n"
   fi
 else
   echo -ne "\n\t\t\t${red}This is not a GIT installation${NC}\n"
