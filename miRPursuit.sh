@@ -230,16 +230,16 @@ if [[ "${GIT}" == "1" ]]; then
     cd -
   fi
 else
-  echo -ne "\n\t\t\t${red}This install is not GIT${NC}\n"
+  echo -ne "\n\t\t\t${red}This is not a GIT installation${NC}\n"
   if [[ "${GIT}" == "0" ]]; then
     echo "Update check disabled"
   else
-    echo "Install commit hash is ${GIT}"
+    echo -ne "Install commit hash is ${green}${GIT}${NC}"
     echo "Currently not listing pending updates for non-git installations."
     echo "Consider changing this installation to a git clone repository."
     echo "Choose location and run command:"
     echo "  git clone https://github.com/forestbiotech-lab/miRPursuit.git"
-    echo -ne "To get rid of this message change the value of GIT var in [miRPursuit_dir]/conifg/software_dirs.ctg to 0 instead of the current hash there.\n\n\n\n\n\n\n\n"
+    echo -ne "To get rid of this message change the value of ${grey}GIT${NC} var in ${green}[miRPursuit_dir]/conifg/software_dirs.ctg${NC} to ${green}0${NC} instead of the current hash there.\n\n\n\n\n\n\n\n"
 
   fi
 fi
@@ -286,14 +286,14 @@ if [[ $specificFiles == "FALSE" ]]; then
 fi
 
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
-  echo -ne "Filter suffix               ${brown}=${NC} ${green}${FILTER_SUF}${NC}"
+  echo -e "Filter suffix               ${brown}=${NC} ${green}${FILTER_SUF}${NC}"
   cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
   >&2 echo -e "${red}==> Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
   exit 127
 fi
 if [[ -e "${GENOME}" ]]; then        
-  echo -ne "${grey}Genome                      ${brown}=${NC} ${green}${GENOME}${NC}"
+  echo -e "${grey}Genome                      ${brown}=${NC} ${green}${GENOME}${NC}"
 else
   >&2 echo -e "${red}==> Error${NC} - The given genome file doesn't exist please check the file exists. Correct the GENOME var in ${blue}workdirs.cfg${NC} config file."
   exit 127
@@ -313,12 +313,12 @@ if [[ -z "${workdir}" ]]; then
   echo -e "${red}==> Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
   exit 127
 else
-  echo -ne "${grey}Working directory (workdir) ${brown}=${NC} ${green}${workdir}${NC}"      
+  echo -e "${grey}Working directory (workdir) ${brown}=${NC} ${green}${workdir}${NC}"      
 fi
 
 ##############STEP 0 ##############################################################
 if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
-  echo -ne "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
+  echo -e "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   
@@ -347,14 +347,14 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
     testLib=$(echo ${INSERTS_DIR}/*${fasta}${fastq}${LC}${LIB_FIRST}*)
   fi
   if [[ ! -z "$testLib" ]]; then
-    echo "First lib to be processed   = "${testLib}
+    echo -e "\n${grey}First lib to be processed   ${brown}=${NC} ${green}${testLib}${NC}"
   else
     >&2 echo -e "${red}==> Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
     exit 127
   fi      
 else
   if [[ -d "${INSERTS_DIR}" ]]; then
-    echo "sRNA directory (INSERTS_DIR)= ${INSERTS_DIR}"
+    echo -e "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
   else        
     echo -e "${red}==> Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
     exit 127
