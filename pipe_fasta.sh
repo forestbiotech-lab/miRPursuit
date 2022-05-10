@@ -86,18 +86,19 @@ else
   for i in $cycle
   do
     LIB_NOW=$i
-    LIB=$(printf "%02d\n"  $LIB_NOW)  
+    LIB=$(printf "%00d\n"  $LIB_NOW)  
+    LIB_AFTER=$(printf "%02d\n"  $LIB_NOW)  
     #Issues here are if it searches for 1 it might get 11 likewise if it searched for 11 it might get 111 need te strikeout the possibility of a numeral.
     
     #Do fa fasta files exist?
-    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
+    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*(fa|fasta)+$") ]];then
         #Test if .fastq/fq.gz exists      
-        if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$") ]];then
-            extract_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}*${LIB}*\.(fa|fasta)+\.gz$")
+        if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*(fa|fasta)+\.gz$") ]];then
+            extract_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*(fa|fasta)+\.gz$")
             archive="${INSERTS_DIR}/${extract_lib}"
             if [[ -f "${archive}" ]]; then
                 NPROC=$(( $NPROC + 1 ))
-                gunzip -c ${archive} > ${workdir}/data/fasta/Lib${LIB}.fa &       
+                gunzip -c ${archive} > ${workdir}/data/fasta/Lib${LIB_AFTER}.fa &       
             else
                 >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}" 
                 exit 1
@@ -108,11 +109,11 @@ else
         fi
     else
         #Confirm fasta files exist
-        if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$") ]];then
-            fasta=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fa|fasta)+$")
+        if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*(fa|fasta)+$") ]];then
+            fasta=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*(fa|fasta)+$")
             NPROC=$(($NPROC+1))
             #Change this to set for dynamic threading.
-            cp ${fasta} ${workdir}/data/fasta/Lib${LIB}.fa &
+            cp ${fasta} ${workdir}/data/fasta/Lib${LIB_AFTER}.fa &
         else
             >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}." 
             exit 1

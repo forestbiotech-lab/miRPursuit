@@ -86,7 +86,8 @@ else
   for i in $cycle
   do 
     LIB_NOW=$i
-    LIB=$(printf $LIB_NOW)
+    LIB=$(printf "%00d\n" $LIB_NOW)
+    LIB_AFTER=$(printf "%02d\n" $LIB)
 
     #Test if "fq exists"
     if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+$") ]]; then
@@ -96,7 +97,7 @@ else
         archive="${INSERTS_DIR}/${convert_lib}"
          if [[ -f "${archive}" ]]; then
            NPROC=$(( $NPROC + 1 ))
-           gunzip -c ${archive} > ${workdir}/data/fastq/Lib${LIB}.fq &       
+           gunzip -c ${archive} > ${workdir}/data/fastq/Lib${LIB_AFTER}.fq &       
          else
            >&2 echo -ne "Terminating. No files or multiple files found using: ${brown}${TEMPLATE}${NC}\n The current files are: ${brown}${archive}${NC}\n" 
            exit 1
@@ -109,7 +110,7 @@ else
         if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+$") ]];then      
             fastq=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+$")
             NPROC=$(( $NPROC+1 ))
-            cp ${fastq} ${workdir}/data/fastq/Lib${LIB}.fq &
+            cp ${fastq} ${workdir}/data/fastq/Lib${LIB_AFTER}.fq &
         else
             >&2 echo "Terminating. Multiple files found using template: ${TEMPLATE}, in: ${INSERTS_DIR}" 
             exit 1
