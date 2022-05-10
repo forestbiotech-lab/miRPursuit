@@ -201,7 +201,7 @@ if [[ "${GIT}" == "1" ]]; then
     $GIT == 0
     ##TODO set permanent
   else  
-    echo -e "${blue}::This is a git install${NC}"
+    echo -e "${blue}:: This is a git install${NC}"
     cd ${DIR}
     #currentBranch=$(git branch --show-current)
     git remote update
