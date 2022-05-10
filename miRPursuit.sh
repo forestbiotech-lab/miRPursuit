@@ -300,13 +300,13 @@ else
   exit 127
 fi
 if [[ -e "${GENOME}" ]]; then        
-  echo -e "${grey}Genome                      ${brown}=${NC} ${green}${GENOME}${NC}"
+  echo -e "${grey}Genome                      \t${brown}=${NC} ${green}${GENOME}${NC}"
 else
   >&2 echo -e "${red}==> Error${NC} - The given genome file doesn't exist please check the file exists. Correct the GENOME var in ${blue}workdirs.cfg${NC} config file."
   exit 127
 fi
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
-  echo -e "${grey}Genome mircat               ${brown}=${NC} ${green}${GENOME_MIRCAT}${NC}"
+  echo -e "${grey}Genome mircat               \t${brown}=${NC} ${green}${GENOME_MIRCAT}${NC}"
 else
   echo -e "${red}==> Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the GENOME_MIRCAT var in ${blue}workdirs.cfg${NC} config file."
 fi
