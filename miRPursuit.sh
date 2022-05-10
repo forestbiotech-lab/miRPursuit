@@ -201,9 +201,9 @@ if [[ "${GIT}" == "1" ]]; then
     $GIT == 0
     ##TODO set permanent
   else  
-    echo "This is a git install"
+    echo -e "${blue}::This is a git install${NC}"
     cd ${DIR}
-    currentBranch=$(git branch --show-current)
+    #currentBranch=$(git branch --show-current)
     git remote update
     if [[ $(git status -u no | head -2 | tail -1) == "Your branch is up to date with 'origin/master'." ]];then
       echo -ne "Git repository up to date!\n\n\n"
