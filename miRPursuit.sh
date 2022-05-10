@@ -212,7 +212,7 @@ if [[ "${GIT}" == "1" ]]; then
       current_commit=$(git rev-list --max-count=1 HEAD)
       >&2 echo -e "${red}==> Attention!${NC}There are pending update to miRPursuit." 
       echo "List of pending commits (None if empty):"
-      echo $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
+      echo -e $(git rev-list ${current_commit}..origin/HEAD --oneline --graph)
       echo -ne "\n\n\n"
       unset $booleanYorN
       while [[ "$booleanYorN" != [yYnN] ]]
