@@ -230,7 +230,7 @@ if [[ "${GIT}" == "1" ]]; then
     cd -
   fi
 else
-  echo "not git"
+  echo -ne "\n${red}not git${NC}\n"
   if [[ "${GIT}" == "0" ]]; then
     echo "Update check disabled"
   else
@@ -239,7 +239,7 @@ else
     echo "Consider changing this installation to a git clone repository."
     echo "Choose location and run command:"
     echo "  git clone https://github.com/forestbiotech-lab/miRPursuit.git"
-    echo "To get rid of this message change the value of GIT var in [miRPursuit_dir]/conifg/software_dirs.ctg to 0 instead of the current hash there."
+    echo -ne "To get rid of this message change the value of GIT var in [miRPursuit_dir]/conifg/software_dirs.ctg to 0 instead of the current hash there.\n\n\n\n\n\n\n\n"
 
   fi
 fi
@@ -280,13 +280,13 @@ fi
 echo -e "${blue}:: Running pipeline with the following arguments:${NC}"
 #Only print if running in lib number mode
 if [[ $specificFiles == "FALSE" ]]; then
-  printf "First Library\t\t\t= ${LIB_FIRST}\n"
-  printf "Last Library\t\t\t= ${LIB_LAST}\n"
-  printf "Number of threads\t\t= ${THREADS}\n"
+  printf "First Library\t\t\t${brown}=${NC} ${green}${LIB_FIRST}${NC}\n"
+  printf "Last Library\t\t\t${brown}=${NC} ${green}${LIB_LAST}${NC}\n"
+  printf "Number of threads\t\t${brown}=${NC} ${green}${THREADS}${NC}\n"
 fi
 
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
-  echo "Filter suffix               = ${FILTER_SUF}"
+  echo "Filter suffix               ${brown}=${NC} ${green}${FILTER_SUF}${NC}"
   cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
   >&2 echo -e "${red}==> Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
@@ -313,12 +313,12 @@ if [[ -z "${workdir}" ]]; then
   echo -e "${red}==> Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
   exit 127
 else
-  echo "Working directory (workdir) = ${workdir}"      
+  echo "Working directory (workdir) ${brown}=${NC} ${green}${workdir}${NC}"      
 fi
 
 ##############STEP 0 ##############################################################
 if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
-  echo "sRNA directory (INSERTS_DIR)= ${INSERTS_DIR}"
+  echo "sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   
