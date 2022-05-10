@@ -293,7 +293,7 @@ if [[ $specificFiles == "FALSE" ]]; then
 fi
 
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
-  echo -e "Filter suffix               ${brown}=${NC} ${green}${FILTER_SUF}${NC}"
+  echo -e "Filter suffix               \t${brown}=${NC} ${green}${FILTER_SUF}${NC}"
   cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
   >&2 echo -e "${red}==> Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
@@ -311,7 +311,7 @@ else
   echo -e "${red}==> Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the GENOME_MIRCAT var in ${blue}workdirs.cfg${NC} config file."
 fi
 if [[ -e "${MIRBASE}" ]]; then        
-  echo -e "${grey}miRBase                     ${brown}=${NC} ${green}${MIRBASE}${NC}"
+  echo -e "${grey}miRBase                     \t${brown}=${NC} ${green}${MIRBASE}${NC}"
 else
   echo -e "${red}==> Error${NC} - The given miRBase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
   exit 127
@@ -320,7 +320,7 @@ if [[ -z "${workdir}" ]]; then
   echo -e "${red}==> Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
   exit 127
 else
-  echo -e "${grey}Working directory (workdir) ${brown}=${NC} ${green}${workdir}${NC}"      
+  echo -e "${grey}Working directory (workdir) \t${brown}=${NC} ${green}${workdir}${NC}"      
 fi
 
 ##############STEP 0 ##############################################################
