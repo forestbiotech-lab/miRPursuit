@@ -98,7 +98,7 @@ else
            NPROC=$(( $NPROC + 1 ))
            gunzip -c ${archive} > ${workdir}/data/fastq/Lib${LIB}.fq &       
          else
-           >&2 echo "Terminating. No files or multiple files found using: ${TEMPLATE}\n The current files are: ${archive}" 
+           >&2 echo -ne "Terminating. No files or multiple files found using: ${brown}${TEMPLATE}${NC}\n The current files are: ${brown}${archive}${NC}\n" 
            exit 1
          fi
       else

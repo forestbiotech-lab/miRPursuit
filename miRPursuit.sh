@@ -375,7 +375,7 @@ if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
   done
   if [[ $booleanYorN == [nN] ]]; then
     echo $(date +"%y|%m|%d-%H:%M:%S")" - Terminated prematurely due to possibility of workdir being overwritten."
-    >&2 printf "\nTerminating prematurely"
+    >&2 printf "\nTerminating prematurely\n"
     exit 1
   else
     >&2 echo -ne "\n\n\r"
