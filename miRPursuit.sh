@@ -333,8 +333,8 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
       testLib=$(basename $fasta)
   fi
   if [[ ! -z "$fastq" && $specificFiles == "FALSE" ]]; then
-    if [[ -f $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB_FIRST}[^0-9].*\.*(fq|fastq)+(\.gz)+$") ]];then
-      testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB_FIRST}[^0-9].*\.*(fq|fastq)+(\.gz)+$")    
+    if [[ -f $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB_FIRST}[^0-9].*(fq|fastq)+(\.gz)*$") ]];then
+      testLib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB_FIRST}[^0-9].*(fq|fastq)+(\.gz)*$")    
     else
       testLib="${red}NOT FOUND!!${NC}"
     fi
