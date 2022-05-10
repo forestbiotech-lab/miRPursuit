@@ -184,7 +184,7 @@ SOFT_CFG=${DIR}"/config/software_dirs.cfg"
 . $SOFT_CFG
 
 
-if [[ -z $HEADLESS_MODE && $HEADLESS == "FALSE"; ]]; then
+if [[ -z $HEADLESS_MODE && $HEADLESS == "FALSE" ]]; then
   if ! xset q &>/dev/null; then
       echo -e "No X server at \$DISPLAY [$DISPLAY] - ${blue}You are probably running on a server${NC}, but didn't set the ${red}headless mode${NC}. \nCheck if the necessary dependencies are installed: https://mirpursuit.readthedocs.io/en/latest/install.html#for-headless-server-no-x-server-running" >&2
       exit 1
