@@ -230,7 +230,7 @@ if [[ "${GIT}" == "1" ]]; then
     cd -
   fi
 else
-  echo -ne "\n${red}not git${NC}\n"
+  echo -ne "\n\t\t\t${red}This install is not GIT${NC}\n"
   if [[ "${GIT}" == "0" ]]; then
     echo "Update check disabled"
   else
@@ -251,7 +251,7 @@ progress=${workdir}/PROGRESS
 if [[ $HEADLESS_MODE == "TRUE" ]]; then
   sed -ri "s:(HEADLESS=)(.*):\1${HEADLESS_MODE}:" ${SOFT_CFG} 
 fi
-
+echo -ne "${blue}:: Checking install dependencies:${NC}\n"
 #Check programs are set up and can run (Java and Wbench).
 if [[ -z "$JAVA_DIR"  ]]; then
   echo -e "${red}==> Not set${NC}: Please set java var in ${blue}software_dirs.cfg${NC} config file or run install script"
@@ -277,23 +277,23 @@ else
   fi
 fi
 
-echo -e "${blue}:: Running pipeline with the following arguments:${NC}"
+echo -e "\n\n\n${blue}:: Running pipeline with the following arguments:${NC}"
 #Only print if running in lib number mode
 if [[ $specificFiles == "FALSE" ]]; then
   printf "First Library\t\t\t${brown}=${NC} ${green}${LIB_FIRST}${NC}\n"
   printf "Last Library\t\t\t${brown}=${NC} ${green}${LIB_LAST}${NC}\n"
-  printf "Number of threads\t\t${brown}=${NC} ${green}${THREADS}${NC}\n"
+  printf "${grey}Number of threads\t\t${brown}=${NC} ${green}${THREADS}${NC}\n"
 fi
 
 if [[ -e "${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg" ]]; then
-  echo "Filter suffix               ${brown}=${NC} ${green}${FILTER_SUF}${NC}"
+  echo -ne "Filter suffix               ${brown}=${NC} ${green}${FILTER_SUF}${NC}"
   cp ${DIR}/config/filters/wbench_filter_${FILTER_SUF}.cfg ${DIR}/config/wbench_filter_in_use.cfg
 else
   >&2 echo -e "${red}==> Error${NC} - The given filter file doesn't exist please check the file exists. Correct the FILTER_SUF var in ${blue}workdirs.cfg${NC} config file."  
   exit 127
 fi
 if [[ -e "${GENOME}" ]]; then        
-  echo "Genome                      = "${GENOME}
+  echo -ne "${grey}Genome                      ${brown}=${NC} ${green}${GENOME}${NC}"
 else
   >&2 echo -e "${red}==> Error${NC} - The given genome file doesn't exist please check the file exists. Correct the GENOME var in ${blue}workdirs.cfg${NC} config file."
   exit 127
@@ -313,12 +313,12 @@ if [[ -z "${workdir}" ]]; then
   echo -e "${red}==> Not set:${NC} No workdir hasn't been set please don't put a trailing /, see config workdirs.cfg."
   exit 127
 else
-  echo "Working directory (workdir) ${brown}=${NC} ${green}${workdir}${NC}"      
+  echo -ne "${grey}Working directory (workdir) ${brown}=${NC} ${green}${workdir}${NC}"      
 fi
 
 ##############STEP 0 ##############################################################
 if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
-  echo "sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
+  echo -ne "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   
