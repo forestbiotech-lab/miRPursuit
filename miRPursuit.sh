@@ -212,8 +212,8 @@ if [[ "${GIT}" == "1" ]]; then
       current_commit=$(git rev-list --max-count=1 HEAD)
       pendingCommits=$(git rev-list ${current_commit}..origin/HEAD --oneline --graph | wc -l)
       if [[ $pendingCommits -gt 0 ]]; then 
-        >&2 echo -e "${red}==> Attention!${NC} There are pending updates to miRPursuit." 
-        echo -e "${brown}List of pending commits (None if empty):${NC}\n"
+        >&2 echo -e "  ${red}==> Attention!${NC} There are pending updates to miRPursuit." 
+        echo -e "    ${brown}List of pending commits (None if empty):${NC}\n"
         git rev-list ${current_commit}..origin/HEAD --oneline --graph
         echo -ne "\n\n\n"
         unset $booleanYorN
@@ -229,7 +229,8 @@ if [[ "${GIT}" == "1" ]]; then
           >&2 echo -ne "\n\n\r"
         fi
         unset $booleanYorN      
-
+      else
+        echo "  No pending updates at the moment."
       fi 
     fi  
     cd -
