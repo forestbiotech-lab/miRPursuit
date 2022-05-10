@@ -348,6 +348,11 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   fi
   if [[ ! -z "$testLib" ]]; then
     echo -e "\n${grey}First lib to be processed   ${brown}=${NC} ${green}${testLib}${NC}"
+    if [[ ${testLib} == "\e[0;31mNOT FOUND\e[0m" ]];then 
+      echo "NOT FOUND ??????????????"
+      echo -e "${red}==> Common string${NC}: The string used to group the sRNAs hasn't produced a proper result, see ${blue}https://mirpursuit.readthedocs.io/en/latest/gettingstarted.html#how-to-run-the-program${NC} ."
+      exit 127
+    fi
   else
     >&2 echo -e "${red}==> Invalid pattern:${NC} - No file / multiple files found, in inserts dir that matches your input settings ${green}${fasta}${fastq}${LC}${NC} for lib ${LIB_FIRST}. Or perhaps you're starting lib ${LIB_FIRST} is to low."
     exit 127
@@ -355,10 +360,6 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
 else
   if [[ -d "${INSERTS_DIR}" ]]; then
     echo -e "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
-    if [[ ${testLib} == "\e[0;31mNOT FOUND\e[0m" ]];then 
-      echo -e "${red}==> Common string${NC}: The string used to group the sRNAs hasn't produced a proper result, see ${blue}https://mirpursuit.readthedocs.io/en/latest/gettingstarted.html#how-to-run-the-program${NC} ."
-      exit 127
-    fi
   else        
     echo -e "${red}==> Invalid dir${NC}: The inserts directory hasn't been configured properly, see config file ${blue}workdirs.cfg${NC}."
     exit 127
