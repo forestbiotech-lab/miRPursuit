@@ -210,11 +210,11 @@ if [[ "${GIT}" == "1" ]]; then
     else
       git update-server-info
       current_commit=$(git rev-list --max-count=1 HEAD)
-      >&2 echo -e "${red}==> Attention!${NC} There are pending updates to miRPursuit." 
-      echo -e "${brown}List of pending commits (None if empty):${NC}\n"
       pendingCommits=$(git rev-list ${current_commit}..origin/HEAD --oneline --graph | wc -l)
-      git rev-list ${current_commit}..origin/HEAD --oneline --graph
       if [[ $pendingCommits -gt 0 ]]; then 
+        >&2 echo -e "${red}==> Attention!${NC} There are pending updates to miRPursuit." 
+        echo -e "${brown}List of pending commits (None if empty):${NC}\n"
+        git rev-list ${current_commit}..origin/HEAD --oneline --graph
         echo -ne "\n\n\n"
         unset $booleanYorN
         while [[ "$booleanYorN" != [yYnN] ]]
@@ -227,7 +227,9 @@ if [[ "${GIT}" == "1" ]]; then
           >&2 echo -ne "\n\n\n\n\n\n\n\n\n\n${blue}Updating!${NC}"
           git pull origin master
           >&2 echo -ne "\n\n\r"
-        fi      
+        fi
+        unset $booleanYorN      
+
       fi 
     fi  
     cd -
