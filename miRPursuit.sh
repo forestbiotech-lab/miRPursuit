@@ -325,7 +325,7 @@ fi
 
 ##############STEP 0 ##############################################################
 if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
-  echo -e "${grey}sRNA directory (INSERTS_DIR)${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
+  echo -e "${grey}sRNA directory (INSERTS_DIR) \t${brown}=${NC} ${green}${INSERTS_DIR}${NC}"
   #Not dealing files from multiple files with same pattern but different extensions
   #Checking if any thing matches first then it will check if multiple files are being found in pipe_fast*
   
