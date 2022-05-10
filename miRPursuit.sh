@@ -238,7 +238,7 @@ else
     echo "Currently not listing pending updates for non-git installations."
     echo "Consider changing this installation to a git clone repository."
     echo "Choose location and run command:"
-    echo "  git clone https://github.com/forestbiotech-lab/miRPursuit.git"
+    echo -e "${grey}  git clone https://github.com/forestbiotech-lab/miRPursuit.git${grey}"
     echo -ne "To get rid of this message change the value of ${grey}GIT${NC} var in ${green}[miRPursuit_dir]/conifg/software_dirs.ctg${NC} to ${green}0${NC} instead of the current hash there.\n\n\n\n\n\n\n\n"
 
   fi
@@ -299,12 +299,12 @@ else
   exit 127
 fi
 if [[ -e "${GENOME_MIRCAT}" ]]; then        
-  echo "Genome mircat               = "${GENOME_MIRCAT}
+  echo -e "${grey}Genome mircat               ${brown}=${NC} ${green}${GENOME_MIRCAT}${NC}"
 else
   echo -e "${red}==> Error${NC} - The given genome file for mircat doesn't exit please check the file exists. Correct the GENOME_MIRCAT var in ${blue}workdirs.cfg${NC} config file."
 fi
 if [[ -e "${MIRBASE}" ]]; then        
-  echo "miRBase                     = "${MIRBASE}
+  echo -e "${grey}miRBase                     ${brown}=${NC} ${green}${MIRBASE}${NC}"
 else
   echo -e "${red}==> Error${NC} - The given miRBase file doesn't exist please check the file exists. Correct the MIRBASE var in ${blue}workdirs.cfg${NC} config file."
   exit 127
@@ -368,7 +368,7 @@ if [[ -n $1 ]]; then
 fi
 if [[ -d "$workdir" && "${noPrompt}" == "FALSE" ]]; then
   unset $booleanYorN
-  >&2 echo -e "${red}==> Attention!${NC}\nworkdir - $workdir \nData already that exists in this folder might be overwritten." 
+  >&2 echo -e "\n\n${red}==> Attention!${NC}\nworkdir - $workdir \nData already that exists in this folder might be overwritten." 
   while [[ "$booleanYorN" != [yYnN] ]]
   do        
     read -n1 -p "Continue? (Y/N)" booleanYorN
