@@ -86,13 +86,13 @@ else
   for i in $cycle
   do 
     LIB_NOW=$i
-    LIB=$(printf "%02d\n"  $LIB_NOW)
+    LIB=$(printf $LIB_NOW)
 
     #Test if "fq exists"
-    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]]; then
+    if [[ -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+$") ]]; then
       #Test if .fastq/fq.gz exists      
-      if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$") ]]; then
-        convert_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+\.gz$")
+      if [[ ! -z $(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+\.gz$") ]]; then
+        convert_lib=$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+\.gz$")
         archive="${INSERTS_DIR}/${convert_lib}"
          if [[ -f "${archive}" ]]; then
            NPROC=$(( $NPROC + 1 ))
@@ -106,8 +106,8 @@ else
         exit 1   
       fi
     else
-        if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$") ]];then      
-            fastq=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}${LIB}.*\.(fq|fastq)+$")
+        if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+$") ]];then      
+            fastq=${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${TEMPLATE}0*${LIB}[^0-9].*\.*(fq|fastq)+$")
             NPROC=$(( $NPROC+1 ))
             cp ${fastq} ${workdir}/data/fastq/Lib${LIB}.fq &
         else
