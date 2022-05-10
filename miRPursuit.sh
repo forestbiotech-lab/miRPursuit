@@ -354,7 +354,7 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
     testLib=$(echo ${INSERTS_DIR}/*${fasta}${fastq}${LC}${LIB_FIRST}*)
   fi
   if [[ ! -z "$testLib" ]]; then
-    echo -e "\n${grey}First lib to be processed   ${brown}=${NC} ${green}${testLib}${NC}"
+    echo -e "\n${grey}First lib to be processed   \t${brown}=${NC} ${green}${testLib}${NC}"
     if [[ ${testLib} == "\e[0;31mNOT FOUND\e[0m" ]];then 
       echo -e "${red}==> Common string${NC}: The string used to group the sRNAs hasn't produced a proper result, see ${blue}https://mirpursuit.readthedocs.io/en/latest/gettingstarted.html#how-to-run-the-program${NC} ."
       exit 127
