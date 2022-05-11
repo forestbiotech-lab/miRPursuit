@@ -336,6 +336,13 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
       testLib="${red}NOT FOUND${NC}"
     fi
   fi
+  if [[ ! -z "$fasta" && $specificFiles == "FALSE" ]]; then  
+    if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${fasta}0*${LIB_LAST}[^0-9].*(fa|fasta)+(\.gz)*$")  ]]; then
+      testLibLast=$(ls ${INSERTS_DIR} | grep -E ".*${fasta}0*${LIB_LAST}[^0-9].*(fa|fasta)+(\.gz)*$")     
+    else
+      testLibLast="${red}NOT FOUND${NC}"
+    fi
+  fi
   if [[ ! -z "$fasta" && $specificFiles == "TRUE" ]]; then
       testLib=$(basename $fasta)
   fi
@@ -344,6 +351,13 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
       testLib=$(ls ${INSERTS_DIR} | grep -E ".*${fastq}0*${LIB_FIRST}[^0-9].*(fq|fastq)+(\.gz)*$")    
     else
       testLib="${red}NOT FOUND${NC}"
+    fi
+  fi
+  if [[ ! -z "$fastq" && $specificFiles == "FALSE" ]]; then
+    if [[ -f ${INSERTS_DIR}/$(ls ${INSERTS_DIR} | grep -E ".*${fastq}0*${LIB_LAST}[^0-9].*(fq|fastq)+(\.gz)*$") ]];then
+      testLibLast=$(ls ${INSERTS_DIR} | grep -E ".*${fastq}0*${LIB_LAST}[^0-9].*(fq|fastq)+(\.gz)*$")    
+    else
+      testLibLast="${red}NOT FOUND${NC}"
     fi
   fi
   if [[ ! -z "$fastq" && $specificFiles == "TRUE" ]]; then
@@ -355,7 +369,8 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   fi
   if [[ ! -z "$testLib" ]]; then
     echo -e "\n${grey}First lib to be processed   \t${brown}=${NC} ${green}${testLib}${NC}"
-    if [[ ${testLib} == "\e[0;31mNOT FOUND\e[0m" ]];then 
+    echo -e "\n${grey}Last lib to be processed   \t${brown}=${NC} ${green}${testLibLast}${NC}"
+    if [[ ${testLib} == "\e[0;31mNOT FOUND\e[0m" || ${testLibLast} == "\e[0;31mNOT FOUND\e[0m" ]];then 
       echo -e "${red}==> Common string${NC}: The string used to group the sRNAs hasn't produced a proper result, see ${blue}https://mirpursuit.readthedocs.io/en/latest/gettingstarted.html#how-to-run-the-program${NC} ."
       exit 127
     fi
