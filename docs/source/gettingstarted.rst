@@ -104,10 +104,10 @@ The full listing of the options available
   * **--no-prompt**  Set this flag to skip all prompts.
   * **--no-genome-filter**  Set this flag ignore genome filtering
  
-Specific file mode
+ Specific file mode
   * **--fasta** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now).
-  * **--fasta$** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now).
-  * **--lib$** (Optional) (In specific mode. i.e. no -f and -l) Set the library number to be attributed to the file. Should be coupled with --fasta or --fastq.
+  * **--fasta** (In specific mode. i.e. no -f and -l) Set the program to start using fasta files. If no sequence of libraries are given then the argument can be a specific fasta file (uncompressed for now).
+  * **--lib** (Optional) (In specific mode. i.e. no -f and -l) Set the library number to be attributed to the file. Should be coupled with --fasta or --fastq.
 
 Both fasta and fastq options work in the same manner they require the preceding string to the sequential numbering that all libraries have in common. 
 Ex:
