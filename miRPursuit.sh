@@ -369,7 +369,7 @@ if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
   fi
   if [[ ! -z "$testLib" ]]; then
     echo -e "\n${grey}First lib to be processed   \t${brown}=${NC} ${green}${testLib}${NC}"
-    echo -e "\n${grey}Last lib to be processed   \t${brown}=${NC} ${green}${testLibLast}${NC}"
+    echo -e "${grey}Last lib to be processed   \t${brown}=${NC} ${green}${testLibLast}${NC}\n"
     if [[ ${testLib} == "\e[0;31mNOT FOUND\e[0m" || ${testLibLast} == "\e[0;31mNOT FOUND\e[0m" ]];then 
       echo -e "${red}==> Common string${NC}: The string used to group the sRNAs hasn't produced a proper result, see ${blue}https://mirpursuit.readthedocs.io/en/latest/gettingstarted.html#how-to-run-the-program${NC} ."
       exit 127
