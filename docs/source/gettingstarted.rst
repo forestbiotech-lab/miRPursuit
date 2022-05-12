@@ -96,8 +96,9 @@ The full listing of the options available
    * Step 2: Filter Genome & mirbase
    * Step 3: Tasi
    * Step 4: Mircat
-   * Step 5: Reporting    
-  * **--headless$**  Set this flag to run on headless server. Requires Xvfb be installed on your system. Along with libswt-gtk-3-java and gkt3.
+   * Step 5: Reporting
+   
+  * **--headless**  Set this flag to run on headless server. Requires Xvfb be installed on your system. Along with libswt-gtk-3-java and gkt3.
     
     * sudo apt-get update
     * sudo apt-get install xvfb libswt-gtk-java gkt3
