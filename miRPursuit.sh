@@ -133,8 +133,13 @@ if [[ -z $LIB_FIRST && -z $LIB_LAST ]]; then
   specificFiles=TRUE
   if [[ -z $SPECIFIC_LIB ]]; then
     #Default lib used
+    echo -e "\n\n\n${yellow}==> WARNING${NC}: Using specific files mode but no specific files were given First lib and Last Lib are going to be set to 1.\n\n"
+    echo -e "LIB_FIRST = ${green}1${NC}"
+    echo -e "LIB_LAST = ${green}1${NC}\n\n\n"
+    sleep 5
     LIB_FIRST=1
     LIB_LAST=1
+    ######## TODO - Check if there is any file for these condictions
   else
     #Provided lib used
     LIB_FIRST=$SPECIFIC_LIB
@@ -194,62 +199,64 @@ if [[ -z $HEADLESS_MODE && $HEADLESS == "FALSE" ]]; then
 fi
 
 
-##Check for updates
-if [[ "${GIT}" == "1" ]]; then
-  if [[ "$(which git | wc -w)" -gt "1" ]];then
-    ## "git not found" other then /usr/bin/git 
-    $GIT == 0
-    ##TODO set permanent
-  else  
-    echo -e "${blue}:: This is a git install${NC}"
-    cd ${DIR}
-    #currentBranch=$(git branch --show-current)
-    git remote update
-    if [[ $(git status -u no | head -2 | tail -1) == "Your branch is up to date with 'origin/master'." ]];then
-      echo -ne "Git repository up to date!\n\n\n"
-    else
-      git update-server-info
-      current_commit=$(git rev-list --max-count=1 HEAD)
-      pendingCommits=$(git rev-list ${current_commit}..origin/HEAD --oneline --graph | wc -l)
-      if [[ $pendingCommits -gt 0 ]]; then 
-        >&2 echo -e "  ${red}==> Attention!${NC} There are pending updates to miRPursuit." 
-        echo -e "    ${brown}List of pending commits (None if empty):${NC}\n"
-        git rev-list ${current_commit}..origin/HEAD --oneline --graph
-        echo -ne "\n\n\n"
-        unset $booleanYorN
-        while [[ "$booleanYorN" != [yYnN] ]]
-        do        
-          read -n1 -p "Update? (Y/N)" booleanYorN
-        done
-        if [[ $booleanYorN == [nN] ]]; then
-          echo -ne "\nContinuing without update"
-        else
-          >&2 echo -ne "\n\n\n\n\n\n\n\n\n\n${blue}Updating!${NC}"
-          git pull origin master
-          >&2 echo -ne "\n\n\r"
-        fi
-        unset $booleanYorN      
+####### Check for updates ##################################
+  if [[ "${GIT}" == "1" ]]; then
+    if [[ "$(which git | wc -w)" -gt "1" ]];then
+      ## "git not found" other then /usr/bin/git 
+      $GIT == 0
+      ##TODO set permanent
+    else  
+      echo -e "${blue}:: This is a git install${NC}"
+      cd ${DIR}
+      #currentBranch=$(git branch --show-current)
+      git remote update
+      if [[ $(git status -u no | head -2 | tail -1) == "Your branch is up to date with 'origin/master'." ]];then
+        echo -ne "Git repository up to date!\n\n\n"
       else
-        echo "  No pending updates at the moment."
-      fi 
-    fi  
-    cd -
-    tput cuu1; tput el; echo -ne "\r                                    \n"
-  fi
-else
-  echo -ne "\n\t\t\t${red}This is not a GIT installation${NC}\n"
-  if [[ "${GIT}" == "0" ]]; then
-    echo "Update check disabled"
+        git update-server-info
+        current_commit=$(git rev-list --max-count=1 HEAD)
+        pendingCommits=$(git rev-list ${current_commit}..origin/HEAD --oneline --graph | wc -l)
+        if [[ $pendingCommits -gt 0 ]]; then 
+          >&2 echo -e "  ${red}==> Attention!${NC} There are pending updates to miRPursuit." 
+          echo -e "    ${brown}List of pending commits (None if empty):${NC}\n"
+          git rev-list ${current_commit}..origin/HEAD --oneline --graph
+          echo -ne "\n\n\n"
+          unset $booleanYorN
+          while [[ "$booleanYorN" != [yYnN] ]]
+          do        
+            read -n1 -p "Update? (Y/N)" booleanYorN
+          done
+          if [[ $booleanYorN == [nN] ]]; then
+            echo -ne "\nContinuing without update"
+          else
+            >&2 echo -ne "\n\n\n\n\n\n\n\n\n\n${blue}Updating!${NC}"
+            git pull origin master
+            >&2 echo -ne "\n\n\r"
+          fi
+          unset $booleanYorN      
+        else
+          echo "  No pending updates at the moment."
+        fi 
+      fi  
+      cd -
+      tput cuu1; tput el; echo -ne "\r                                    \n"
+    fi
   else
-    echo -ne "Install commit hash is ${green}${GIT}${NC}"
-    echo "Currently not listing pending updates for non-git installations."
-    echo "Consider changing this installation to a git clone repository."
-    echo "Choose location and run command:"
-    echo -e "${grey}  git clone https://github.com/forestbiotech-lab/miRPursuit.git${grey}"
-    echo -ne "To get rid of this message change the value of ${grey}GIT${NC} var in ${green}[miRPursuit_dir]/conifg/software_dirs.ctg${NC} to ${green}0${NC} instead of the current hash there.\n\n\n\n\n\n\n\n"
+    echo -ne "\n\t\t\t${red}This is not a GIT installation${NC}\n"
+    if [[ "${GIT}" == "0" ]]; then
+      echo "Update check disabled"
+    else
+      echo -ne "Install commit hash is ${green}${GIT}${NC}"
+      echo "Currently not listing pending updates for non-git installations."
+      echo "Consider changing this installation to a git clone repository."
+      echo "Choose location and run command:"
+      echo -e "${grey}  git clone https://github.com/forestbiotech-lab/miRPursuit.git${grey}"
+      echo -ne "To get rid of this message change the value of ${grey}GIT${NC} var in ${green}[miRPursuit_dir]/conifg/software_dirs.ctg${NC} to ${green}0${NC} instead of the current hash there.\n\n\n\n\n\n\n\n"
 
+    fi
   fi
-fi
+############# END Update check ##################################
+
 
 ##Progress report starting and declaring variable
 progress=${workdir}/PROGRESS
