@@ -10,28 +10,13 @@
 
 set -e
 
-# OUTPUT-COLORING
-red='\e[0;31m'
-blue='\e[0;34m'
-green='\e[0;32m'
-white='\e[1;37m'
-black='\e[0;30m'
-light_blue='\e[1;34m'
-light_green='\e[1;32m'
-cyan='\e[0;36m'
-light_cyan='\e[1;36m'
-red='\e[0;31m'
-light_red='\e[1;31m'
-purple='\e[0;35m'
-light_purple='\e[1;35m'
-brown='\e[0;33m'
-yellow='\e[1;33m'
-gray='\e[0;30m'
-light_gray='\e[0;37m'
-blink='\e[5m'
-unblink='\e[25m'
-invert='\e[7m'
-NC='\e[0m' # No Color
+#Gets the script directory
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+#Get OUTPUT-COLOURING  {green,red,NC,etc..}
+. $DIR/"config/term-colors.cfg"
+
+
 noPrompt=FALSE
 specificFiles=FALSE
 
