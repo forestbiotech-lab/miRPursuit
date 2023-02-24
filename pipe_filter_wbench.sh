@@ -53,10 +53,14 @@ function checkRunningLog {
 			sleep 20
 			# TODO still not the most elegant break
 			exit 2
-			
 			iter="40"  #If all hell fails, this should stop the cycle. 
-		else 
-			sleep 5
+		else
+			finishString=$(tail -3 ${log_file} | head -1 | awk '{print $2}')
+			if [[ "${finishString}" == "Postprocessing" ]]; then			
+				exit 0
+			else	
+				sleep 5
+			fi
 		fi
 	done
   exit 0
