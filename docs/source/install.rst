@@ -116,7 +116,7 @@ Detailed installation guide
 Step by step guide through installation script.
 
 Installation of dependencies 
-----------------------------
+****************************
 The default directory for storing dependencies is ${HOME}/.Software, it will be created if it doesn't exist. To use another directory change the variable SOFTWARE in `software_dirs.cfg <config.html#software-dirs>`_.
 
 PatMaN
@@ -141,7 +141,7 @@ License acceptance
 .. Important:: Since usage of UEA sRNA workbench requires acceptance of it's terms of use. On your first run you will be prompted to read and accept their term of use. Alternatively you can run their GUI and accept their terms of use in a graphical environment.  
 
 Setting variables in workdirs cfg
----------------------------------
+*********************************
 This section will guide you through the command prompts that will be issued.
 
 1. Create source data folder?
