@@ -124,7 +124,7 @@ if [[ -z $LIB_FIRST && -z $LIB_LAST ]]; then
     sleep 5
     LIB_FIRST=1
     LIB_LAST=1
-    ######## TODO - Check if there is any file for these condictions
+    ######## TODO - Check if there is any file for these conditions
   else
     #Provided lib used
     LIB_FIRST=$SPECIFIC_LIB
@@ -148,7 +148,7 @@ else
     fi  
   fi
 fi
-##Should check if libraries exit
+##Should check if libraries exist
 
 if [[ -z "${IGNORE_GENOME}" ]]; then 
   IGNORE_GENOME="FALSE"
@@ -243,6 +243,8 @@ fi
 ############# END Update check ##################################
 
 
+
+
 ##Progress report starting and declaring variable
 progress=${workdir}/PROGRESS
 
@@ -250,14 +252,23 @@ progress=${workdir}/PROGRESS
 if [[ $HEADLESS_MODE == "TRUE" ]]; then
   sed -ri "s:(HEADLESS=)(.*):\1${HEADLESS_MODE}:" ${SOFT_CFG} 
 fi
+
 echo -ne "${blue}:: Checking install dependencies:${NC}\n"
+
+############# Check for dependencies ############################
 #Check programs are set up and can run (Java and Wbench).
+if [[ "$(which patman 2>&1 | awk -F 'in' '{print $1}')" == "which: no patman " ]]; then
+  echo -e "    Patman [${red}X${NC}] - Not installed"
+  exit 127
+else 
+  echo -e "    Patman [${green}✓${NC}]"
+fi
 if [[ -z "$JAVA_DIR"  ]]; then
   echo -e "${red}==> Not set${NC}: Please set java var in ${blue}software_dirs.cfg${NC} config file or run install script"
   exit 127
 else
   if [[ -x "$JAVA_DIR" && -e "${JAVA_DIR}" ]]; then
-    echo -e "Java set up: ${green}OK${NC}"
+    echo -e "    Java set up: ${green}OK${NC}"
   else
     echo -e "${red}==> Failed${NC}: Java can't be run or invalid path"
     exit 127
@@ -275,6 +286,8 @@ else
     exit 127
   fi
 fi
+############### END Check dep ####################################
+
 
 echo -e "\n\n\n${blue}:: Running pipeline with the following arguments:${NC}"
 #Only print if running in lib number mode
