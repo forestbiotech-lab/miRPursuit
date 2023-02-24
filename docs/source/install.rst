@@ -140,9 +140,8 @@ License acceptance
 
 .. Important:: Since usage of UEA sRNA workbench requires acceptance of it's terms of use. On your first run you will be prompted to read and accept their term of use. Alternatively you can run their GUI and accept their terms of use in a graphical environment.  
 
-Setting variables in workdirs.cfg
+Setting variables in workdirs cfg
 ---------------------------------
-
 This section will guide you through the command prompts that will be issued.
 
 1. Create source data folder?
