@@ -79,12 +79,15 @@ do
 	checkRunningLog $$ &
 	check_pid=$!
 	$run
+	echo "Running Lib:$LIB_NOW"
 	wait $check_pid
 	
 
 done
 #wait for all threads to finish before continuing.
+echo "Stoping all threads filtering"
 wait
+
 printf $(date +"%y/%m/%d-%H:%M:%S")" - Finished filtering all libs\n"
 
 ok_log=${log_file/.log/:OK.log}
