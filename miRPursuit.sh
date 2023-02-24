@@ -280,7 +280,7 @@ if [[ -z "$WBENCH_DIR" ]]; then
   exit 127        
 else        
   if [[ -x "$WBENCH_DIR" && -e "$WBENCH_DIR" ]]; then
-    echo -e "Workbench set up ${green}OK${NC}"   
+    echo -e "    Workbench set up ${green}OK${NC}"   
   else
     echo -e "${red}==> Failed${NC}: Workbench can't be run or invalid path. Please check the workbench var in the ${blue}software_dirs.cfg${NC} config file."
     exit 127
@@ -327,6 +327,7 @@ if [[ -z "${workdir}" ]]; then
 else
   echo -e "${grey}Working directory (workdir) \t${brown}=${NC} ${green}${workdir}${NC}"      
 fi
+
 
 ##############STEP 0 ##############################################################
 if [[ -d "${INSERTS_DIR}" && "${step}" == "0" ]]; then
