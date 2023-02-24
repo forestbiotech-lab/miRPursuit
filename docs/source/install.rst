@@ -134,7 +134,11 @@ If `fastq_to_fasta <http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fas
 UEA sRNA workbench
 ..................
 `UEA sRNA workbench <http://srna-workbench.cmp.uea.ac.uk/>`_ is run by miRPursuit from the WBENCH_DIR variable in `software_dirs.cfg <config.html#software-dirs>`_. If the variable isn't set the installation script will download the workbench and set up the variable.
-Since usage of UEA sRNA workbench requires acceptance of it's terms of use. On your first run you will be prompted to read and accept their term of use. Alternatively you can run their GUI and accept their terms of use in a graphical environment.  
+
+License acceptance
+==================
+
+.. Important:: Since usage of UEA sRNA workbench requires acceptance of it's terms of use. On your first run you will be prompted to read and accept their term of use. Alternatively you can run their GUI and accept their terms of use in a graphical environment.  
 
 Setting variables in workdirs.cfg
 ---------------------------------
