@@ -50,6 +50,19 @@ _`Annotation`
  The mapped reads are then aligned to the miRBase⁺ (ref) database using miRProf with the parameter set in the `wbench_mirprof.cfg <config.html#wbench-mirprof>`_ configuration file.
  The genome mapped reads are separated into two files per library those that mapped with miRBase (conserved reads) and those that did not (non conserved reads).
 
+.. Important:: Adding previously known sequences to the miRBase set, requires following some rules. The fasta headers of the known sequences must respect the following rules:
+
+Plants: Three letter code of sepecies "-" miR + identification of the source with letters + serialization
+
+Example:: 
+
+	>ath-miRmyDB00001
+
+	Outputs:
+	>all-combined-mirmydb00001_1_Abundance(XX)
+
+
+
 **tasiRNA prediction**
  The non conserved reads are run through the `ta-si predictor <http://srna-workbench.cmp.uea.ac.uk/tools/analysis-tools/ta-si-prediction/>`_ to identify trans acting siRNA (tasi-RNA) using the parameters in the `wbench_tasi.cfg <config.html#wbench-tasi>`_
 
