@@ -77,6 +77,7 @@ _`Reporting`
 ------------
 **Merging results and stepwise stats**
  The number of sequences kept in each step are given for each library, both total numbers and distinct numbers of sequences. The identified sequences and their respective absolute count are stored in a tab separate value file (.tsv). This provides easy exportation to most statistical softwares as well as MS Excel.
+ The precursor predictions are agregated in the /counts/global-miRCat.csv file, Showing all the non-redundant precursores predicted for each miRNA. 
 
 
 .. TODO
