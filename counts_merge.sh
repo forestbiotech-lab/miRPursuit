@@ -69,4 +69,13 @@ grep -v "Lib" $novelTasi | grep -vwf $star >> $reunion
 #clean up
 rm $tasiNovel $tasiSeq
 
+
+GENOME_SUFF=$( echo "$GENOME_BASENAME" | awk -F "part" '{print $1}')
+#Merge all outputs from miRCat correct chromossome column to remove "," and output relevant columns with no-redundant lines.
+#Loses part, abundance, star, 
+cat $DIR/data/mircat/Lib*_${FILTER_SUF}_${GENOME_SUFF}_mirbase_noncons_output_filtered.csv | sed -r "s:(^[0-9]+,)(.*)(,[0-9]+,[0-9]+,[+-])(.*$):\1@£\2@£\3\4:g" | awk -F "@£" '{gsub(/,/,"",$2); print}' | cut -d "," -f 2-5,7-13 | sort | uniq > $DIR/count/global-miRCat.csv
+
+
+
+
 exit 0
